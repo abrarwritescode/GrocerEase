@@ -67,8 +67,8 @@ def verify_otp(request):
         print(entered_otp, session_otp)
 
         user_email = request.session.get('registered_user_email', None)
-        customer_name = request.session.get('registered_user_name', None)  # Add this line
-        customer_password = request.session.get('registered_user_password', None)  # Add this line
+        customer_name = request.session.get('registered_user_name', None)  
+        customer_password = request.session.get('registered_user_password', None) 
         print(user_email, customer_name, customer_password)
 
         if user_email:
