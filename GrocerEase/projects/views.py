@@ -105,7 +105,7 @@ def login(request):
                     session.expire_date = timezone.now() + timedelta(days=7)  
                     session.save()
                     request.session['customer_id'] = customer.id
-                    return redirect('project')  
+                    return redirect('signup')  
                 else:
                     messages.error(request, 'Invalid login credentials.')
             except Customer.DoesNotExist:
@@ -120,6 +120,6 @@ def login(request):
 def logout(request):
     if 'customer_id' in request.session:
         del request.session['customer_id']
-    return redirect('project')  
+    return redirect('signup')  
 
 
