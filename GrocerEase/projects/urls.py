@@ -2,14 +2,29 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('', views.register, name="signup"), 
+    path('', views.registercustomer, name="signupcustomer"), 
     # '' --> root domain
     
-    path('signup/', views.register, name='signup'),
+    path('signupcustomer/', views.registercustomer, name='signupcustomer'),
 
-    path('login/', views.login, name='login'),
+    path('logincustomer/', views.logincustomer, name='logincustomer'),
 
-    path('logout/', views.logout, name='logout'),
+    path('logoutcustomer/', views.logoutcustomer, name='logoutcustomer'),
 
-    path('verify_otp/', views.verify_otp, name='verify_otp'),
+    path('verify_otpcustomer/', views.verifyotpcustomer, name='verify_otpcustomer'),
+
+    path('homecustomer/<int:customer_id>/', views.homecustomer, name='homecustomer'),
+
+    path('signupseller/', views.registerseller, name='signupseller'),
+
+    path('loginseller/', views.loginseller, name='loginseller'),
+
+    path('logoutseller/', views.logoutseller, name='logoutseller'),
+
+    path('verify_otpseller/', views.verifyotpseller, name='verify_otpseller'),
+
+    path('homeseller/<int:seller_id>/', views.homeseller, name='homeseller'),
+
+    path('uploaditem/', views.uploadItem, name='uploaditem'),
+
 ]
