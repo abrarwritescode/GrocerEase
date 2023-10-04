@@ -108,6 +108,7 @@ def logincustomer(request):
                     return redirect('homecustomer', customer_id=customer.id)
                 else:
                     messages.error(request, 'Invalid login credentials.')
+
             except Customer.DoesNotExist:
                 messages.error(request, 'Invalid login credentials.')
 
@@ -263,3 +264,46 @@ def uploadItem(request):
       
     context = {'form':form}
     return render(request, 'projects/uploaditem.html', context)
+
+
+def updateItem(request, pk):
+    item = Item.objects.get(id=pk)
+    form = ItemForm(instance=item)  # so that project info contained thake 
+
+    if request.method == 'POST':
+        form = ItemForm(request.POST, request.FILES, instance=item) # instantiating PostForm class and passing requested data (request.data). passing instance so that it knows which project we will be updating
+        if form.is_valid():
+            if 'seller_id' in request.session:
+                seller_id = request.session['seller_id']
+                seller = Seller.objects.get(pk=seller_id)
+                form.save()
+                return redirect('homeseller', seller_id=seller_id)
+
+    context = {'form':form}
+    return render(request, 'projects/uploaditem.html', context)
+
+
+def deleteItem(request, pk):
+    item = Item.objects.get(id=pk)
+    seller = None  # Initialize seller as None
+
+    if request.method == 'POST':
+        if 'item_id' in request.session:
+            item_id = request.session['item_id']
+            item.delete()
+            if 'seller_id' in request.session:
+                seller_id = request.session['seller_id']
+                try:
+                    seller = Seller.objects.get(pk=seller_id)
+                except Seller.DoesNotExist:
+                    pass
+
+    context = {'object': item, 'seller': seller}
+    return render(request, 'projects/deleteitem.html', context)
+
+    
+def singleitem(request, pk):
+    if 'seller_id' in request.session:
+            seller_id = request.session['seller_id']
+    itemObj = Item.objects.get(id=pk)
+    return render(request, 'projects/singleitem.html', {'item':itemObj})

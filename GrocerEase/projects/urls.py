@@ -27,4 +27,11 @@ urlpatterns = [
 
     path('uploaditem/', views.uploadItem, name='uploaditem'),
 
+    path('singleitem/<str:pk>/', views.singleitem, name="singleitem"),
+
+    path('updateitem/<str:pk>', views.updateItem, name="updateitem"),
+
+    path('deleteitem/<str:pk>', views.deleteItem, name="deleteitem"),
+
+
 ] 

@@ -1,0 +1,15 @@
+{% block content %}
+
+<form action="" method="POST">
+    {% csrf_token %}
+    <p>Are you sure you want to delete "{{ object }}"?</p>
+    {% if seller %}
+    <a href="{% url 'homeseller' seller_id=seller.id %}">Go Back</a>
+    {% else %}
+    <p>No seller information available.</p>
+    {% endif %}
+
+    <input type="submit" value="Confirm"/>
+</form>
+
+{% endblock %}

@@ -13,12 +13,15 @@
     {% block content %}
     <h1>Items</h1>
     {% for item in items %} 
-<tr>
-    <td>{{item.itemtitle}}</td>
-    <td>{{item.itemprice}}</td>
-    <td>{{item.itemquantity}}</td>
-    <td>{{item.itemdescription}}</td>
-</tr>
+
+    <p>{{item.itemtitle}}</p>
+    <p>{{item.itemprice}} BDT</p>
+    <p>{{item.itemquantity}} grams</p>
+    <p>{{item.itemdescription}}</p>
+    <a href="{% url 'singleitem' item.id %}">View</a>
+    <a href="{% url 'updateitem' item.id %}">Edit</a>
+    <a href="{% url 'deleteitem' item.id %}">Delete</a>
+
 {% endfor %}
     {% endblock content %}
 
