@@ -8,5 +8,19 @@
 <body>
     Dummy seller Home pg
     <a href="{% url 'logoutseller' %}">Logout</a>
+    <a href="{% url 'uploaditem' %}">Upload Item</a>
+
+    {% block content %}
+    <h1>Items</h1>
+    {% for item in items %} 
+<tr>
+    <td>{{item.itemtitle}}</td>
+    <td>{{item.itemprice}}</td>
+    <td>{{item.itemquantity}}</td>
+    <td>{{item.itemdescription}}</td>
+</tr>
+{% endfor %}
+    {% endblock content %}
+
 </body>
 </html>

@@ -241,7 +241,10 @@ def homeseller(request, seller_id):
     if 'seller_id' in request.session:
         seller_id = request.session['seller_id']
         seller = Seller.objects.get(pk=seller_id)
-        return render(request, 'projects/homeseller.html', {'seller': seller})
+        items = Item.objects.all() # query
+        context = {'items': items, 'seller':seller}
+        return render(request, 'projects/homeseller.html', context)
+
     else:
         return redirect('loginseller') 
 
@@ -252,8 +255,11 @@ def uploadItem(request):
     if request.method == 'POST':
         form = ItemForm(request.POST, request.FILES) # instantiating PostForm class and passing requested data (request.data); request.files is for images
         if form.is_valid():
-            form.save()
-            return redirect('homeseller') # name in url
-
+            if 'seller_id' in request.session:
+                seller_id = request.session['seller_id']
+                seller = Seller.objects.get(pk=seller_id)
+                form.save()
+                return render(request, 'projects/homeseller.html', {'seller': seller})
+      
     context = {'form':form}
-    return render(request, 'projects/itemupload.html', context)
+    return render(request, 'projects/uploaditem.html', context)

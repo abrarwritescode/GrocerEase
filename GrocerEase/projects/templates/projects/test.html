@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevSearch</title>
+</head>
+<body>
+    {% extends 'main.html' %}
+
+    {% block content %}
+
+    <hr>
+
+    <h1>
+        Projects
+    </h1>
+
+    <table>
+        <tr>
+            <th>Projects</th>
+            <th>Votes</th>
+            <th>Ratio</th>
+            <th>Created</th>
+        </tr>
+        {% for iproject in projects %} 
+                <!-- # iproject is iteration variable and projects is variable/dictionary defined in context parameter in views -->
+            <tr>
+                <td>{{iproject.title}}</td>
+                <td>{{iproject.votetotal}}</td>
+                <td>{{iproject.voteratio}}</td>
+                <td>{{iproject.created}}</td>
+                <td><a href="{% url 'project' iproject.id %}">View</a></td>
+                <td><a href="{% url 'updateproject' iproject.id %}">Edit</a></td>
+                <td><a href="{% url 'deleteproject' iproject.id %}">Delete</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    
+                <!-- # here in anchor tag project is name in url.py file -->
+           
+
+{% endblock content %}
+
+</body>
+</html>

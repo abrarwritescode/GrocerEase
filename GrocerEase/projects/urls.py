@@ -27,4 +27,4 @@ urlpatterns = [
 
     path('uploaditem/', views.uploadItem, name='uploaditem'),
 
-]
+] 
