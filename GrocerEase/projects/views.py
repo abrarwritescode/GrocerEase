@@ -16,6 +16,11 @@ import re
 from django.core.mail import send_mail
 import random
 from django.urls import reverse
+from django.http import JsonResponse
+import json
+from .models import * 
+from .utils import cookieCart, cartData, guestOrder
+from django.views.decorators.csrf import csrf_exempt
 
 
 def registercustomer(request):
@@ -128,9 +133,28 @@ def homecustomer(request, customer_id):
     if 'customer_id' in request.session:
         customer_id = request.session['customer_id']
         customer = Customer.objects.get(pk=customer_id)
-        return render(request, 'projects/homecustomer.html', {'customer': customer})
+        data = cartData(request, customer_id)
+
+        cartItems = data['cartItems']
+        order = data['order']
+        items = data['items']
+
+        customer_data = {
+            'id': customer_id,
+            'name': customer.customername,
+        }
+
+        products = Item.objects.all()
+        context = {
+            'products': products,
+            'cartItems': cartItems,
+            'customer': customer_data  
+        }
+
+        return render(request, 'projects/homecustomer.html', context)
     else:
-        return redirect('logincustomer') 
+        return redirect('logincustomer')
+
 
 
 def registerseller(request):
@@ -242,7 +266,7 @@ def homeseller(request, seller_id):
     if 'seller_id' in request.session:
         seller_id = request.session['seller_id']
         seller = Seller.objects.get(pk=seller_id)
-        items = Item.objects.all() # query
+        items = Item.objects.all() 
         context = {'items': items, 'seller':seller}
         return render(request, 'projects/homeseller.html', context)
 
@@ -307,3 +331,75 @@ def singleitem(request, pk):
             seller_id = request.session['seller_id']
     itemObj = Item.objects.get(id=pk)
     return render(request, 'projects/singleitem.html', {'item':itemObj})
+
+
+def cart(request, customer_id=None):
+    if customer_id is None:
+        customer_id = request.session.get('customer_id')
+
+    if customer_id is not None:
+        customer = Customer.objects.get(pk=customer_id)
+        data = cartData(request, customer_id)
+        cartItems = data['cartItems']
+        order = data['order']
+        items = data['items']
+        context = {'items': items, 'order': order, 'cartItems': cartItems, 'customer': customer}
+    else:
+        context = {'items': [], 'order': {}, 'cartItems': 0, 'customer': None}
+
+    return render(request, 'projects/cart.html', context)
+
+
+def checkout(request, customer_id=None):
+    if customer_id is None:
+        customer_id = request.session.get('customer_id')
+
+    items = []
+    order = {}
+    cartItems = 0
+    customer = None
+
+    if customer_id is not None:
+        customer = Customer.objects.get(pk=customer_id)
+        data = cartData(request, customer_id)
+        cartItems = data['cartItems']
+        order = data['order']
+        items = data['items']
+
+    context = {'items': items, 'order': order, 'cartItems': cartItems, 'customer': customer}
+
+    return render(request, 'projects/checkout.html', context)
+
+@csrf_exempt
+def updateItem(request):
+    if 'customer_id' in request.session:
+        customer_id = request.session['customer_id']
+        data = json.loads(request.body)
+        productId = data['productId']
+        action = data['action']
+        print('Action:', action)
+        print('Product:', productId)
+
+        try:
+            customer = Customer.objects.get(id=customer_id)
+        except Customer.DoesNotExist:
+            return JsonResponse({'message': 'Customer not found'}, status=404)
+
+        product = Item.objects.get(id=productId)
+        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+
+        orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
+
+        if action == 'add':
+            orderItem.quantity = (orderItem.quantity + 1)
+        elif action == 'remove':
+            orderItem.quantity = (orderItem.quantity - 1)
+
+        orderItem.save()
+
+        if orderItem.quantity <= 0:
+            orderItem.delete()
+
+        return JsonResponse({'message': 'Item was added'}, safe=False)
+    else:
+        return JsonResponse({'message': 'Customer not authenticated'}, status=403)

@@ -1,12 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
-</head>
-<body>
-    Dummy customer Home pg
-    <a href="{% url 'logoutcustomer' %}">Logout</a>
-</body>
-</html>
+{% extends 'projects/mainhome.html' %}
+{% load static %}
+{% block content %}
+	<div class="row">
+		{% for item in products %} 
+		<div class="col-lg-4">
+			<img class="thumbnail" src="{{ item.itemfeaturedimage.url }}">
+			<div class="box-element product">
+				<h6><strong>{{item.itemtitle}}</strong></h6>
+				<hr>
+ 
+				<button data-product="{{item.id}}" data-action="add" class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button>
+				<!-- <input type="hidden" id="csrf-token" value="{% csrf_token %}"> -->
+				<a class="btn btn-outline-success" href="{% url 'singleitem' item.id %}">View</a>
+				<h4 style="display: inline-block; float: right"><strong>BDT {{item.itemprice}}</strong></h4>
+
+			</div>
+		</div>
+		{% endfor %}
+	</div>
+
+{% endblock content %}

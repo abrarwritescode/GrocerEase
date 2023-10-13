@@ -33,5 +33,11 @@ urlpatterns = [
 
     path('deleteitem/<str:pk>', views.deleteItem, name="deleteitem"),
 
+    path('cart/<int:customer_id>/', views.cart, name="cart"),
+
+    path('checkout/<int:customer_id>/', views.checkout, name="checkout"),
+
+    path('update_item/', views.updateItem, name="update_item"),
+
 
 ] 
