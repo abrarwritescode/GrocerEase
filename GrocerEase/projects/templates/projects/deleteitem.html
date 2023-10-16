@@ -3,13 +3,8 @@
 <form action="" method="POST">
     {% csrf_token %}
     <p>Are you sure you want to delete "{{ object }}"?</p>
-    {% if seller %}
-    <a href="{% url 'homeseller' seller_id=seller.id %}">Go Back</a>
-    {% else %}
-    <p>No seller information available.</p>
-    {% endif %}
-
+    <a href="{% url 'homeseller' seller_id=request.session.seller_id %}">Go Back</a>
     <input type="submit" value="Confirm"/>
-</form>
+</form> 
 
 {% endblock %}

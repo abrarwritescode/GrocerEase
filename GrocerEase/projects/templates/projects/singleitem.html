@@ -16,6 +16,8 @@
     <h3>{{item.itemquantity}} grams</h3> 
     <h3>{{item.itemdescription}}</h3> 
 
+    <a href="{% url 'homeseller' seller_id=request.session.seller_id %}">Go Back</a>
+
     {% endblock content %}
 
 </body>

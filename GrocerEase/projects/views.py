@@ -309,20 +309,14 @@ def updateItemSeller(request, pk):
 
 def deleteItem(request, pk):
     item = Item.objects.get(id=pk)
-    seller = None  # Initialize seller as None
 
     if request.method == 'POST':
-        if 'item_id' in request.session:
-            item_id = request.session['item_id']
-            item.delete()
             if 'seller_id' in request.session:
                 seller_id = request.session['seller_id']
-                try:
-                    seller = Seller.objects.get(pk=seller_id)
-                except Seller.DoesNotExist:
-                    pass
+                item.delete()
+                return redirect('homeseller', seller_id=seller_id)
 
-    context = {'object': item, 'seller': seller}
+    context = {'object': item}
     return render(request, 'projects/deleteitem.html', context)
 
     
