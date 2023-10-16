@@ -39,4 +39,6 @@ urlpatterns = [
 
     path('update_item/', views.updateItem, name="update_item"),
 
+    path('myitem/<int:seller_id>/', views.myItem, name="myselleritem"),
+
 ] 

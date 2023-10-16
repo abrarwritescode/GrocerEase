@@ -8,11 +8,10 @@
 <body>
     Dummy seller Home pg
     <a href="{% url 'logoutseller' %}">Logout</a>
-    <a href="{% url 'uploaditem' %}">Upload Item</a>
-    <a href="{% url 'myselleritem' seller_id=request.session.seller_id %}">My Items</a>
-
+    <a href="{% url 'homeseller' seller_id=request.session.seller_id %}">Back</a>
+    
     {% block content %}
-    <h1>Items</h1>
+    <h1>My Items</h1>
     {% for item in items %}  
 
     <h3 style="color: rgb(17, 11, 87);">{{item.itemtitle}}</h3>
@@ -20,6 +19,9 @@
     <p>{{item.itemquantity}} grams</p>
     <p>{{item.itemdescription}}</p>
     <a href="{% url 'singleitem' item.id %}">View</a>
+    <a href="{% url 'updateitem' item.id %}">Edit</a>
+    <a href="{% url 'deleteitem' item.id %}">Delete</a>
+
 {% endfor %}
 
     {% endblock content %}

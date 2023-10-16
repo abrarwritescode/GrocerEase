@@ -275,19 +275,23 @@ def homeseller(request, seller_id):
 
 
 def uploadItem(request):
-    form = ItemForm()
+    if 'seller_id' in request.session:
+        seller_id = request.session['seller_id']
+        seller = Seller.objects.get(pk=seller_id)
+        form = ItemForm()
 
-    if request.method == 'POST':
-        form = ItemForm(request.POST, request.FILES) # instantiating PostForm class and passing requested data (request.data); request.files is for images
-        if form.is_valid():
-            if 'seller_id' in request.session:
-                seller_id = request.session['seller_id']
-                seller = Seller.objects.get(pk=seller_id)
-                form.save()
+        if request.method == 'POST':
+            form = ItemForm(request.POST, request.FILES)
+            if form.is_valid():
+                item = form.save(commit=False)
+                item.seller = seller
+                item.save()
                 return redirect('homeseller', seller_id=seller_id)
-      
-    context = {'form':form}
-    return render(request, 'projects/uploaditem.html', context)
+
+        context = {'form': form}
+        return render(request, 'projects/uploaditem.html', context)
+    else:
+        return redirect('loginseller')
 
 
 def updateItemSeller(request, pk):
@@ -397,3 +401,14 @@ def updateItem(request):
         return JsonResponse({'message': 'Item was added'}, safe=False)
     else:
         return JsonResponse({'message': 'Customer not authenticated'}, status=403)
+    
+
+def myItem(request, seller_id):
+    if 'seller_id' in request.session:
+        seller_id = request.session['seller_id']
+        seller = Seller.objects.get(pk=seller_id)
+        items = Item.objects.filter(seller=seller) 
+        context = {'items': items, 'seller': seller}
+        return render(request, 'projects/myitem.html', context)
+    else:
+        return redirect('loginseller')
