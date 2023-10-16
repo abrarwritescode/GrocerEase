@@ -14,7 +14,7 @@
     <h1>Items</h1>
     {% for item in items %}  
 
-    <p>{{item.itemtitle}}</p>
+    <h3 style="color: rgb(17, 11, 87);">{{item.itemtitle}}</h3>
     <p>{{item.itemprice}} BDT</p>
     <p>{{item.itemquantity}} grams</p>
     <p>{{item.itemdescription}}</p>
@@ -23,6 +23,7 @@
     <a href="{% url 'deleteitem' item.id %}">Delete</a>
 
 {% endfor %}
+
     {% endblock content %}
 
 </body>

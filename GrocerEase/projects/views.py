@@ -126,7 +126,7 @@ def logincustomer(request):
 def logoutcustomer(request):
     if 'customer_id' in request.session:
         del request.session['customer_id']
-    return redirect('signupcustomer')  
+    return redirect('logincustomer')  
 
 
 def homecustomer(request, customer_id):
@@ -259,7 +259,7 @@ def loginseller(request):
 def logoutseller(request):
     if 'seller_id' in request.session:
         del request.session['seller_id']
-    return redirect('signupseller')  
+    return redirect('loginseller')  
 
 
 def homeseller(request, seller_id):
@@ -284,26 +284,26 @@ def uploadItem(request):
                 seller_id = request.session['seller_id']
                 seller = Seller.objects.get(pk=seller_id)
                 form.save()
-                return render(request, 'projects/homeseller.html', {'seller': seller})
+                return redirect('homeseller', seller_id=seller_id)
       
     context = {'form':form}
     return render(request, 'projects/uploaditem.html', context)
 
 
-def updateItem(request, pk):
+def updateItemSeller(request, pk):
     item = Item.objects.get(id=pk)
-    form = ItemForm(instance=item)  # so that project info contained thake 
+    form = ItemForm(instance=item)
 
     if request.method == 'POST':
-        form = ItemForm(request.POST, request.FILES, instance=item) # instantiating PostForm class and passing requested data (request.data). passing instance so that it knows which project we will be updating
-        if form.is_valid():
-            if 'seller_id' in request.session:
-                seller_id = request.session['seller_id']
-                seller = Seller.objects.get(pk=seller_id)
+        form = ItemForm(request.POST, request.FILES, instance=item)
+        if 'seller_id' in request.session:
+            seller_id = request.session['seller_id']
+            seller = Seller.objects.get(pk=seller_id)
+            if form.is_valid():
                 form.save()
                 return redirect('homeseller', seller_id=seller_id)
 
-    context = {'form':form}
+    context = {'form': form, 'item': item}
     return render(request, 'projects/uploaditem.html', context)
 
 
