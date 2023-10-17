@@ -8,7 +8,7 @@
 <body>
     Dummy seller Home pg
     <a href="{% url 'logoutseller' %}">Logout</a>
-    <a href="{% url 'sellerprofile' seller_id=request.session.seller_id %}">Profile</a>
+    <a href="{% url 'sellerprofile' seller_id=request.session.seller_id %}">{{request.session.storename}}</a>
     <a href="{% url 'uploaditem' seller_id=request.session.seller_id %}">Upload Item</a>
     <a href="{% url 'myselleritem' seller_id=request.session.seller_id %}">My Items</a>
 

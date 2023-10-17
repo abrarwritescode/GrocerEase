@@ -136,6 +136,8 @@ def logincustomer(request):
                     session.expire_date = timezone.now() + timedelta(days=7)  
                     session.save()
                     request.session['customer_id'] = customer.id
+                    request.session['customername'] = customer.customername
+
                     return redirect('homecustomer', customer_id=customer.id)
                 else:
                     messages.error(request, 'Wrong password. Kindly try again.')
@@ -183,6 +185,7 @@ def homecustomer(request, customer_id):
     
     
 def customerprofile(request, customer_id):
+    customer_id = request.session.get('customer_id')
     customer = Customer.objects.get(pk=customer_id)
     return render(request, 'projects/customerprofile.html', {'customer': customer})
 
@@ -305,6 +308,8 @@ def loginseller(request):
                     session.expire_date = timezone.now() + timedelta(days=7)  
                     session.save()
                     request.session['seller_id'] = seller.id
+                    request.session['storename'] = seller.storename
+
                     return redirect('homeseller', seller_id=seller.id)
                 else:
                     messages.error(request, 'Wrong password. Kindly try again.')
@@ -335,6 +340,7 @@ def homeseller(request, seller_id):
         return redirect('loginseller') 
     
 def sellerprofile(request, seller_id):
+    seller_id = request.session.get('seller_id')
     seller = Seller.objects.get(pk=seller_id)
     return render(request, 'projects/sellerprofile.html', {'seller': seller})
 
