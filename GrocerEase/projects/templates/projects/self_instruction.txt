@@ -1,0 +1,7 @@
+to resolve merge issues: (in terminal)
+git log --merges
+git add .
+git commit -m "Completed merge"
+git push
+
+

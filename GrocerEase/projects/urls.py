@@ -25,7 +25,7 @@ urlpatterns = [
 
     path('homeseller/<int:seller_id>/', views.homeseller, name='homeseller'),
 
-    path('uploaditem/', views.uploadItem, name='uploaditem'),
+    path('uploaditem/<int:seller_id>/', views.uploadItem, name='uploaditem'),
 
     path('singleitem/<str:pk>/', views.singleitem, name="singleitem"),
 

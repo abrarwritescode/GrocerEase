@@ -274,7 +274,7 @@ def homeseller(request, seller_id):
         return redirect('loginseller') 
 
 
-def uploadItem(request):
+def uploadItem(request, seller_id):
     if 'seller_id' in request.session:
         seller_id = request.session['seller_id']
         seller = Seller.objects.get(pk=seller_id)
@@ -289,7 +289,7 @@ def uploadItem(request):
                 item.save()
                 return redirect('homeseller', seller_id=seller_id)
 
-        context = {'form': form}
+        context = {'form': form, 'seller':seller}
         return render(request, 'projects/uploaditem.html', context)
     else:
         return redirect('loginseller')
