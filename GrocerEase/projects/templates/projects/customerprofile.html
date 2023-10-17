@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Customer Profile</title>
+</head>
+<body>
+    <h1>Customer Profile</h1>
+    {% if customer %}
+        <p>Customer name: {{ customer.customername }}</p>
+        <p>Email: {{ customer.customeremail }}</p>
+    {% endif %}
+</body>
+</html>

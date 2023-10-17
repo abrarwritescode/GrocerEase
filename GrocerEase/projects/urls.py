@@ -15,6 +15,8 @@ urlpatterns = [
 
     path('homecustomer/<int:customer_id>/', views.homecustomer, name='homecustomer'),
 
+    path('customerprofile/<int:customer_id>/', views.customerprofile, name='customerprofile'),
+
     path('signupseller/', views.registerseller, name='signupseller'),
 
     path('loginseller/', views.loginseller, name='loginseller'),
@@ -24,6 +26,8 @@ urlpatterns = [
     path('verify_otpseller/', views.verifyotpseller, name='verify_otpseller'),
 
     path('homeseller/<int:seller_id>/', views.homeseller, name='homeseller'),
+
+    path('sellerprofile/<int:seller_id>/', views.sellerprofile, name='sellerprofile'),
 
     path('uploaditem/<int:seller_id>/', views.uploadItem, name='uploaditem'),
 

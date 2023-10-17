@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Seller Profile</title>
+</head>
+<body>
+    <h1>Seller Profile</h1>
+    {% if seller %}
+        <p>Store name: {{ seller.storename }}</p>
+        <p>Email: {{ seller.selleremail }}</p>
+    {% endif %}
+</body>
+</html>
