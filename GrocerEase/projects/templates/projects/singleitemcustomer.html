@@ -15,6 +15,7 @@
     <h3>{{item.itemprice}} BDT</h3> 
     <h3>{{item.itemquantity}} grams</h3> 
     <h3>{{item.itemdescription}}</h3> 
+    <h3>Seller: {{ item.seller.storename }}</h3>
 
     <a href="{% url 'homecustomer' customer_id=request.session.customer_id %}">Go Back</a>
 

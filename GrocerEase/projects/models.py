@@ -9,7 +9,7 @@ class Customer(models.Model):
     is_verified = models.BooleanField(default=False) 
 
     def __str__(self):
-        return self.customername
+        return f"{self.id} - {self.customername}"
 
 class Seller(models.Model):
     storename = models.CharField(max_length=150, unique=True)
@@ -19,15 +19,16 @@ class Seller(models.Model):
     is_verified = models.BooleanField(default=False) 
 
     def __str__(self):
-        return self.storename
+        return f"{self.id} - {self.storename}"
 
 
 class Item(models.Model):
+    seller = models.ForeignKey(Seller, on_delete=models.SET_NULL, null=True, blank=True)
     itemtitle = models.CharField(max_length=200) # null by default is set as false. so it is must
     itemprice = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
     itemquantity = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
     itemdescription = models.TextField(null=True, blank=True) # null is for database to know even if there's no description we can still create a record/row. blank is similar as that for django to know about it
-    itemfeaturedimage = models.ImageField(null=True, blank=True, default="")
+    itemfeaturedimage = models.ImageField(null=True, blank=True, default="default_img.png")
     uploadedon = models.DateTimeField(auto_now_add=True)
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False) #uuid4 is for encoding
 
@@ -42,7 +43,7 @@ class Order(models.Model):
     transaction_id = models.CharField(max_length=100, null=True)
 
     def __str__(self):
-        return str(self.id)
+        return f"{self.id} - {self.customer}"
         
     @property
     def get_cart_total(self):
@@ -58,12 +59,15 @@ class Order(models.Model):
 
 
 class OrderItem(models.Model):
-	product = models.ForeignKey(Item, on_delete=models.SET_NULL, null=True)
-	order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
-	quantity = models.IntegerField(default=0, null=True, blank=True)
-	date_added = models.DateTimeField(auto_now_add=True)
+    product = models.ForeignKey(Item, on_delete=models.SET_NULL, null=True)
+    order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
+    quantity = models.IntegerField(default=0, null=True, blank=True)
+    date_added = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"OrderItem {self.order}"
 
-	@property
-	def get_total(self):
-		total = self.product.itemprice * self.quantity
-		return total
+    @property
+    def get_total(self):
+        total = self.product.itemprice * self.quantity
+        return total

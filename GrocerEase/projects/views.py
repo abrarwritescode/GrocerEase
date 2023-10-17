@@ -285,6 +285,7 @@ def uploadItem(request):
             if form.is_valid():
                 item = form.save(commit=False)
                 item.seller = seller
+                item.storename = seller.storename
                 item.save()
                 return redirect('homeseller', seller_id=seller_id)
 
@@ -329,6 +330,7 @@ def singleitem(request, pk):
             seller_id = request.session['seller_id']
     itemObj = Item.objects.get(id=pk)
     return render(request, 'projects/singleitem.html', {'item':itemObj})
+
 
 def singleitemcustomer(request, pk):
     if 'customer_id' in request.session:
