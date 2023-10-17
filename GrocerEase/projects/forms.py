@@ -37,4 +37,4 @@ class OTPVerificationSellerForm(forms.Form):
 class ItemForm(ModelForm):
     class Meta:
         model = Item
-        fields = ['itemtitle', 'itemprice', 'itemquantity', 'itemdescription', 'itemfeaturedimage']
+        fields = ['itemtitle', 'itemprice', 'category', 'itemquantity', 'itemdescription', 'itemfeaturedimage']

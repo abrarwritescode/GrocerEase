@@ -4,4 +4,7 @@ git add .
 git commit -m "Completed merge"
 git push
 
+db merge:
+python manage.py makemigrations --merge
+
 

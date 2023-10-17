@@ -13,6 +13,9 @@
 
     <h3>{{item.itemtitle}}</h3> 
     <h3>{{item.itemprice}} BDT</h3> 
+    {% for category in categorys %}
+    <h3>{{category}}</h3>
+    {% endfor %}
     <h3>{{item.itemquantity}} grams</h3> 
     <h3>{{item.itemdescription}}</h3> 
 

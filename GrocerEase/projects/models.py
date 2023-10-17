@@ -26,6 +26,7 @@ class Item(models.Model):
     seller = models.ForeignKey(Seller, on_delete=models.SET_NULL, null=True, blank=True)
     itemtitle = models.CharField(max_length=200) # null by default is set as false. so it is must
     itemprice = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
+    category = models.ManyToManyField('Category', blank=True) # Tag model is below so used '', otherwise don't need
     itemquantity = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
     itemdescription = models.TextField(null=True, blank=True) # null is for database to know even if there's no description we can still create a record/row. blank is similar as that for django to know about it
     itemfeaturedimage = models.ImageField(null=True, blank=True, default="default_img.png")
@@ -71,3 +72,12 @@ class OrderItem(models.Model):
     def get_total(self):
         total = self.product.itemprice * self.quantity
         return total
+
+
+class Category(models.Model):
+    categoryname = models.CharField(max_length=200)
+    created = models.DateTimeField(auto_now_add=True)
+    id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False) #uuid4 is for encoding
+
+    def __str__(self):
+        return self.categoryname
