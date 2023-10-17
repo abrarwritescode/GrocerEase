@@ -138,10 +138,10 @@ def logincustomer(request):
                     request.session['customer_id'] = customer.id
                     return redirect('homecustomer', customer_id=customer.id)
                 else:
-                    messages.error(request, 'Invalid login credentials.')
+                    messages.error(request, 'Wrong password. Kindly try again.')
 
             except Customer.DoesNotExist:
-                messages.error(request, 'Invalid login credentials.')
+                messages.error(request, 'Email does not exist.')
 
     else:
         form = LoginCustomerForm()
@@ -186,9 +186,11 @@ def homecustomer(request, customer_id):
 def registerseller(request):
     if request.method == 'POST':
         form = RegistrationSellerForm(request.POST)
+
         if form.is_valid():
             
             password = form.cleaned_data['sellerpassword']
+            
 
             digit_error = None
             special_char_error = None
@@ -245,6 +247,8 @@ def registerseller(request):
                 )
 
                 return redirect('verify_otpseller')  
+        
+           
 
     else:
         form = RegistrationSellerForm()
@@ -299,9 +303,9 @@ def loginseller(request):
                     request.session['seller_id'] = seller.id
                     return redirect('homeseller', seller_id=seller.id)
                 else:
-                    messages.error(request, 'Invalid login credentials.')
+                    messages.error(request, 'Wrong password. Kindly try again.')
             except Seller.DoesNotExist:
-                messages.error(request, 'Invalid login credentials.')
+                messages.error(request, 'Email does not exist.')
 
     else:
         form = LoginSellerForm()
