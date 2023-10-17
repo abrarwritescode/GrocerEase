@@ -48,7 +48,15 @@
 
         {{ form.customeremail.label_tag }}
         {{ form.customeremail }}
-        <br><br>
+        <div class="form-group">
+            {% if form.customeremail.errors %}
+                <ul class="errorlist">
+                    {% for error in form.customeremail.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
 
         {{ form.customerpassword.label_tag }}
         {{ form.customerpassword }}

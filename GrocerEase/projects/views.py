@@ -187,6 +187,7 @@ def registerseller(request):
     if request.method == 'POST':
         form = RegistrationSellerForm(request.POST)
         if form.is_valid():
+            
             password = form.cleaned_data['sellerpassword']
 
             digit_error = None
