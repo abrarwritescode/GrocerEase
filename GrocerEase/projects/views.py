@@ -326,7 +326,7 @@ def homeseller(request, seller_id):
         return redirect('loginseller') 
 
 
-def uploadItem(request):
+def uploadItem(request, seller_id):
     if 'seller_id' in request.session:
         seller_id = request.session['seller_id']
         seller = Seller.objects.get(pk=seller_id)
@@ -337,10 +337,11 @@ def uploadItem(request):
             if form.is_valid():
                 item = form.save(commit=False)
                 item.seller = seller
+                item.storename = seller.storename
                 item.save()
                 return redirect('homeseller', seller_id=seller_id)
 
-        context = {'form': form}
+        context = {'form': form, 'seller':seller}
         return render(request, 'projects/uploaditem.html', context)
     else:
         return redirect('loginseller')
@@ -381,6 +382,7 @@ def singleitem(request, pk):
             seller_id = request.session['seller_id']
     itemObj = Item.objects.get(id=pk)
     return render(request, 'projects/singleitem.html', {'item':itemObj})
+
 
 def singleitemcustomer(request, pk):
     if 'customer_id' in request.session:
