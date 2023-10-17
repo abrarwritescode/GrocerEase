@@ -381,14 +381,16 @@ def singleitem(request, pk):
     if 'seller_id' in request.session:
             seller_id = request.session['seller_id']
     itemObj = Item.objects.get(id=pk)
-    return render(request, 'projects/singleitem.html', {'item':itemObj})
+    categorys = itemObj.category.all() 
+    return render(request, 'projects/singleitem.html', {'item':itemObj, 'categorys':categorys})
 
 
 def singleitemcustomer(request, pk):
     if 'customer_id' in request.session:
             customer_id = request.session['customer_id']
     itemObj = Item.objects.get(id=pk)
-    return render(request, 'projects/singleitemcustomer.html', {'item':itemObj})
+    categorys = itemObj.category.all() 
+    return render(request, 'projects/singleitemcustomer.html', {'item':itemObj, 'categorys':categorys})
 
 
 def cart(request, customer_id=None):
