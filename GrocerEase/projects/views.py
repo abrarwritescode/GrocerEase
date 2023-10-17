@@ -180,7 +180,11 @@ def homecustomer(request, customer_id):
         return render(request, 'projects/homecustomer.html', context)
     else:
         return redirect('logincustomer')
-
+    
+    
+def customerprofile(request, customer_id):
+    customer = Customer.objects.get(pk=customer_id)
+    return render(request, 'projects/customerprofile.html', {'customer': customer})
 
 
 def registerseller(request):
@@ -329,6 +333,10 @@ def homeseller(request, seller_id):
 
     else:
         return redirect('loginseller') 
+    
+def sellerprofile(request, seller_id):
+    seller = Seller.objects.get(pk=seller_id)
+    return render(request, 'projects/sellerprofile.html', {'seller': seller})
 
 
 def uploadItem(request, seller_id):

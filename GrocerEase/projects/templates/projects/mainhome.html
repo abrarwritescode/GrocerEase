@@ -80,6 +80,7 @@
 	 
 	    </ul>
 	    <div class="form-inline my-2 my-lg-0">
+			<a href="{% url 'customerprofile' customer_id=request.session.customer_id %}">Profile</a>
             <a href="{% url 'logoutcustomer' %}">Logout</a>
 	     	
 			<a href="{% url 'cart' customer_id=customer.id %}">
