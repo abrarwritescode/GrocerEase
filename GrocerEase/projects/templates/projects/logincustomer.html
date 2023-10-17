@@ -47,6 +47,15 @@
       <h2 class="text-center mb-4">User Login</h2>
       <form method="post">
         {% csrf_token %} {{ form.as_p }}
+        {% if messages %}
+        <div>
+         <ul>
+          {% for message in messages %}
+          <li>{{ message }}</li>
+          {% endfor %}
+         </ul>
+        </div>
+        {% endif %}
         <button type="submit" class="btn btn-primary btn-block">Login</button>
         <p class="forgot-password">
           Forgot password? Reset <a href="#">here</a>

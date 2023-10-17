@@ -48,8 +48,16 @@
 
         {{ form.selleremail.label_tag }}
         {{ form.selleremail }}
-        <br><br>
-
+        <div class="form-group">
+            {% if form.selleremail.errors %}
+                <ul class="errorlist">
+                    {% for error in form.selleremail.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+      
         {{ form.sellerpassword.label_tag }}
         {{ form.sellerpassword }}
         <div class="form-group">
