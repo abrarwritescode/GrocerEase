@@ -2,7 +2,7 @@ from django.db import models
 import uuid
 
 class Customer(models.Model):
-    customername = models.CharField(max_length=150, unique=True)
+    customername = models.CharField(max_length=150)
     customeremail = models.EmailField(unique=True)
     customerpassword = models.CharField(max_length=128)
     otp = models.CharField(max_length=6, blank=True, null=True)  
@@ -12,7 +12,7 @@ class Customer(models.Model):
         return f"{self.id} - {self.customername}"
 
 class Seller(models.Model):
-    storename = models.CharField(max_length=150, unique=True)
+    storename = models.CharField(max_length=150)
     selleremail = models.EmailField(unique=True)
     sellerpassword = models.CharField(max_length=128)
     otp = models.CharField(max_length=6, blank=True, null=True)  

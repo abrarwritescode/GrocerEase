@@ -41,11 +41,29 @@
     <div class="container">
       <h2 class="text-center mb-4">Seller Registration</h2>
       <form method="post">
-        {% csrf_token %} {{ form.as_p }}
-        <button type="submit" class="btn btn-primary btn-block">
-          Register
-        </button>
-      </form>
+        {% csrf_token %} 
+        {{ form.storename.label_tag }}
+        {{ form.storename }}
+        <br><br>
+
+        {{ form.selleremail.label_tag }}
+        {{ form.selleremail }}
+        <br><br>
+
+        {{ form.sellerpassword.label_tag }}
+        {{ form.sellerpassword }}
+        <div class="form-group">
+            {% if form.sellerpassword.errors %}
+                <ul class="errorlist">
+                    {% for error in form.sellerpassword.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+        
+        <button type="submit" class="btn btn-primary btn-block">Register</button>
+    </form>
     </div>
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
