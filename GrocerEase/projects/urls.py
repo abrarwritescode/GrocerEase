@@ -41,4 +41,6 @@ urlpatterns = [
 
     path('myitem/<int:seller_id>/', views.myItem, name="myselleritem"),
 
+    path('singleitemcustomer/<str:pk>/', views.singleitemcustomer, name="singleitemcustomer"),
+
 ] 

@@ -11,7 +11,7 @@
  
 				<button data-product="{{item.id}}" data-action="add" class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button>
 				<!-- <input type="hidden" id="csrf-token" value="{% csrf_token %}"> -->
-				<a class="btn btn-outline-success" href="{% url 'singleitem' item.id %}">View</a>
+				<a class="btn btn-outline-success" href="{% url 'singleitemcustomer' item.id %}">View</a>
 				<h4 style="display: inline-block; float: right"><strong>BDT {{item.itemprice}}</strong></h4>
 
 			</div>

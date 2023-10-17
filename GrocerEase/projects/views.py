@@ -330,6 +330,12 @@ def singleitem(request, pk):
     itemObj = Item.objects.get(id=pk)
     return render(request, 'projects/singleitem.html', {'item':itemObj})
 
+def singleitemcustomer(request, pk):
+    if 'customer_id' in request.session:
+            customer_id = request.session['customer_id']
+    itemObj = Item.objects.get(id=pk)
+    return render(request, 'projects/singleitemcustomer.html', {'item':itemObj})
+
 
 def cart(request, customer_id=None):
     if customer_id is None:
