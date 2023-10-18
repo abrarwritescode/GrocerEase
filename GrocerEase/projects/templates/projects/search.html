@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Results</title>
+</head>
+<body>
+    <h1>Search Results</h1>
+
+    <!-- Display search form -->
+    <div class="container container--narrow">
+        <div class="hero-section__search">
+            <form id='searchForm' class="form" action="{% url 'items' %}" method="get">
+                <div class="form__field">
+                    <label for="formInput#search">Search By Items</label>
+                    <input class="input input--text" id="formInput#search" type="text" name="search_query" placeholder="Search by Items" value="{{ search_query }}" />
+                </div>
+                <input class="btn btn--sub btn--lg" type="submit" value="Search" />
+            </form>
+        </div>
+    </div>
+
+    <!-- Display search results -->
+    <div class="container">
+        <div class="grid grid--three">
+            {% for item in items %}
+            <div class="column">
+                <div class="card project">
+                    <div class="card__body">
+                        <h3 class="project__title">{{ item.itemtitle }}</h3>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    
+</body>
+</html>

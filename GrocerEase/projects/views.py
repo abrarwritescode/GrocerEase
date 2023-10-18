@@ -586,3 +586,16 @@ def change_password(request, email):
         return redirect('logincustomer')
 
     return render(request, 'projects/change_password.html', {'email': email})
+
+
+def items(request):
+    if request.method == 'GET':
+        search_query = request.GET.get('search_query', '')  # Correct the parameter name
+        items = Item.objects.filter(itemtitle__icontains=search_query)
+    
+        context = {
+            'items': items,
+            'search_query': search_query,
+        }
+        
+        return render(request, 'projects/search.html', context)

@@ -50,5 +50,7 @@ urlpatterns = [
     path('verify_reset_otp/<str:email>/', verify_reset_otp, name='verify_reset_otp'),
     path('change_password/<str:email>/', change_password, name='change_password'),
 
+    path('search/', views.items, name="items")
+
 
 ] 
