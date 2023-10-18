@@ -1,6 +1,6 @@
 from django.urls import path
 from . import views
-
+from .views import reset_password, verify_reset_otp, change_password
 urlpatterns = [
     path('', views.registercustomer, name="signupcustomer"), 
     # '' --> root domain
@@ -46,5 +46,9 @@ urlpatterns = [
     path('myitem/<int:seller_id>/', views.myItem, name="myselleritem"),
 
     path('singleitemcustomer/<str:pk>/', views.singleitemcustomer, name="singleitemcustomer"),
+    path('reset_password/', reset_password, name='reset_password'),
+    path('verify_reset_otp/<str:email>/', verify_reset_otp, name='verify_reset_otp'),
+    path('change_password/<str:email>/', change_password, name='change_password'),
+
 
 ] 
