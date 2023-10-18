@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Search Results</title>
+    
 </head>
 <body>
     <h1>Search Results</h1>
@@ -14,12 +15,14 @@
                     <label for="formInput#search">Search By Items</label>
                     <input class="input input--text" id="formInput#search" type="text" name="search_query" placeholder="Search by Items" value="{{ search_query }}" />
                 </div>
-                <input class="btn btn--sub btn--lg" type="submit" value="Search" />
+                <div id="suggestions"></div> <!-- Suggestions will be displayed here -->
+               
             </form>
         </div>
     </div>
 
-    <!-- Display search results -->
+    <!-- Display search results if a search has been performed -->
+    {% if search_query %}
     <div class="container">
         <div class="grid grid--three">
             {% for item in items %}
@@ -33,7 +36,7 @@
             {% endfor %}
         </div>
     </div>
+    {% endif %}
 
-    
 </body>
 </html>
