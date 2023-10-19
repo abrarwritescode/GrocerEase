@@ -1,6 +1,6 @@
 from projects.imports import *
 
-def verifyresetotp(request, email):
+def verifycustomerresetotp(request, email):
     if request.method == 'POST':
         entered_otp = request.POST.get('otp', '')
         customer = Customer.objects.get(customeremail=email)

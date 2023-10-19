@@ -24,6 +24,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.forms import PasswordResetForm
 from django.conf import settings
 
+# d
 def registercustomer(request):
     if request.method == 'POST':
         form = RegistrationCustomerForm(request.POST)
@@ -91,7 +92,7 @@ def registercustomer(request):
     return render(request, 'projects/signupcustomer.html', {'form': form})
 
 
-
+# d
 def verifyotpcustomer(request):
     if request.method == 'POST':
         entered_otp = request.POST.get('otp', '')
@@ -122,7 +123,7 @@ def verifyotpcustomer(request):
 
     return render(request, 'projects/verify_otpcustomer.html')
 
-
+# d
 def logincustomer(request):
     if request.method == 'POST':
         form = LoginCustomerForm(request.POST)
@@ -151,13 +152,13 @@ def logincustomer(request):
 
     return render(request, 'projects/logincustomer.html', {'form': form})
 
-
+# d
 def logoutcustomer(request):
     if 'customer_id' in request.session:
         del request.session['customer_id']
     return redirect('logincustomer')  
 
-
+# d
 def homecustomer(request, customer_id):
     if 'customer_id' in request.session:
         customer_id = request.session['customer_id']
@@ -187,13 +188,14 @@ def homecustomer(request, customer_id):
     else:
         return redirect('logincustomer')
     
-    
+# d
 def customerprofile(request, customer_id):
     customer_id = request.session.get('customer_id')
     customer = Customer.objects.get(pk=customer_id)
     return render(request, 'projects/customerprofile.html', {'customer': customer})
 
 
+# d
 def registerseller(request):
     if request.method == 'POST':
         form = RegistrationSellerForm(request.POST)
@@ -266,7 +268,7 @@ def registerseller(request):
 
     return render(request, 'projects/signupseller.html', {'form': form})
 
-
+# d
 def verifyotpseller(request):
     if request.method == 'POST':
         entered_otp = request.POST.get('otp', '')
@@ -297,7 +299,7 @@ def verifyotpseller(request):
 
     return render(request, 'projects/verify_otpseller.html')
 
-
+# d
 def loginseller(request):
     if request.method == 'POST':
         form = LoginSellerForm(request.POST)
@@ -325,13 +327,13 @@ def loginseller(request):
 
     return render(request, 'projects/loginseller.html', {'form': form})
 
-
+# d
 def logoutseller(request):
     if 'seller_id' in request.session:
         del request.session['seller_id']
     return redirect('loginseller')  
 
-
+# d
 def homeseller(request, seller_id):
     if 'seller_id' in request.session:
         seller_id = request.session['seller_id']
@@ -342,13 +344,14 @@ def homeseller(request, seller_id):
 
     else:
         return redirect('loginseller') 
-    
+
+# d   
 def sellerprofile(request, seller_id):
     seller_id = request.session.get('seller_id')
     seller = Seller.objects.get(pk=seller_id)
     return render(request, 'projects/sellerprofile.html', {'seller': seller})
 
-
+# d
 def uploadItem(request, seller_id):
     if 'seller_id' in request.session:
         seller_id = request.session['seller_id']
@@ -369,7 +372,7 @@ def uploadItem(request, seller_id):
     else:
         return redirect('loginseller')
 
-
+# d
 def updateItemSeller(request, pk):
     item = Item.objects.get(id=pk)
     form = ItemForm(instance=item)
@@ -386,7 +389,7 @@ def updateItemSeller(request, pk):
     context = {'form': form, 'item': item}
     return render(request, 'projects/uploaditem.html', context)
 
-
+# d
 def deleteItem(request, pk):
     item = Item.objects.get(id=pk)
 
@@ -399,7 +402,7 @@ def deleteItem(request, pk):
     context = {'object': item}
     return render(request, 'projects/deleteitem.html', context)
 
-    
+# d
 def singleitem(request, pk):
     if 'seller_id' in request.session:
             seller_id = request.session['seller_id']
@@ -407,7 +410,7 @@ def singleitem(request, pk):
     categorys = itemObj.category.all() 
     return render(request, 'projects/singleitem.html', {'item':itemObj, 'categorys':categorys})
 
-
+# d
 def singleitemcustomer(request, pk):
     if 'customer_id' in request.session:
             customer_id = request.session['customer_id']
@@ -415,7 +418,7 @@ def singleitemcustomer(request, pk):
     categorys = itemObj.category.all() 
     return render(request, 'projects/singleitemcustomer.html', {'item':itemObj, 'categorys':categorys})
 
-
+# d
 def cart(request, customer_id=None):
     if customer_id is None:
         customer_id = request.session.get('customer_id')
@@ -432,7 +435,7 @@ def cart(request, customer_id=None):
 
     return render(request, 'projects/cart.html', context)
 
-
+# d
 def checkout(request, customer_id=None):
     if customer_id is None:
         customer_id = request.session.get('customer_id')
@@ -453,6 +456,7 @@ def checkout(request, customer_id=None):
 
     return render(request, 'projects/checkout.html', context)
 
+# d
 @csrf_exempt
 def updateItem(request):
     if 'customer_id' in request.session:
@@ -488,6 +492,7 @@ def updateItem(request):
         return JsonResponse({'message': 'Customer not authenticated'}, status=403)
     
 
+# d
 def myItem(request, seller_id):
     if 'seller_id' in request.session:
         seller_id = request.session['seller_id']
@@ -498,7 +503,7 @@ def myItem(request, seller_id):
     else:
         return redirect('loginseller')
 
-
+# d
 def search(request, customer_id):
         if 'customer_id' in request.session:
             customer_id = request.session['customer_id']
@@ -513,7 +518,7 @@ def searchseller(request, seller_id):
 
         return render(request, 'projects/searchseller.html')
 
-
+# d
 def viewshop(request, customer_id):
     if 'customer_id' in request.session:
         customer_id = request.session['customer_id']
@@ -542,7 +547,8 @@ def viewshop(request, customer_id):
         return render(request, 'projects/shop.html', context)
     else:
         return redirect('logincustomer')
-    
+
+# d
 def reset_password(request):
     if request.method == 'POST':
         form = PasswordResetForm(request.POST)
@@ -576,6 +582,7 @@ def reset_password(request):
 
     return render(request, 'projects/reset_password.html', {'form': form})
 
+# d
 def verify_reset_otp(request, email):
     if request.method == 'POST':
         entered_otp = request.POST.get('otp', '')
@@ -589,7 +596,7 @@ def verify_reset_otp(request, email):
 
     return render(request, 'projects/verify_reset_otp.html', {'email': email})
 
-
+# d
 def change_password(request, email):
     customer = Customer.objects.get(customeremail=email)
 
@@ -625,7 +632,7 @@ def change_password(request, email):
 
     return render(request, 'projects/change_password.html', {'email': email})
 
-
+# d
 def items(request):
     if request.method == 'GET':
         search_query = request.GET.get('search_query', '')  # Correct the parameter name
