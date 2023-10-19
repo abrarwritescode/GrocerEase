@@ -499,7 +499,6 @@ def myItem(request, seller_id):
         return redirect('loginseller')
 
 
-<<<<<<< HEAD
 def search(request, customer_id):
         if 'customer_id' in request.session:
             customer_id = request.session['customer_id']
@@ -543,16 +542,7 @@ def viewshop(request, customer_id):
         return render(request, 'projects/shop.html', context)
     else:
         return redirect('logincustomer')
-=======
-from django.shortcuts import render, redirect
-from django.contrib.auth.forms import PasswordResetForm
-from .models import Customer
-from django.core.mail import send_mail
-from django.conf import settings
-import random
-import re
-from django.contrib.auth.hashers import make_password
-
+    
 def reset_password(request):
     if request.method == 'POST':
         form = PasswordResetForm(request.POST)
@@ -728,4 +718,3 @@ def change_seller_password(request, email):
         return redirect('loginseller')
 
     return render(request, 'projects/change_seller_password.html', {'email': email})
->>>>>>> 631a2dab29b8669b4d2323aeec6292e1de080472

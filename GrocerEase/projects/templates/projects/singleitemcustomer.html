@@ -80,8 +80,8 @@
 					<div class="footer-box pages">
 						<h2 class="widget-title">Pages</h2>
 						<ul>
-							<li><a href="{% url 'homecustomer' customer_id=customer.id %}">Home</a></li>
-							<li><a href="{% url 'shop' customer_id=customer.id %}">Shop</a></li>
+							<li><a href="{% url 'homecustomer' customer_id=request.session.customer_id %}">Home</a></li>
+							<li><a href="{% url 'shop' customer_id=request.session.customer_id %}">Shop</a></li>
 						</ul>
 					</div>
 				</div>
@@ -89,7 +89,7 @@
 					<div class="footer-box subscribe">
 						<h2 class="widget-title">Subscribe</h2>
 						<p>Subscribe to our mailing list to get the latest updates.</p>
-						<form action="{% url 'homecustomer' customer_id=customer.id %}">
+						<form action="{% url 'homecustomer' customer_id=request.session.customer_id %}">
 							<input type="email" placeholder="Email">
 							<button type="submit"><i class="fas fa-paper-plane"></i></button>
 						</form>
