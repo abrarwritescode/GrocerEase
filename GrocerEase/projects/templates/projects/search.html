@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<<<<<<< HEAD
 {% load static %}
 <html lang="en">
 <head>
@@ -251,3 +252,51 @@
 
 </body>
 </html>
+=======
+<html>
+<head>
+    <title>Search Results</title>
+    
+</head>
+<body>
+    <h1>Search Results</h1>
+
+    <!-- Display search form -->
+    <div class="container container--narrow">
+        <div class="hero-section__search">
+            <form id='searchForm' class="form" action="{% url 'items' %}" method="get">
+                <div class="form__field">
+                    <label for="formInput#search">Search By Items</label>
+                    <input class="input input--text" id="formInput#search" type="text" name="search_query" placeholder="Search by Items" value="{{ search_query }}" />
+                </div>
+            <input class="btn btn--sub btn--lg" type="submit" value="Search" />
+            </form>
+        </div>
+    </div>
+
+    <!-- Display search results if a search has been performed -->
+    {% if search_query %}
+    <div class="container">
+        <div class="grid grid--three">
+            {% for item in items %}
+            <div class="column">
+                <img class="project__thumbnail" src="{{item.itemfeaturedimage.url}}" alt="project thumbnail" />
+                <div class="card project">
+                    <div class="card__body">
+                        <h3 class="project__title">{{ item.itemtitle }}</h3>
+                        <h3 class="project__title">{{ item.itemprice }}</h3>
+                        <h3 class="project__title">{{ item.category }}</h3>
+                        <h3 class="project__title">{{ item.itemquantity }}</h3>
+                        <h3 class="project__title">{{ item.itemdescription }}</h3>
+
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+</body>
+</html>
+>>>>>>> 631a2dab29b8669b4d2323aeec6292e1de080472

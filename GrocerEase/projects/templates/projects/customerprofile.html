@@ -1,13 +1,92 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>Customer Profile</title>
-</head>
-<body>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+        margin: 20px;
+      }
+
+      h1,
+      h2 {
+        color: #333;
+      }
+
+      p {
+        color: #666;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: left;
+      }
+
+      th {
+        background-color: #f2f2f2;
+      }
+
+      .order-details {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .order-date {
+        color: #888;
+      }
+    </style>
+  </head>
+  <body>
     <h1>Customer Profile</h1>
     {% if customer %}
-        <p>Customer name: {{ customer.customername }}</p>
-        <p>Email: {{ customer.customeremail }}</p>
+    <p>Customer name: {{ customer.customername }}</p>
+    <p>Email: {{ customer.customeremail }}</p>
+
+    <h2>Order History</h2>
+    <ul>
+      {% for order in customer.order_set.all %}
+      <li>
+        <div class="order-details">
+          <div>
+            <strong>Order ID:</strong> {{ order.id }}<br />
+            <strong>Total:</strong> Tk.{{ order.get_cart_total }}
+          </div>
+          <div class="order-date">
+            <strong>Date:</strong> {{ order.date_ordered|date:"F j, Y H:i" }}
+          </div>
+        </div>
+        <div class="order-items">
+          <strong>Items:</strong>
+          <table>
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for order_item in order.orderitem_set.all %}
+              <tr>
+                <td>{{ order_item.product.itemtitle }}</td>
+                <td>{{ order_item.quantity }} Pcs</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </li>
+      {% endfor %}
+    </ul>
     {% endif %}
-</body>
+  </body>
 </html>

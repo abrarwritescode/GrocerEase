@@ -21,7 +21,8 @@ import json
 from .models import * 
 from .utils import cookieCart, cartData, guestOrder
 from django.views.decorators.csrf import csrf_exempt
-
+from django.contrib.auth.forms import PasswordResetForm
+from django.conf import settings
 
 def registercustomer(request):
     if request.method == 'POST':
@@ -136,6 +137,8 @@ def logincustomer(request):
                     session.expire_date = timezone.now() + timedelta(days=7)  
                     session.save()
                     request.session['customer_id'] = customer.id
+                    request.session['customername'] = customer.customername
+
                     return redirect('homecustomer', customer_id=customer.id)
                 else:
                     messages.error(request, 'Wrong password. Kindly try again.')
@@ -186,6 +189,7 @@ def homecustomer(request, customer_id):
     
     
 def customerprofile(request, customer_id):
+    customer_id = request.session.get('customer_id')
     customer = Customer.objects.get(pk=customer_id)
     return render(request, 'projects/customerprofile.html', {'customer': customer})
 
@@ -308,6 +312,8 @@ def loginseller(request):
                     session.expire_date = timezone.now() + timedelta(days=7)  
                     session.save()
                     request.session['seller_id'] = seller.id
+                    request.session['storename'] = seller.storename
+
                     return redirect('homeseller', seller_id=seller.id)
                 else:
                     messages.error(request, 'Wrong password. Kindly try again.')
@@ -338,6 +344,7 @@ def homeseller(request, seller_id):
         return redirect('loginseller') 
     
 def sellerprofile(request, seller_id):
+    seller_id = request.session.get('seller_id')
     seller = Seller.objects.get(pk=seller_id)
     return render(request, 'projects/sellerprofile.html', {'seller': seller})
 
@@ -492,6 +499,7 @@ def myItem(request, seller_id):
         return redirect('loginseller')
 
 
+<<<<<<< HEAD
 def search(request, customer_id):
         if 'customer_id' in request.session:
             customer_id = request.session['customer_id']
@@ -535,3 +543,189 @@ def viewshop(request, customer_id):
         return render(request, 'projects/shop.html', context)
     else:
         return redirect('logincustomer')
+=======
+from django.shortcuts import render, redirect
+from django.contrib.auth.forms import PasswordResetForm
+from .models import Customer
+from django.core.mail import send_mail
+from django.conf import settings
+import random
+import re
+from django.contrib.auth.hashers import make_password
+
+def reset_password(request):
+    if request.method == 'POST':
+        form = PasswordResetForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            try:
+                customer = Customer.objects.get(customeremail=email)
+
+                
+                otp = ''.join(random.choice('0123456789') for _ in range(6))
+                customer.otp = otp
+                customer.save()
+
+                
+                send_mail(
+                    'GrocerEase Password Reset OTP',
+                    f'Your OTP for password reset is: {otp}',
+                    settings.DEFAULT_FROM_EMAIL,
+                    [email],
+                    fail_silently=False,
+                )
+
+               
+                return redirect('verify_reset_otp', email=email)
+
+            except Customer.DoesNotExist:
+                
+                pass
+    else:
+        form = PasswordResetForm()
+
+    return render(request, 'projects/reset_password.html', {'form': form})
+
+def verify_reset_otp(request, email):
+    if request.method == 'POST':
+        entered_otp = request.POST.get('otp', '')
+        customer = Customer.objects.get(customeremail=email)
+
+        if entered_otp == customer.otp:
+            return redirect('change_password', email=email)
+        else:
+            error_message = 'Invalid OTP. Please try again.'
+            return render(request, 'projects/verify_reset_otp.html', {'error_message': error_message, 'email': email})
+
+    return render(request, 'projects/verify_reset_otp.html', {'email': email})
+
+
+def change_password(request, email):
+    customer = Customer.objects.get(customeremail=email)
+
+    if request.method == 'POST':
+        new_password = request.POST.get('new_password', '')
+
+        digit_error = None
+        special_char_error = None
+        capital_error = None
+        small_letter_error = None
+        length_error = None
+
+        if len(new_password) < 8:
+            length_error = 'Password must be at least 8 characters long.'
+        if not re.search(r'\d', new_password):
+            digit_error = 'Password must contain at least one digit.'
+        if not re.search(r'[A-Z]', new_password):
+            capital_error = 'Password must contain at least one uppercase letter.'
+        if not re.search(r'[a-z]', new_password):
+            small_letter_error = 'Password must contain at least one lowercase letter.'
+        if not re.search(r'[@#$%^&+=!]', new_password):
+            special_char_error = 'Password must contain at least one special character.'
+
+        if digit_error or special_char_error or capital_error or small_letter_error or length_error:
+            error_messages = [message for message in [digit_error, special_char_error, capital_error, small_letter_error, length_error] if message]
+            return render(request, 'projects/change_password.html', {'error_messages': error_messages, 'email': email})
+
+        customer.customerpassword = make_password(new_password)
+        customer.otp = None
+        customer.save()
+
+        return redirect('logincustomer')
+
+    return render(request, 'projects/change_password.html', {'email': email})
+
+
+def items(request):
+    if request.method == 'GET':
+        search_query = request.GET.get('search_query', '')  # Correct the parameter name
+        items = Item.objects.filter(itemtitle__icontains=search_query)
+    
+        context = {
+            'items': items,
+            'search_query': search_query,
+        }
+        
+        return render(request, 'projects/search.html', context)
+
+
+
+def reset_seller_password(request):
+    if request.method == 'POST':
+        form = PasswordResetForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            try:
+                seller = Seller.objects.get(selleremail=email)
+
+                
+                otp = ''.join(random.choice('0123456789') for _ in range(6))
+                seller.otp = otp
+                seller.save()
+
+                
+                send_mail(
+                    'GrocerEase Seller Password Reset OTP',
+                    f'Your OTP for seller password reset is: {otp}',
+                    settings.DEFAULT_FROM_EMAIL,
+                    [email],
+                    fail_silently=False,
+                )
+
+                
+                return redirect('verify_reset_seller_otp', email=email)
+
+            except Seller.DoesNotExist:
+                
+                pass
+    else:
+        form = PasswordResetForm()
+
+    return render(request, 'projects/reset_seller_password.html', {'form': form})
+
+def verify_reset_seller_otp(request, email):
+    if request.method == 'POST':
+        entered_otp = request.POST.get('otp', '')
+        seller = Seller.objects.get(selleremail=email)
+
+        if entered_otp == seller.otp:
+            return redirect('change_seller_password', email=email)
+        else:
+            error_message = 'Invalid OTP. Please try again.'
+            return render(request, 'projects/verify_reset_seller_otp.html', {'error_message': error_message, 'email': email})
+
+    return render(request, 'projects/verify_reset_seller_otp.html', {'email': email})
+
+def change_seller_password(request, email):
+    seller = Seller.objects.get(selleremail=email)
+
+    if request.method == 'POST':
+        new_password = request.POST.get('new_password', '')
+
+        digit_error = None
+        special_char_error = None
+        capital_error = None
+        small_letter_error = None
+        length_error = None
+
+        if len(new_password) < 8:
+            length_error = 'Password must be at least 8 characters long.'
+        if not re.search(r'\d', new_password):
+            digit_error = 'Password must contain at least one digit.'
+        if not re.search(r'[A-Z]', new_password):
+            capital_error = 'Password must contain at least one uppercase letter.'
+        if not re.search(r'[a-z]', new_password):
+            small_letter_error = 'Password must contain at least one lowercase letter.'
+        if not re.search(r'[@#$%^&+=!]', new_password):
+            special_char_error = 'Password must contain at least one special character.'
+
+        if digit_error or special_char_error or capital_error or small_letter_error or length_error:
+            error_messages = [message for message in [digit_error, special_char_error, capital_error, small_letter_error, length_error] if message]
+            return render(request, 'projects/change_seller_password.html', {'error_messages': error_messages, 'email': email})
+        seller.sellerpassword = make_password(new_password)
+        seller.otp = None
+        seller.save()
+        return redirect('loginseller')
+
+    return render(request, 'projects/change_seller_password.html', {'email': email})
+>>>>>>> 631a2dab29b8669b4d2323aeec6292e1de080472

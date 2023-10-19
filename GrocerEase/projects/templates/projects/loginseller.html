@@ -46,27 +46,24 @@
     <div class="container">
       <h2 class="text-center mb-4">Seller Login</h2>
       <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-
-        {% if messages %}
+        {% csrf_token %} {{ form.as_p }} {% if messages %}
         <div>
-         <ul>
-          {% for message in messages %}
-          <li>{{ message }}</li>
-          {% endfor %}
-         </ul>
+          <ul>
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+          </ul>
         </div>
         {% endif %}
-  
+
         <button type="submit" class="btn btn-primary btn-block">Login</button>
       </form>
-    
-      
-    
-      <p class="forgot-password">Forgot password? Reset <a href="#">here</a></p>
+
+      <p class="forgot-password">
+        Forgot password? Reset
+        <a href="{% url 'reset_seller_password' %}">here</a>
+      </p>
     </div>
-    
 
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
