@@ -1,47 +1,130 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevSearch</title>
+    <title>Item info</title>
+    <link rel="shortcut icon" type="image/png" href="{% static 'assets/assets1/img/favicon.png' %}">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+   
+   <link rel="stylesheet" href="{% static 'assets/assets1/css/main.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/assets1/css/all.min.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/assets1/css/owl.carousel.css' %}">
+
+    <link rel="stylesheet" href="{% static 'assets/assets2/css/animate.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/assets2/css/style.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/assets2/css/ionicons.min.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/assets2/css/flaticon.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/assets2/css/icomoon.css' %}">
+
+	<link rel="stylesheet" href="{% static 'assets/assets3/css/style.css' %}">
+
+
 </head>
 <body>
-    {% extends 'main.html' %}
 
-    {% block content %}
+    <div style="position: relative; top: 50px;" class="section-title">
+        <h2>Item: {{item.itemtitle}}</h2>
+    </div>
+	
+	<!-- single product -->
+	<div class="single-product mt-150 mb-150">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-5">
+					<div class="single-product-img">
+						<img src="{{ item.itemfeaturedimage.url }}" alt="">
+					</div>
+				</div>
+				<div class="col-md-7">
+					<div class="single-product-content">
+                        <h3>{{item.itemtitle}}</h3>
+						<h3>Description: {{item.itemdescription}}</h3>
+						{% for category in categorys %}
+    					<h3>{{category}}</h3>
+    					{% endfor %}   
+						<p class="single-product-pricing"><span>Per Kg</span>BDT {{item.itemprice}}</p>
+						<a href="{% url 'homeseller' seller_id=request.session.seller_id %}">Go Back</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end single product -->
 
-    <hr>
+    <!-- footer -->
+	<div class="footer-area">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 col-md-6">
+					<div class="footer-box about-widget">
+						<h2 class="widget-title">About us</h2>
+                        <p>Your one-stop online destination for all your grocery shopping needs. We understand the importance of convenience in today's fast-paced world, and that's why we're here to simplify your shopping experience and make it as effortless as possible.</p>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<div class="footer-box get-in-touch">
+						<h2 class="widget-title">Get in Touch</h2>
+						<ul>
+							<li>Dhaka, Bangladesh</li>
+							<li>grocereasedp1@gmail.com</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<div class="footer-box pages">
+						<h2 class="widget-title">Pages</h2>
+						<ul>
+							<li><a href="{% url 'homeseller' seller_id=seller.id %}">Home</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<div class="footer-box subscribe">
+						<h2 class="widget-title">Subscribe</h2>
+						<p>Subscribe to our mailing list to get the latest updates.</p>
+						<form action="{% url 'homeseller' seller_id=seller.id %}">
+							<input type="email" placeholder="Email">
+							<button type="submit"><i class="fas fa-paper-plane"></i></button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end footer -->
 
-    <h1>
-        Projects
-    </h1>
+	<script src="{% static 'assets/assets1/js/jquery-1.11.3.min.js' %}"></script>
+	<script src="{% static 'assets/assets1/bootstrap/js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'assets/assets1/js/jquery.countdown.js' %}"></script>
+	<script src="{% static 'assets/assets1/js/jquery.isotope-3.0.6.min.js' %}"></script>
+	<script src="{% static 'assets/assets1/js/waypoints.js' %}"></script>
+	<script src="{% static 'assets/assets1/js/owl.carousel.min.js' %}"></script>
+	<script src="{% static 'assets/assets1/js/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'assets/assets1/js/jquery.meanmenu.min.js' %}"></script>
+	<script src="{% static 'assets/assets1/js/sticker.js' %}"></script>
+	<script src="{% static 'assets/assets1/js/main.js' %}"></script>
 
-    <table>
-        <tr>
-            <th>Projects</th>
-            <th>Votes</th>
-            <th>Ratio</th>
-            <th>Created</th>
-        </tr>
-        {% for iproject in projects %} 
-                <!-- # iproject is iteration variable and projects is variable/dictionary defined in context parameter in views -->
-            <tr>
-                <td>{{iproject.title}}</td>
-                <td>{{iproject.votetotal}}</td>
-                <td>{{iproject.voteratio}}</td>
-                <td>{{iproject.created}}</td>
-                <td><a href="{% url 'project' iproject.id %}">View</a></td>
-                <td><a href="{% url 'updateproject' iproject.id %}">Edit</a></td>
-                <td><a href="{% url 'deleteproject' iproject.id %}">Delete</a></td>
-            </tr>
-        {% endfor %}
-    </table>
+    <script src="{% static 'assets/assets2/js/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/assets2/js/jquery-migrate-3.0.1.min.js' %}"></script>
+    <script src="{% static 'assets/assets2/js/jquery.easing.1.3.js' %}"></script>
+    <script src="{% static 'assets/assets2/js/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'assets/assets2/js/jquery.stellar.min.js' %}"></script>
+    <script src="{% static 'assets/assets2/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'assets/assets2/js/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'assets/assets2/js/aos.js' %}"></script>
+    <script src="{% static 'assets/assets2/js/scrollax.min.js' %}"></script>
+	<script src="{% static 'assets/assets2/js/main.js' %}"></script>
 
-    
-                <!-- # here in anchor tag project is name in url.py file -->
-           
 
-{% endblock content %}
+    <script src="{% static 'assets/assets3/js/jquery.slicknav.js' %}"></script>
+    <script src="{% static 'assets/assets3/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'assets/assets3/js/main.js' %}"></script>
+
+    <script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
+
 
 </body>
 </html>

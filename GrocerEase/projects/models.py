@@ -76,6 +76,7 @@ class OrderItem(models.Model):
 
 class Category(models.Model):
     categoryname = models.CharField(max_length=200)
+    categoryimage = models.ImageField(null=True, blank=True, default="default_img.png")
     created = models.DateTimeField(auto_now_add=True)
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False) #uuid4 is for encoding
 

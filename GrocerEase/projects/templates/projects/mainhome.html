@@ -1,16 +1,27 @@
 <!DOCTYPE html>
 {% load static %}
-<html>
+<html lang="en">
 <head>
-	<title>GrocerEase</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GrocerEase | Home </title>
+    <link rel="shortcut icon" type="image/png" href="{% static 'assets/assets1/img/favicon.png' %}">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+   
+   <link rel="stylesheet" href="{% static 'assets/assets1/css/main.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/assets1/css/all.min.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/assets1/css/owl.carousel.css' %}">
 
-	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+	<link rel="stylesheet" href="{% static 'assets/assets2/css/animate.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/assets2/css/style.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/assets2/css/ionicons.min.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/assets2/css/flaticon.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/assets2/css/icomoon.css' %}">
 
-	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<link rel="stylesheet" href="{% static 'assets/assets3/css/style.css' %}">
 
-	<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}">
-
-	<script type="text/javascript">
+    <script type="text/javascript">
 
 		var user = '{{customer|safe}}'
 		var customer = '{{ customer_json|safe }}'
@@ -63,50 +74,223 @@
 	
 	</script>
 
+
 </head>
+<style>
+	#cart-total{
+	display: block;
+	text-align: center;
+	color:#fff;
+	background-color: red;
+	width: 21.5px;
+	height: 23px;
+	border-radius: 50%;
+	font-size: 12.5px;
+	position: relative;
+	left: 12%;
+	bottom: 22px;
+	justify-content: center;
+	align-items: center;
+}
+</style>
 <body>
 
-	<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-	  <a class="navbar-brand" href="#">GrocerEase</a>
-	  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-	    <span class="navbar-toggler-icon"></span>
-	  </button>
+    <!-- loader -->
 
-	  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-	    <ul class="navbar-nav mr-auto">
-	      <li class="nav-item active">
-	        <a class="nav-link" href="#">Store <span class="sr-only">(current)</span></a>
-	      </li>
-	 
-	    </ul>
-	    <div class="form-inline my-2 my-lg-0">
-			<a href="{% url 'customerprofile' customer_id=request.session.customer_id %}">Profile</a>
-            <a href="{% url 'logoutcustomer' %}">Logout</a>
-	     	
-			<a href="{% url 'cart' customer_id=customer.id %}">
-	    		<img  id="cart-icon" src="{% static 'images/cart.png' %}">
-	    	</a>
-	    	<p id="cart-total">{{cartItems}}</p>
+    
+    <!-- header -->
+	<div class="top-header-area" id="sticker">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 col-sm-12 text-center">
+					<div class="main-menu-wrap">
+						
+						<!-- menu start -->
+						<nav class="main-menu">
+							<ul>
+								<li>
+                                    <a href="{% url 'homecustomer' customer_id=request.session.customer_id %}">Home</span></a>
+								</li>
+															
+								<li>
+                                    <a href="{% url 'shop' customer_id=request.session.customer_id %}">Shop</a>									
+								</li>
+                                <li>
+                                    <a href="#">Best Deals</a>									
+								</li>
 
-	    </div>
-	  </div>
-	</nav>
-
-     <div class="container">
-            <br>
-            {% block content %}
+								<li>
+                                    <a href="#">About Us</a>									
+								</li>
 
 
-            {% endblock content %}
-         </div>
+                                <li>
+                                </li>
+
+								<li>
+									<div class="header-icons">
+										<a class="shopping-cart" href="{% url 'cart' customer_id=request.session.customer_id %}"><i  id="cart-icon" class="fas fa-shopping-cart"></i></a>
+										<a class="mobile-hide search-bar-icon" href="{% url 'search' customer_id=request.session.customer_id  %}"><i class="fas fa-search"></i></a>
+                                        <a href="{% url 'logoutcustomer' %}"><i class="fas fa-sign-out-alt"></i></a>
+                                        <a href="{% url 'customerprofile' customer_id=request.session.customer_id %}"><i class="fas fa-user"></i></a>									
+									</div><p id="cart-total">{{cartItems}}</p>
+
+								</li>
+							</ul>
+                            
+						
+						<a class="mobile-show search-bar-icon" href="{% url 'search' customer_id=request.session.customer_id %}"><i class="fas fa-search"></i></a>
+						<div class="mobile-menu"></div>
+                    </nav>
+                        
+
+						<!-- menu end -->
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end header -->
+
+	<!-- home page slider -->
+	<div class="homepage-slider">
+		<!-- single home slider -->
+		<div class="single-homepage-slider homepage-bg-1">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-12 col-lg-7 offset-lg-1 offset-xl-0">
+						<div class="hero-text">
+							<div class="hero-text-tablecell">
+								<p class="subtitle">Fresh & Organic</p>
+								<h1>GrocerEase</h1>
+								<div class="hero-btns">
+									<a href="{% url 'shop' customer_id=request.session.customer_id %}" class="boxed-btn">Shop Here</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- single home slider -->
+		<div class="single-homepage-slider homepage-bg-2">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-10 offset-lg-1 text-center">
+						<div class="hero-text">
+							<div class="hero-text-tablecell">
+								<p class="subtitle">Fresh Everyday</p>
+								<h1>Varieties Of Collections</h1>
+								<div class="hero-btns">
+									<a href="{% url 'shop' customer_id=request.session.customer_id %}" class="boxed-btn">Visit Shop</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div> 
+		<!-- single home slider -->
+		<div class="single-homepage-slider homepage-bg-3">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-10 offset-lg-1 text-right">
+						<div class="hero-text">
+							<div class="hero-text-tablecell">
+								<p class="subtitle">Get Your Daily Essentials</p>
+								<h1>At Your Doorstep</h1>
+								<div class="hero-btns">
+									<a href="{% url 'shop' customer_id=request.session.customer_id %}" class="boxed-btn">Visit Shop</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end home page slider -->
 
 
-	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    
+        {% block content %}
 
-	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 
-	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+        {% endblock content %}
+   
 
-	<script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
+
+	<!-- footer -->
+	<div class="footer-area">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 col-md-6">
+					<div class="footer-box about-widget">
+						<h2 class="widget-title">About us</h2>
+                        <p>Your one-stop online destination for all your grocery shopping needs. We understand the importance of convenience in today's fast-paced world, and that's why we're here to simplify your shopping experience and make it as effortless as possible.</p>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<div class="footer-box get-in-touch">
+						<h2 class="widget-title">Get in Touch</h2>
+						<ul>
+							<li>Dhaka, Bangladesh</li>
+							<li>grocereasedp1@gmail.com</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<div class="footer-box pages">
+						<h2 class="widget-title">Pages</h2>
+						<ul>
+							<li><a href="{% url 'homecustomer' customer_id=request.session.customer_id %}">Home</a></li>
+							<li><a href="{% url 'shop' customer_id=request.session.customer_id %}">Shop</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<div class="footer-box subscribe">
+						<h2 class="widget-title">Subscribe</h2>
+						<p>Subscribe to our mailing list to get the latest updates.</p>
+						<form action="{% url 'homecustomer' customer_id=request.session.customer_id %}">
+							<input type="email" placeholder="Email">
+							<button type="submit"><i class="fas fa-paper-plane"></i></button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end footer -->
+	
+	<script src="{% static 'assets/assets1/js/jquery-1.11.3.min.js' %}"></script>
+	<script src="{% static 'assets/assets1/bootstrap/js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'assets/assets1/js/jquery.countdown.js' %}"></script>
+	<script src="{% static 'assets/assets1/js/jquery.isotope-3.0.6.min.js' %}"></script>
+	<script src="{% static 'assets/assets1/js/waypoints.js' %}"></script>
+	<script src="{% static 'assets/assets1/js/owl.carousel.min.js' %}"></script>
+	<script src="{% static 'assets/assets1/js/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'assets/assets1/js/jquery.meanmenu.min.js' %}"></script>
+	<script src="{% static 'assets/assets1/js/sticker.js' %}"></script>
+	<script src="{% static 'assets/assets1/js/main.js' %}"></script>
+
+    <script src="{% static 'assets/assets2/js/jquery.min.js' %}"></script>
+    <script src="{% static 'assets/assets2/js/jquery-migrate-3.0.1.min.js' %}"></script>
+    <script src="{% static 'assets/assets2/js/jquery.easing.1.3.js' %}"></script>
+    <script src="{% static 'assets/assets2/js/jquery.waypoints.min.js' %}"></script>
+    <script src="{% static 'assets/assets2/js/jquery.stellar.min.js' %}"></script>
+    <script src="{% static 'assets/assets2/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'assets/assets2/js/jquery.magnific-popup.min.js' %}"></script>
+    <script src="{% static 'assets/assets2/js/aos.js' %}"></script>
+    <script src="{% static 'assets/assets2/js/scrollax.min.js' %}"></script>
+	<script src="{% static 'assets/assets2/js/main.js' %}"></script>
+
+
+    <script src="{% static 'assets/assets3/js/jquery.slicknav.js' %}"></script>
+    <script src="{% static 'assets/assets3/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'assets/assets3/js/main.js' %}"></script>
+
+  	<script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
+    
 </body>
 </html>

@@ -171,10 +171,13 @@ def homecustomer(request, customer_id):
         }
 
         products = Item.objects.all()
+        categories = Category.objects.all()
+
         context = {
             'products': products,
             'cartItems': cartItems,
-            'customer': customer_data  
+            'customer': customer_data ,
+            'categories': categories 
         }
 
         return render(request, 'projects/homecustomer.html', context)
@@ -327,7 +330,7 @@ def homeseller(request, seller_id):
     if 'seller_id' in request.session:
         seller_id = request.session['seller_id']
         seller = Seller.objects.get(pk=seller_id)
-        items = Item.objects.all() 
+        items = Item.objects.filter(seller=seller) 
         context = {'items': items, 'seller':seller}
         return render(request, 'projects/homeseller.html', context)
 
@@ -487,3 +490,48 @@ def myItem(request, seller_id):
         return render(request, 'projects/myitem.html', context)
     else:
         return redirect('loginseller')
+
+
+def search(request, customer_id):
+        if 'customer_id' in request.session:
+            customer_id = request.session['customer_id']
+            customer = Customer.objects.get(pk=customer_id)
+
+        return render(request, 'projects/search.html')
+
+def searchseller(request, seller_id):
+        if 'seller_id' in request.session:
+            seller_id = request.session['seller_id']
+            seller = Seller.objects.get(pk=seller_id)
+
+        return render(request, 'projects/searchseller.html')
+
+
+def viewshop(request, customer_id):
+    if 'customer_id' in request.session:
+        customer_id = request.session['customer_id']
+        customer = Customer.objects.get(pk=customer_id)
+        data = cartData(request, customer_id)
+
+        cartItems = data['cartItems']
+        order = data['order']
+        items = data['items']
+
+        customer_data = {
+            'id': customer_id,
+            'name': customer.customername,
+        }
+
+        products = Item.objects.all()
+        categories = Category.objects.all()
+
+        context = {
+            'products': products,
+            'cartItems': cartItems,
+            'customer': customer_data ,
+            'categories': categories 
+        }
+
+        return render(request, 'projects/shop.html', context)
+    else:
+        return redirect('logincustomer')

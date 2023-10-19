@@ -8,3 +8,17 @@ db merge:
 python manage.py makemigrations --merge
 
 
+{% if request.session.seller_id %}
+    <!-- Content to display when the seller is logged in -->
+    <form class="form" action="{% url 'project' project.id %}" method="POST">
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="form__field">
+            <label for="formInput#textarea">{{field.label}}</label>
+            {{field}}
+        </div>
+        {% endfor %}
+        <input class="btn btn--sub btn--lg" type="submit" value="Add Review" />
+    </form>
+{% endif %}
+

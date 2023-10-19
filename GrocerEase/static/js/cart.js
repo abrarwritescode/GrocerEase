@@ -8,7 +8,7 @@ for (var i = 0; i < updateBtns.length; i++) {
         console.log('productId:', productId, 'Action:', action);
         console.log('customer:', user);
 
-        updateUserOrder(productId, action);
+        updateUserOrder(productId, action); 
     });
 } 
 

@@ -47,4 +47,11 @@ urlpatterns = [
 
     path('singleitemcustomer/<str:pk>/', views.singleitemcustomer, name="singleitemcustomer"),
 
+    path('search/<int:customer_id>/', views.search, name="search"),
+
+    path('searchseller/<int:seller_id>/', views.searchseller, name="searchseller"),
+
+    path('shop/<int:customer_id>/', views.viewshop, name="shop"),
+
+
 ] 
