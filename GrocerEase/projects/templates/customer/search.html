@@ -8,6 +8,7 @@
     <link rel="shortcut icon" type="image/png" href="{% static 'assets/assets1/img/favicon.png' %}">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
     <link rel="stylesheet" href="{% static 'assets/assets1/css/main.css' %}">
     <link rel="stylesheet" href="{% static 'assets/assets1/css/all.min.css' %}">
@@ -190,6 +191,8 @@
                     <div id="filteredResultsContainer">
                         <!-- Filtered results will be displayed here -->
                     </div>
+
+                 
                     
                     
     <!-- Container for live search results -->
@@ -266,9 +269,31 @@
     <script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Initially hide the search results container
+            $('#searchResultsContainer').hide();
 
+            $('#searchInput').on('input', function () {
+                var searchQuery = $(this).val();
+                $.ajax({
+                    type: 'GET',
+                    url: "{% url 'search' customer_id=request.session.customer_id %}",
+                    data: { search_query: searchQuery },
+                    success: function (data) {
+                        // Check if there are search results and the searchQuery is not empty
+                        if (data.trim() !== '' && searchQuery.trim() !== '') {
+                            $('#searchResultsContainer').html(data).show();
+                        } else {
+                            // Hide the container if there are no search results or if the searchQuery is empty
+                            $('#searchResultsContainer').hide();
+                        }
+                    }
+                });
+            });
+        });
+    </script>
     <script>
         $(document).ready(function() {
             // Initialize the price range slider

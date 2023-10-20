@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
-<head>
+<head> 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ category.categoryname }}</title>
@@ -31,6 +31,7 @@
     </div>
 	
     <div class="search-body-area-result footer-area">
+<<<<<<< HEAD
             
         <di style="justify-content: center; align-items: center;" class="row">
             {% for item in items %} 
@@ -112,6 +113,49 @@
 	<script src="{% static 'assets/assets1/js/waypoints.js' %}"></script>
 	<script src="{% static 'assets/assets1/js/owl.carousel.min.js' %}"></script>
 	<script src="{% static 'assets/assets1/js/jquery.magnific-popup.min.js' %}"></script>
+=======
+        <p>{{ items|length }} results found</p>
+            
+							<div style="justify-content: center; align-items: center;" class="row">
+								{% for item in items %} 
+									<div class="col-md-6 col-lg-3 ftco-animate">
+										<div class="product">
+											<a href="#" class="img-prod"><img class="img-fluid" src="{{ item.itemfeaturedimage.url }}" alt="">
+												<div class="overlay"></div>
+											</a>
+											<div class="text py-3 pb-4 px-3 text-center">
+												<h3><strong>{{item.itemtitle}}</strong></h3>
+												<div class="d-flex">
+													<div class="pricing">
+														<p class="price"><span class="price-sale">BDT {{item.itemprice}}</span></p>
+													</div>
+												</div>
+												<div class="bottom-area d-flex px-3">
+													<div class="m-auto d-flex">
+														<a href="{% url 'singleitemcustomer' item.id %}" class="add-to-cart d-flex justify-content-center align-items-center text-center">
+															<span><i class="ion-ios-menu"></i></span>
+														</a>
+														<a href="{% url 'cart' customer_id=request.session.customer_id %}" data-product="{{item.id}}" data-action="add" class="add-btn update-cart add-to-cart buy-now d-flex justify-content-center align-items-center mx-1">
+															<span><i class="ion-ios-cart"></i></span>
+														</a>                           
+							
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								{% endfor %}
+							  </div>
+							
+    </div>
+    <script src="{% static 'assets/assets1/js/jquery-1.11.3.min.js' %}"></script>
+    <script src="{% static 'assets/assets1/bootstrap/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'assets/assets1/js/jquery.countdown.js' %}"></script>
+    <script src="{% static 'assets/assets1/js/jquery.isotope-3.0.6.min.js' %}"></script>
+    <script src="{% static 'assets/assets1/js/waypoints.js' %}"></script>
+    <script src="{% static 'assets/assets1/js/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'assets/assets1/js/jquery.magnific-popup.min.js' %}"></script>
+>>>>>>> 1ab81fd4e5a3cb01da61f7046c3ba902637be9e1
     <script src="{% static 'assets/assets1/js/jquery.meanmenu.min.js' %}"></script>
 	<script src="{% static 'assets/assets1/js/sticker.js' %}"></script>
 	<script src="{% static 'assets/assets1/js/main.js' %}"></script>

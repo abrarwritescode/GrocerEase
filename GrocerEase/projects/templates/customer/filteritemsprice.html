@@ -1,24 +1,37 @@
-<p>{{ items|length }} results found</p>
-    <div class="container">
-        <div class="grid grid--three">
-            {% for item in items %}
-                <div class="column">
-                    <img class="project__thumbnail" src="{{ item.itemfeaturedimage.url }}" alt="project thumbnail" />
-                    <div class="card project">
-                        <div class="card__body">
-                            <h3 class="project__title">{{ item.itemtitle }}</h3>
-                            <h3 class="project__title">BDT {{ item.itemprice }}</h3>
-                            <ul>
-                                {% for category in item.category.all %}
-                                    <li>{{ category.categoryname }}</li>
-                                {% endfor %}
-                            </ul>
-                            <h3 class="project__title">Seller: {{ item.seller.storename }}</h3>
-                            <h3 class="project__title">Quantity: {{ item.itemquantity }}</h3>
-                            <p>{{ item.itemdescription }}</p>
+<div class="search-body-area-result">
+    <p>{{ items|length }} results found</p>
+    <div class="row">
+        {% for item in items %}
+            {% if forloop.counter0|divisibleby:4 %}
+                </div>  {# Close the previous row if it contains 4 cards #}
+                <div class="row">
+            {% endif %}
+            <div class="col-md-6 col-lg-3">
+                <div class="product">
+                    <a href="#" class="img-prod"><img class="img-fluid" src="{{ item.itemfeaturedimage.url }}" alt="">
+                        <div class="overlay"></div>
+                    </a>
+                    <div class="text py-3 pb-4 px-3 text-center">
+                        <h3><strong>{{item.itemtitle}}</strong></h3>
+                        <div class="d-flex">
+                            <div class="pricing">
+                                <p class="price"><span class="price-sale">BDT {{item.itemprice}}</span></p>
+                            </div>
+                        </div>
+                        <div class="bottom-area d-flex px-3">
+                            <div class="m-auto d-flex">
+                                <a href="{% url 'singleitemcustomer' item.id %}" class="add-to-cart d-flex justify-content-center align-items-center text-center">
+                                    <span><i class="ion-ios-menu"></i></span>
+                                </a>
+                                <a href="" data-product="{{item.id}}" data-action="add" class="add-btn update-cart add-to-cart buy-now d-flex justify-content-center align-items-center mx-1">
+                                    <span><i class="ion-ios-cart"></i></span>
+                                </a>                           
+    
+                            </div>
                         </div>
                     </div>
                 </div>
-            {% endfor %}
-        </div>
+            </div>
+        {% endfor %}
     </div>
+</div>
