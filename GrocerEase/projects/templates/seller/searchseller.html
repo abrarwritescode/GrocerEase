@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
-<head>
+<head> 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GrocerEase | Home </title>
@@ -50,7 +50,6 @@
 
 								<li>
 									<div class="header-icons">
-										<a class="mobile-hide search-bar-icon" href="{% url 'searchseller' seller_id=request.session.seller_id  %}"><i class="fas fa-search"></i></a>
                                         <a href="{% url 'logoutseller' %}"><i class="fas fa-sign-out-alt"></i></a>
                                         <a href="{% url 'sellerprofile' seller_id=request.session.seller_id %}"><i class="fas fa-user"></i></a>									
 
@@ -72,7 +71,7 @@
 	<!-- end header -->
 
 
-<div class="footer-area">
+<div style="height: 30vh;" class="footer-area">
     <div class="container">
        
             <div class="container">
@@ -93,7 +92,9 @@
                 <a style="height: 7px; width: 25px; color: white; background-color: orangered; border-radius: 7px; margin: 10px;" href="">cat1</a>
                 <a style="height: 7px; width: 25px; color: white; background-color: orangered; border-radius: 7px; margin: 10px;" href="">cat2</a>
                 <a style="height: 7px; width: 25px; color: white; background-color: orangered; border-radius: 7px; margin: 10px;" href="">cat3</a>  </div>
-       
+       <!-- Container for live search results -->
+    <div id="searchResultsContainer"></div>
+
     </div>
 </div>
 
