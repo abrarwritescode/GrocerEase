@@ -1,10 +1,102 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RRF Filter By Category</title>
+    </head>
+
+    <style>
+
+body{
+    background-color: rgb(130, 128, 128);
+}
+
+.attribute {
+        font-size: 18px;
+        font-style: normal;
+        position: relative;
+        top: 100px;
+        font-family: 'Times New Roman', Times, serif;
+		color: black;
+        }
+
+.banner{
+  max-width: 600px;
+  height: 300px;
+  margin: auto;
+  text-align: center;
+  font-family: 'Times New Roman', Times, serif;
+  background-color: white;
+  position: relative;
+  top: 100px;
+  border-radius: 5px;
+    }
+
+label {
+    position: relative;
+    right: 10px;
+}
+.banner form input[type="submit"]{
+  float: left;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  text-decoration:none;
+  font-size: 15px;
+  background-color: #f28123;
+  margin: 10px;
+  border-radius: 20px;
+  font-family: 'Times New Roman', Times, serif;
+  border: none;
+  position: relative;
+  top: 120px;
+  left: 220px;
+}
+
+.banner a{
+  float: left;
+  display: block;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  text-decoration:none;
+  font-size: 15px;
+  background-color: #f28123;
+  margin: 10px;
+  border-radius: 20px;
+  font-family: 'Times New Roman', Times, serif;
+  border: none;
+  position: relative;
+  top: 120px;
+  left: 220px;
+}
+
+    </style>
+
+<body>
+
+
+
+<div class = "banner">
 {% block content %}
+  <form method = "POST" action = "" >
+	{% csrf_token %}
 
-<form action="" method="POST">
-    {% csrf_token %}
-    <p>Are you sure you want to delete "{{ object }}"?</p>
-    <a href="{% url 'homeseller' seller_id=request.session.seller_id %}">Go Back</a>
-    <input type="submit" value="Confirm"/>
-</form> 
+        <div class = "attribute">
+			<p>Are you sure you want to delete "{{ object }}"?</p>
+		</div>
+	<a href="{% url 'homeseller' seller_id=request.session.seller_id %}">Go Back</a>
+    <input type="submit" name = "Confirm" >
 
+  </form>
 {% endblock %}
+                                    
+
+</div>
+
+
+</body>
+</html>
