@@ -175,7 +175,7 @@
                     <div id="category-items">
                         <!-- Items will be displayed here using Django template tags -->
                     </div>
-                    <form action="{% url 'filteritemsbyprice' %}" method="get">
+                    <form id="filterForm" method="get">
                         <label for="min_price">Min Price:</label>
                         <input type="text" id="min_price" name="min_price">
                         
@@ -184,8 +184,13 @@
                         
                         <div id="price-range-slider"></div>
                         
-                        <button type="submit">Filter</button>
+                        <button type="submit" id="filterButton">Filter</button>
                     </form>
+                    
+                    <div id="filteredResultsContainer">
+                        <!-- Filtered results will be displayed here -->
+                    </div>
+                    
                     
     <!-- Container for live search results -->
     <div id="searchResultsContainer"></div>
@@ -265,31 +270,8 @@
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 
     <script>
-        $(document).ready(function () {
-            // Initially hide the search results container
-            $('#searchResultsContainer').hide();
-
-            $('#searchInput').on('input', function () {
-                var searchQuery = $(this).val();
-                $.ajax({
-                    type: 'GET',
-                    url: "{% url 'search' customer_id=request.session.customer_id %}",
-                    data: { search_query: searchQuery },
-                    success: function (data) {
-                        // Check if there are search results and the searchQuery is not empty
-                        if (data.trim() !== '' && searchQuery.trim() !== '') {
-                            $('#searchResultsContainer').html(data).show();
-                        } else {
-                            // Hide the container if there are no search results or if the searchQuery is empty
-                            $('#searchResultsContainer').hide();
-                        }
-                    }
-                });
-            });
-        });
-    </script>
-    <script>
         $(document).ready(function() {
+            // Initialize the price range slider
             $("#price-range-slider").slider({
                 range: true,
                 min: 0,  // Set your minimum price range value
@@ -300,11 +282,23 @@
                     $("#max_price").val(ui.values[1]);
                 }
             });
-    
-            // Display initial slider values in the input fields
-            $("#min_price").val($("#price-range-slider").slider("values", 0));
-            $("#max_price").val($("#price-range-slider").slider("values", 1));
+            
+            $("#filterForm").on("submit", function(event) {
+                event.preventDefault(); // Prevent the default form submission
+                var minPrice = $("#min_price").val();
+                var maxPrice = $("#max_price").val();
+        
+                $.ajax({
+                    type: "GET",
+                    url: "{% url 'filteritemsbyprice' %}", // Update with the correct URL
+                    data: { min_price: minPrice, max_price: maxPrice },
+                    success: function(data) {
+                        $("#filteredResultsContainer").html(data);
+                    }
+                });
+            });
         });
+        
     </script>
     
 </body>
