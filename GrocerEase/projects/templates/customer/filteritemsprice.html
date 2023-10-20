@@ -20,9 +20,10 @@
                         </div>
                         <div class="bottom-area d-flex px-3">
                             <div class="m-auto d-flex">
-                                <a href="{% url 'singleitemcustomer' item.id %}" class="add-to-cart d-flex justify-content-center align-items-center text-center">
+                                <a href="{% url 'singleitemcustomer' pk=item.id customer_id=request.session.customer_id %}" class="add-to-cart d-flex justify-content-center align-items-center text-center">
                                     <span><i class="ion-ios-menu"></i></span>
                                 </a>
+                                
                                 <a href="" data-product="{{item.id}}" data-action="add" class="add-btn update-cart add-to-cart buy-now d-flex justify-content-center align-items-center mx-1">
                                     <span><i class="ion-ios-cart"></i></span>
                                 </a>                           
