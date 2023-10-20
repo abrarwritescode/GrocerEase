@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OTP Verification</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="grid grid--three">
+          {% for item in items %}
+              <div class="column">
+                  <img class="project__thumbnail" src="{{ item.itemfeaturedimage.url }}" alt="project thumbnail" />
+                  <div class="card project">
+                      <div class="card__body">
+                          <h3 class="project__title">{{ item.itemtitle }}</h3>
+                          <h3 class="project__title">{{ item.itemprice }}</h3>
+                          <ul>
+                              {% for category in item.category.all %}
+                                  <h3>{{ category.categoryname }}</h3>
+                              {% endfor %}
+                          </ul>
+                          <h3 class="project__title">{{ item.seller.storename }}</h3>
+                          <h3 class="project__title">{{ item.itemquantity }}</h3>
+                          <h3 class="project__title">{{ item.itemdescription }}</h3>
+                      </div>
+                  </div>
+              </div>
+          {% endfor %}
+      </div>
+  </div>
+  
+
+  </body>
+</html>

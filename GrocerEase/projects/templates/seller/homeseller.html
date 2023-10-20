@@ -1,0 +1,46 @@
+{% extends 'seller/mainhomeseller.html' %}
+{% load static %}
+{% block content %}
+
+<div style="position: relative; top: 40px;" class="container">
+	<div class="row justify-content-center mb-3 pb-3">
+		<div class="col-md-12 heading-section text-center ftco-animate">
+				<h2 class="mb-4">My Products</h2>
+		</div>
+	</div>   		
+</div>
+
+
+<div class="row">
+{% for item in items %} 
+	<div style="position: relative; top: 30px;" class="col-md-6 col-lg-3 ftco-animate">
+		<div class="product">
+			<a href="#" class="img-prod"><img class="img-fluid" src="{{ item.itemfeaturedimage.url }}" alt="">
+				<div class="overlay"></div>
+			</a>
+			<div class="text py-3 pb-4 px-3 text-center">
+				<h3><strong>{{item.itemtitle}}</strong></h3>
+                <a href="{% url 'updateitem' item.id %}">Edit</a>
+    				<a href="{% url 'deleteitem' item.id %}">Delete</a>
+				<div class="d-flex">
+					<div class="pricing">
+						<p class="price"><span class="price-sale">BDT {{item.itemprice}}</span></p>
+					</div>
+                    
+				</div>
+				<div class="bottom-area d-flex px-3">
+					<div class="m-auto d-flex">
+						<a href="{% url 'singleitem' item.id %}" class="add-to-cart d-flex justify-content-center align-items-center text-center">
+							<span><i class="ion-ios-menu"></i></span>
+						</a>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endfor %}
+</div>
+
+{% endblock content %}
+

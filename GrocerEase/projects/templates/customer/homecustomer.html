@@ -1,0 +1,355 @@
+{% extends 'customer/mainhome.html' %}
+{% load static %}
+{% block content %}
+<div>
+
+    <section class="ftco-section">
+        <div class="container">
+            <div class="row no-gutters ftco-services">
+      <div class="col-md-3 text-center d-flex align-self-stretch ftco-animate">
+        <div class="media block-6 services mb-md-0 mb-4">
+          <div class="icon bg-color-1 active d-flex justify-content-center align-items-center mb-2">
+                <span class="flaticon-shipped"></span>
+          </div>
+          <div class="media-body">
+            <h3 class="heading">Free Shipping</h3>
+            <span>On order over BDT 10,000</span>
+          </div>
+        </div>      
+      </div>
+      <div class="col-md-3 text-center d-flex align-self-stretch ftco-animate">
+        <div class="media block-6 services mb-md-0 mb-4">
+          <div class="icon bg-color-2 d-flex justify-content-center align-items-center mb-2">
+                <span class="flaticon-diet"></span>
+          </div>
+          <div class="media-body">
+            <h3 class="heading">Always Fresh</h3>
+            <span>Product well package</span>
+          </div>
+        </div>    
+      </div>
+      <div class="col-md-3 text-center d-flex align-self-stretch ftco-animate">
+        <div class="media block-6 services mb-md-0 mb-4">
+          <div class="icon bg-color-3 d-flex justify-content-center align-items-center mb-2">
+                <span class="flaticon-award"></span>
+          </div>
+          <div class="media-body">
+            <h3 class="heading">Superior Quality</h3>
+            <span>Quality Products</span>
+          </div>
+        </div>      
+      </div>
+      <div class="col-md-3 text-center d-flex align-self-stretch ftco-animate">
+        <div class="media block-6 services mb-md-0 mb-4">
+          <div class="icon bg-color-4 d-flex justify-content-center align-items-center mb-2">
+                <span class="flaticon-customer-service"></span>
+          </div>
+          <div class="media-body">
+            <h3 class="heading">Support</h3>
+            <span>24/7 Support</span>
+          </div>
+        </div>      
+      </div>
+    </div>
+        </div>
+    </section>
+
+    <div class="section-title">
+        <h2>Featured Categories</h2>
+    </div>
+    
+    <section class="ftco-section ftco-category ftco-no-pt">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row categories__slider owl-carousel">
+                    {% for category in categories %}
+                        <div class="col-md-4">
+                            <div class="category-wrap ftco-animate img mb-4 d-flex align-items-end" style="background-image: url('{{ category.categoryimage.url }}');">
+                                <div class="text px-3 py-1">
+                                    <h2 class="mb-0"><a href="#">{{category.categoryname}}</a></h2>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>    
+    
+
+    <div class="container">
+        <div class="row justify-content-center mb-3 pb-3">
+            <div class="col-md-12 heading-section text-center ftco-animate">
+                    <h2 class="mb-4">Our Products</h2>
+                    <p>At Grocerease, we're committed to bringing you a wide selection of high-quality products at competitive prices.</p>
+            </div>
+        </div>   		
+    </div>
+
+
+<div class="row">
+    {% for item in products %} 
+        <div class="col-md-6 col-lg-3 ftco-animate">
+            <div class="product">
+                <a href="#" class="img-prod"><img class="img-fluid" src="{{ item.itemfeaturedimage.url }}" alt="">
+                    <div class="overlay"></div>
+                </a>
+                <div class="text py-3 pb-4 px-3 text-center">
+                    <h3><strong>{{item.itemtitle}}</strong></h3>
+                    <div class="d-flex">
+                        <div class="pricing">
+                            <p class="price"><span class="price-sale">BDT {{item.itemprice}}</span></p>
+                        </div>
+                    </div>
+                    <div class="bottom-area d-flex px-3">
+                        <div class="m-auto d-flex">
+                            <a href="{% url 'singleitemcustomer' item.id %}" class="add-to-cart d-flex justify-content-center align-items-center text-center">
+                                <span><i class="ion-ios-menu"></i></span>
+                            </a>
+                            <a href="{% url 'cart' customer_id=request.session.customer_id %}" data-product="{{item.id}}" data-action="add" class="add-btn update-cart add-to-cart buy-now d-flex justify-content-center align-items-center mx-1">
+                                <span><i class="ion-ios-cart"></i></span>
+                            </a>                           
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+	{% endfor %}
+  </div>
+
+  <!-- Latest Product Section Begin -->
+  <section class="latest-product spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-6">
+                <div class="latest-product__text">
+                    <h4>Latest Products</h4>
+                    <div class="latest-product__slider owl-carousel">
+                        <div class="latest-prdouct__slider__item">
+                            <a href="#" class="latest-product__item">
+                                <div class="latest-product__item__pic">
+                                    <img src="{% static 'assets/assets2/images/product-1.jpg' %}" alt="">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>Crab Pool Security</h6>
+                                    <span>BDT 30.00</span>
+                                </div>
+                            </a>
+                            <a href="#" class="latest-product__item">
+                                <div class="latest-product__item__pic">
+                                    <img src="{% static 'assets/assets2/images/product-2.jpg' %}" alt="">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>Crab Pool Security</h6>
+                                    <span>BDT 30.00</span>
+                                </div>
+                            </a>
+                            <a href="#" class="latest-product__item">
+                                <div class="latest-product__item__pic">
+                                    <img src="{% static 'assets/assets2/images/product-3.jpg' %}" alt="">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>Crab Pool Security</h6>
+                                    <span>BDT 30.00</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="latest-prdouct__slider__item">
+                            <a href="#" class="latest-product__item">
+                                <div class="latest-product__item__pic">
+                                    <img src="{% static 'assets/assets2/images/product-4.jpg' %}" alt="">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>Crab Pool Security</h6>
+                                    <span>BDT 30.00</span>
+                                </div>
+                            </a>
+                            <a href="#" class="latest-product__item">
+                                <div class="latest-product__item__pic">
+                                    <img src="{% static 'assets/assets2/images/product-5.jpg' %}" alt="">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>Crab Pool Security</h6>
+                                    <span>BDT 30.00</span>
+                                </div>
+                            </a>
+                            <a href="#" class="latest-product__item">
+                                <div class="latest-product__item__pic">
+                                    <img src="{% static 'assets/assets2/images/product-6.jpg' %}" alt="">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>Crab Pool Security</h6>
+                                    <span>BDT 30.00</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- top rated Products -->
+            
+            <div class="col-lg-4 col-md-6">
+                <div class="latest-product__text">
+                    <h4>Top Rated Products</h4>
+                    <div class="latest-product__slider owl-carousel">
+                        <div class="latest-prdouct__slider__item">
+                            <a href="#" class="latest-product__item">
+                                <div class="latest-product__item__pic">
+                                    <img src="{% static 'assets/assets2/images/product-8.jpg' %}" alt="">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>Crab Pool Security</h6>
+                                    <span>BDT 30.00</span>
+                                </div>
+                            </a>
+                            <a href="#" class="latest-product__item">
+                             <div class="latest-product__item__pic">
+                                    <img src="{% static 'assets/assets2/images/product-7.jpg' %}" alt="">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>Crab Pool Security</h6>
+                                    <span>BDT 30.00</span>
+                                </div>
+                            </a>
+                            <a href="#" class="latest-product__item">
+                                <div class="latest-product__item__pic">
+                                    <img src="{% static 'assets/assets2/images/product-6.jpg' %}" alt="">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>Crab Pool Security</h6>
+                                    <span>BDT 30.00</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="latest-prdouct__slider__item">
+                            <a href="#" class="latest-product__item">
+                                <div class="latest-product__item__pic">
+                                    <img src="{% static 'assets/assets2/images/product-5.jpg' %}" alt="">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>Crab Pool Security</h6>
+                                    <span>BDT 30.00</span>
+                                </div>
+                            </a>
+                            <a href="#" class="latest-product__item">
+                                <div class="latest-product__item__pic">
+                                    <img src="{% static 'assets/assets2/images/product-4.jpg' %}" alt="">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>Crab Pool Security</h6>
+                                    <span>BDT 30.00</span>
+                                </div>
+                            </a>
+                            <a href="#" class="latest-product__item">
+                                <div class="latest-product__item__pic">
+                                    <img src="{% static 'assets/assets2/images/product-3.jpg' %}" alt="">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>Crab Pool Security</h6>
+                                    <span>BDT 30.00</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="latest-product__text">
+                    <h4>On Sale</h4>
+                    <div class="latest-product__slider owl-carousel">
+                        <div class="latest-prdouct__slider__item">
+                            <a href="#" class="latest-product__item">
+                                <div class="latest-product__item__pic">
+                                    <img src="{% static 'assets/assets2/images/product-5.jpg' %}" alt="">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>Crab Pool Security</h6>
+                                    <span>BDT 30.00</span>
+                                </div>
+                            </a>
+                            <a href="#" class="latest-product__item">
+                                <div class="latest-product__item__pic">
+                                    <img src="{% static 'assets/assets2/images/product-1.jpg' %}" alt="">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>Crab Pool Security</h6>
+                                    <span>BDT 30.00</span>
+                                </div>
+                            </a>
+                            <a href="#" class="latest-product__item">
+                                <div class="latest-product__item__pic">
+                                    <img src="{% static 'assets/assets2/images/product-3.jpg' %}" alt="">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>Crab Pool Security</h6>
+                                    <span>BDT 30.00</span>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="latest-prdouct__slider__item">
+                            <a href="#" class="latest-product__item">
+                                <div class="latest-product__item__pic">
+                                    <img src="{% static 'assets/assets2/images/product-7.jpg' %}" alt="">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>Crab Pool Security</h6>
+                                    <span>BDT 30.00</span>
+                                </div>
+                            </a>
+                            <a href="#" class="latest-product__item">
+                                <div class="latest-product__item__pic">
+                                    <img src="{% static 'assets/assets2/images/product-2.jpg' %}" alt="">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>Crab Pool Security</h6>
+                                    <span>BDT 30.00</span>
+                                </div>
+                            </a>
+                            <a href="#" class="latest-product__item">
+                                <div class="latest-product__item__pic">
+                                    <img src="{% static 'assets/assets2/images/product-4.jpg' %}" alt="">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>Crab Pool Security</h6>
+                                    <span>BDT 30.00</span>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Latest Product Section End -->
+ 
+  <!-- deal of the day -->
+
+  <section class="ftco-section img" style="background-image: url('{% static 'assets/assets2/images/bg_3.jpg' %}');">
+
+    <div class="container">
+            <div class="row justify-content-end">
+      <div class="col-md-6 heading-section ftco-animate deal-of-the-day ftco-animate">
+          <span class="subheading">Best Price For You</span>
+        <h2 class="mb-4">Deal of the day</h2>
+        <h3><a href="#">Spinach</a></h3>
+        <span class="price">BDT 10 <a href="#">now BDT 5 only</a></span>
+        <div id="timer" class="d-flex mt-5">
+                      <div class="time" id="days"></div>
+                      <div class="time pl-3" id="hours"></div>
+                      <div class="time pl-3" id="minutes"></div>
+                      <div class="time pl-3" id="seconds"></div>
+                    </div>
+      </div>
+    </div>   		
+    </div>
+</section>
+
+
+
+</div>     
+{% endblock content %}

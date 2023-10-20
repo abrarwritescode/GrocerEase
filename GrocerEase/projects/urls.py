@@ -1,67 +1,41 @@
 from django.urls import path
-from . import views
-from .views import reset_password, verify_reset_otp, change_password, reset_seller_password, verify_reset_seller_otp, change_seller_password
+
+from .views.customer.imports.customerviewsimport import *
+
+from .views.seller.imports.sellerviewsimport import *
+
+
 urlpatterns = [
-    path('', views.registercustomer, name="signupcustomer"), 
-    # '' --> root domain
-    
-    path('signupcustomer/', views.registercustomer, name='signupcustomer'),
-
-    path('logincustomer/', views.logincustomer, name='logincustomer'),
-
-    path('logoutcustomer/', views.logoutcustomer, name='logoutcustomer'),
-
-    path('verify_otpcustomer/', views.verifyotpcustomer, name='verify_otpcustomer'),
-
-    path('homecustomer/<int:customer_id>/', views.homecustomer, name='homecustomer'),
-
-    path('customerprofile/<int:customer_id>/', views.customerprofile, name='customerprofile'),
-
-    path('signupseller/', views.registerseller, name='signupseller'),
-
-    path('loginseller/', views.loginseller, name='loginseller'),
-
-    path('logoutseller/', views.logoutseller, name='logoutseller'),
-
-    path('verify_otpseller/', views.verifyotpseller, name='verify_otpseller'),
-
-    path('homeseller/<int:seller_id>/', views.homeseller, name='homeseller'),
-
-    path('sellerprofile/<int:seller_id>/', views.sellerprofile, name='sellerprofile'),
-
-    path('uploaditem/<int:seller_id>/', views.uploadItem, name='uploaditem'),
-
-    path('singleitem/<str:pk>/', views.singleitem, name="singleitem"),
-
-    path('updateitem/<str:pk>/', views.updateItemSeller, name="updateitem"),
-
-    path('deleteitem/<str:pk>/', views.deleteItem, name="deleteitem"),
-
-    path('cart/<int:customer_id>/', views.cart, name="cart"),
-
-    path('checkout/<int:customer_id>/', views.checkout, name="checkout"),
-
-    path('update_item/', views.updateItem, name="update_item"),
-
-    path('myitem/<int:seller_id>/', views.myItem, name="myselleritem"),
-
-    path('singleitemcustomer/<str:pk>/', views.singleitemcustomer, name="singleitemcustomer"),
-    path('reset_password/', reset_password, name='reset_password'),
-    path('verify_reset_otp/<str:email>/', verify_reset_otp, name='verify_reset_otp'),
-    path('change_password/<str:email>/', change_password, name='change_password'),
-
-    path('search/', views.items, name="items"),
-    path('reset_seller_password/', reset_seller_password, name='reset_seller_password'),
-    path('verify_reset_seller_otp/<str:email>/', verify_reset_seller_otp, name='verify_reset_seller_otp'),
-    path('change_seller_password/<str:email>/', change_seller_password, name='change_seller_password'),
-    
+    path('signupcustomer/', registercustomer, name='signupcustomer'),
+    path('verify_otpcustomer/', verifyotpcustomer, name='verify_otpcustomer'),
+    path('logincustomer/', logincustomer, name='logincustomer'),
+    path('homecustomer/<int:customer_id>/', homecustomer, name='homecustomer'),
+    path('customerprofile/<int:customer_id>/', customerprofile, name='customerprofile'),
+    path('logoutcustomer/', logoutcustomer, name='logoutcustomer'),
+    path('cart/<int:customer_id>/', cart, name="cart"),
+    path('itemdetails/<str:pk>/', itemdetails, name="singleitemcustomer"),
+    path('updatecart/', updatecart, name="updatecart"),
+    path('checkout/<int:customer_id>/', checkout, name="checkout"),
+    path('resetpassword/', sendcustomerresetotp, name='reset_password'),
+    path('verifyresetotp/<str:email>/', verifycustomerresetotp, name='verify_reset_otp'),
+    path('changeassword/<str:email>/', changecustomerpassword, name='change_password'),
+    path('search/<int:customer_id>/', searchitems, name="search"),
+    path('shop/<int:customer_id>/', viewshop, name="shop"),
 
 
-    path('search/<int:customer_id>/', views.search, name="search"),
-
-    path('searchseller/<int:seller_id>/', views.searchseller, name="searchseller"),
-
-    path('shop/<int:customer_id>/', views.viewshop, name="shop"),
-
-
+    path('signupseller/', registerseller, name='signupseller'),
+    path('verify_otpseller/', verifyotpseller, name='verify_otpseller'),
+    path('loginseller/', loginseller, name='loginseller'),
+    path('logoutseller/', logoutseller, name='logoutseller'),
+    path('homeseller/<int:seller_id>/', homeseller, name='homeseller'),
+    path('sellerprofile/<int:seller_id>/', sellerprofile, name='sellerprofile'),
+    path('myitems/<int:seller_id>/', myitems, name="myselleritem"),
+    path('itemdetails/<str:pk>/', myitemdetails, name="singleitem"),
+    path('uploaditem/<int:seller_id>/', uploaditem, name='uploaditem'),
+    path('updateitem/<str:pk>/', updateitem, name="updateitem"),
+    path('deleteitem/<str:pk>/', deleteitem, name="deleteitem"),
+  # path('searchseller/<int:seller_id>/', views.searchseller, name="searchseller"),
+    path('resetsellerpassword/', sendsellerresetotp, name='reset_seller_password'),
+    path('verifyresetseller_otp/<str:email>/', verifysellerresetotp, name='verify_reset_seller_otp'),
+    path('changesellerpassword/<str:email>/', changesellerpassword, name='change_seller_password'),
 ] 
