@@ -175,8 +175,19 @@
                     <div id="category-items">
                         <!-- Items will be displayed here using Django template tags -->
                     </div>
+                    <form action="{% url 'filteritemsbyprice' %}" method="get">
+                        <label for="min_price">Min Price:</label>
+                        <input type="text" name="min_price" id="min_price">
+                        
+                        <label for="max_price">Max Price:</label>
+                        <input type="text" name="max_price" id="max_price">
+                        
+                        <button type="submit">Filter</button>
+                    </form>
+                    
     <!-- Container for live search results -->
     <div id="searchResultsContainer"></div>
+
 
     <!-- footer -->
     <div class="footer-area">

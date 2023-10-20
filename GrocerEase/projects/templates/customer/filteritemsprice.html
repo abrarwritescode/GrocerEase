@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Filtered Items</title>
+</head>
+<body>
+    <h1>Filtered Items</h1>
+    <ul>
+        {% for item in items %}
+            <li>
+                <p>Title: {{ item.itemtitle }}</p>
+                <p>Price: ${{ item.itemprice }}</p>
+                <!-- Add more fields as needed -->
+            </li>
+        {% empty %}
+            <p>No items match the selected criteria.</p>
+        {% endfor %}
+    </ul>
+</body>
+</html>

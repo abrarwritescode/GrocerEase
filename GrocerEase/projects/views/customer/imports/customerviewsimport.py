@@ -14,3 +14,4 @@ from projects.views.customer.resetpassword.newpassword import changecustomerpass
 from projects.views.customer.searchfilter.searchitemcategoryseller import searchitems
 from projects.views.customer.shopnavbar.viewshop import viewshop
 from projects.views.customer.searchfilter.filteritemsbycategory import filteritemsbycategory
+from projects.views.customer.searchfilter.filteritemsbyprice import filteritemsbyprice
