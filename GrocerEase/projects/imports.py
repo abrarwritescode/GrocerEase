@@ -25,5 +25,6 @@ from django.contrib.auth.forms import PasswordResetForm
 from django.conf import settings
 from django.db.models import Q
 from django.template.loader import render_to_string
+from django.template import loader
 
 

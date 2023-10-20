@@ -1,20 +1,24 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Filtered Items</title>
-</head>
-<body>
-    <h1>Filtered Items</h1>
-    <ul>
-        {% for item in items %}
-            <li>
-                <p>Title: {{ item.itemtitle }}</p>
-                <p>Price: ${{ item.itemprice }}</p>
-                <!-- Add more fields as needed -->
-            </li>
-        {% empty %}
-            <p>No items match the selected criteria.</p>
-        {% endfor %}
-    </ul>
-</body>
-</html>
+<p>{{ items|length }} results found</p>
+    <div class="container">
+        <div class="grid grid--three">
+            {% for item in items %}
+                <div class="column">
+                    <img class="project__thumbnail" src="{{ item.itemfeaturedimage.url }}" alt="project thumbnail" />
+                    <div class="card project">
+                        <div class="card__body">
+                            <h3 class="project__title">{{ item.itemtitle }}</h3>
+                            <h3 class="project__title">BDT {{ item.itemprice }}</h3>
+                            <ul>
+                                {% for category in item.category.all %}
+                                    <li>{{ category.categoryname }}</li>
+                                {% endfor %}
+                            </ul>
+                            <h3 class="project__title">Seller: {{ item.seller.storename }}</h3>
+                            <h3 class="project__title">Quantity: {{ item.itemquantity }}</h3>
+                            <p>{{ item.itemdescription }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
