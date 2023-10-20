@@ -8,7 +8,7 @@ from projects.views.seller.itemactions.uploaditem import uploaditem
 from projects.views.seller.itemactions.updateitem import updateitem
 from projects.views.seller.itemactions.deleteitem import deleteitem
 from projects.views.seller.items.viewdetails import myitemdetails
-from projects.views.seller.items.myitems import myitems
+from projects.views.seller.items.myitems import myitems 
 from projects.views.seller.resetpassword.sendotp import sendsellerresetotp
 from projects.views.seller.resetpassword.verifyotp import verifysellerresetotp
 from projects.views.seller.resetpassword.newpassword import changesellerpassword
