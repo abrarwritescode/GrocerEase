@@ -171,7 +171,16 @@
     <a style="height: 7px; width: 25px; color: white; background-color: orangered; border-radius: 7px; margin: 10px;"
                     href="">cat3</a> {% endcomment %}
     
+                    <ul>
+                        <li><a href="{% url 'filteritemsbycategory' 'Vegetables' %}">Vegetables</a></li>
+                        <li><a href="{% url 'filteritemsbycategory' 'Fruits' %}">Fruits</a></li>
+                        
+                        <!-- Add more category links as needed -->
+                    </ul>
 
+                    <div id="category-items">
+                        <!-- Items will be displayed here using Django template tags -->
+                    </div>
     <!-- Container for live search results -->
     <div id="searchResultsContainer"></div>
 

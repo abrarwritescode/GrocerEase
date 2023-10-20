@@ -21,6 +21,7 @@ urlpatterns = [
     path('changeassword/<str:email>/', changecustomerpassword, name='change_password'),
     path('search/<int:customer_id>/', searchitems, name="search"),
     path('shop/<int:customer_id>/', viewshop, name="shop"),
+    path('category/<str:category_name>/', filteritemsbycategory, name='filteritemsbycategory'),
 
 
     path('signupseller/', registerseller, name='signupseller'),
