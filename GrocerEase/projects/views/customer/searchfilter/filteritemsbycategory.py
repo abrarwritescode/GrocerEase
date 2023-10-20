@@ -8,4 +8,4 @@ def filteritemsbycategory(request, category_name):
             'category': category,
             'items': items_in_category,
         }
-        return render(request, 'customer/categoryitems.html', context)
+        return render(request, 'customer/filteritemscategory.html', context)

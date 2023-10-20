@@ -6,6 +6,7 @@
     </head>
     <body>
         <h1>{{ category.categoryname }}</h1>
+        <p>{{ items|length }} results found</p>
         <div class="container">
             <div class="grid grid--three">
                 {% for item in items %}
