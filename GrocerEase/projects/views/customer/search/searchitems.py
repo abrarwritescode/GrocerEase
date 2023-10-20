@@ -1,14 +1,8 @@
 from projects.imports import *
 
-from django.shortcuts import render
 from django.http import JsonResponse
 from django.template.loader import render_to_string
-
 from django.shortcuts import render
-
-
-from django.shortcuts import render
-from django.http import JsonResponse
 
 def searchitems(request, customer_id):
     customer = None

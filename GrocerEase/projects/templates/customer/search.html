@@ -2,8 +2,6 @@
 {% load static %}
 <html lang="en">
 <head>
-    <!-- Your head content here -->
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GrocerEase | Home</title>
@@ -86,7 +84,6 @@
     }
 </style>
 <body>
-     <!-- loader -->
      <!-- header -->
     <div class="top-header-area" id="sticker">
         <div class="container">
@@ -115,10 +112,7 @@
                                         <a class="shopping-cart" href="{% url 'cart' customer_id=request.session.customer_id %}">
                                             <i id="cart-icon" class="fas fa-shopping-cart"></i>
                                         </a>
-                                        <a class="mobile-hide search-bar-icon"
-                                            href="{% url 'search' customer_id=request.session.customer_id  %}">
-                                            <i class="fas fa-search"></i>
-                                        </a>
+                                        
                                         <a href="{% url 'logoutcustomer' %}">
                                             <i class="fas fa-sign-out-alt"></i>
                                         </a>
@@ -141,7 +135,7 @@
         </div>
     </div>
  <!-- end header -->
-    <div class="footer-area">
+    <div style="height: 30vh;" class="footer-area">
         <div class="container">
             <div class="container">
                 <div class="row">
@@ -178,17 +172,17 @@
     <!-- footer -->
     <div class="footer-area">
         <div class="container">
-            <div class="row">
+            <div class="row" style="position: relative; top: 20vh;">
                 <div class="col-lg-3 col-md-6">
                     <div class="footer-box about-widget">
                         <h2 class="widget-title">About us</h2>
                         <p>Your one-stop online destination for all your grocery shopping needs. We understand
                             the importance of convenience in today's fast-paced world, and that's why we're here
-                            to simplify your shopping experience and make it as effortless as possible.</p>
+                            to make your shopping as effortless as possible.</p>
                     </div>
                 </div>
                 <div class="col-lg-3 col-md-6">
-                    <div class "footer-box get-in-touch">
+                    <div class="footer-box get-in-touch">
                     <h2 class="widget-title">Get in Touch</h2>
                     <ul>
                         <li>Dhaka, Bangladesh</li>
@@ -207,12 +201,9 @@
             </div>
             <div class="col-lg-3 col-md-6">
                 <div class="footer-box subscribe">
-                    <h2 class="widget-title">Subscribe</h2>
-                    <p>Subscribe to our mailing list to get the latest updates.</p>
-                    <form action="{% url 'homecustomer' customer_id=request.session.customer_id %}">
-                        <input type="email" placeholder="Email">
-                        <button type="submit"><i class="fas fa-paper-plane"></i></button>
-                    </form>
+                    <h2 class="widget-title">Follow us</h2>
+                    <p>To get the latest updates.</p>
+                    
                 </div>
             </div>
         </div>
