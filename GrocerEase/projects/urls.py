@@ -24,7 +24,8 @@ urlpatterns = [
     path('category/<str:category_name>/', filteritemsbycategory, name='filteritemsbycategory'),
     path('filterbyprice/', filteritemsbyprice, name='filteritemsbyprice'),
 
-
+    path('selleritems/<int:seller_id>/', selleritems, name='selleritems'),
+    
     path('signupseller/', registerseller, name='signupseller'),
     path('verify_otpseller/', verifyotpseller, name='verify_otpseller'),
     path('loginseller/', loginseller, name='loginseller'),

@@ -15,3 +15,4 @@ from projects.views.customer.searchfilter.searchitemcategoryseller import search
 from projects.views.customer.shopnavbar.viewshop import viewshop
 from projects.views.customer.searchfilter.filteritemsbycategory import filteritemsbycategory
 from projects.views.customer.searchfilter.filteritemsbyprice import filteritemsbyprice
+from  projects.views.customer.sellerdetails.viewselleritems import selleritems

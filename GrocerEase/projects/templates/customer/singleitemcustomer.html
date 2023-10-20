@@ -51,8 +51,9 @@
 							<p><strong>Categories: </strong>{{category}}</p>
                             {% endfor %}
 						</div>
-						
-					</div>
+						<p>
+							Seller: <a href="{% url 'selleritems' seller_id=item.seller.pk %}">{{ item.seller.storename }}</a>
+						</p>
 				</div>
 			</div>
 		</div>
