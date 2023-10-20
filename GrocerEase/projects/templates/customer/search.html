@@ -177,10 +177,12 @@
                     </div>
                     <form action="{% url 'filteritemsbyprice' %}" method="get">
                         <label for="min_price">Min Price:</label>
-                        <input type="text" name="min_price" id="min_price">
+                        <input type="text" id="min_price" name="min_price">
                         
                         <label for="max_price">Max Price:</label>
-                        <input type="text" name="max_price" id="max_price">
+                        <input type="text" id="max_price" name="max_price">
+                        
+                        <div id="price-range-slider"></div>
                         
                         <button type="submit">Filter</button>
                     </form>
@@ -259,6 +261,9 @@
     <script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
     <script>
         $(document).ready(function () {
             // Initially hide the search results container
@@ -283,5 +288,24 @@
             });
         });
     </script>
+    <script>
+        $(document).ready(function() {
+            $("#price-range-slider").slider({
+                range: true,
+                min: 0,  // Set your minimum price range value
+                max: 1000,  // Set your maximum price range value
+                values: [0, 1000],  // Set the initial values of the slider
+                slide: function(event, ui) {
+                    $("#min_price").val(ui.values[0]);
+                    $("#max_price").val(ui.values[1]);
+                }
+            });
+    
+            // Display initial slider values in the input fields
+            $("#min_price").val($("#price-range-slider").slider("values", 0));
+            $("#max_price").val($("#price-range-slider").slider("values", 1));
+        });
+    </script>
+    
 </body>
 </html>
