@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
-
 <head>
+    <!-- Your head content here -->
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GrocerEase | Home</title>
@@ -62,7 +63,6 @@
         }
         console.log('Cart:', cart)
     </script>
-
 </head>
 
 <style>
@@ -81,11 +81,13 @@
         justify-content: center;
         align-items: center;
     }
+    #searchResultsContainer {
+        display: none;
+    }
 </style>
-
 <body>
-    <!-- loader -->
-    <!-- header -->
+     <!-- loader -->
+     <!-- header -->
     <div class="top-header-area" id="sticker">
         <div class="container">
             <div class="row">
@@ -138,8 +140,7 @@
             </div>
         </div>
     </div>
-    <!-- end header -->
-
+ <!-- end header -->
     <div class="footer-area">
         <div class="container">
             <div class="container">
@@ -147,56 +148,32 @@
                     <div class="col-lg-12">
                         <div class="search-bar">
                             <div class="search-bar-tablecell">
-                                <h3>Search For:</h3>
-                                <form id='searchForm' class="form"
-                                    action="{% url 'search' customer_id=request.session.customer_id %}" method="get">
+                                <h3>Search By:</h3>
+                                <form id='searchForm' class="form" method="get">
                                     <div class="form__field">
-                                        <input class="input input--text" id="formInput#search" type="text"
-                                            name="search_query" placeholder="Items in GrocerEase" value="{{ search_query }}" />
+                                        <input class="input input--text" id="searchInput" type="text"
+                                            name="search_query" placeholder="Item, Category, Seller " value="{{ search_query }}" />
                                     </div>
-                                    <input class="btn btn--sub btn--lg" type="submit" value="Search" />
                                 </form>
-                                {% comment %} <button type="submit">Search <i class="fas fa-search"></i></button> {% endcomment %}
+    
                             </div>
                         </div>
                     </div>
                 </div>
-                {% if search_query %}
-                <div class="container">
-                    <div class="grid grid--three">
-                        {% for item in items %}
-                        <div class="column">
-                            <img class="project__thumbnail" src="{{item.itemfeaturedimage.url}}"
-                                alt="project thumbnail" />
-                            <div class="card project">
-                                <div class="card__body">
-                                    <h3 class="project__title">{{ item.itemtitle }}</h3>
-                                    <h3 class="project__title">{{ item.itemprice }}</h3>
-                                    <ul>
-                                        {% for category in item.category.all %}
-                                            <h3>{{ category.categoryname }}</h3>
-                                        {% endfor %}
-                                    </ul>
-                                    <h3 class="project__title">{{ item.seller.storename }}</h3>
-                                    
-                                    <h3 class="project__title">{{ item.itemquantity }}</h3>
-                                    <h3 class="project__title">{{ item.itemdescription }}</h3>
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-                {% endif %}
-                <a style="height: 7px; width: 25px; color: white; background-color: orangered; border-radius: 7px; margin: 10px;"
-                    href="">cat1</a>
-                <a style="height: 7px; width: 25px; color: white; background-color: orangered; border-radius: 7px; margin: 10px;"
-                    href="">cat2</a>
-                <a style="height: 7px; width: 25px; color: white; background-color: orangered; border-radius: 7px; margin: 10px;"
-                    href="">cat3</a>
             </div>
         </div>
     </div>
+
+    {% comment %} <a style="height: 7px; width: 25px; color: white; background-color: orangered; border-radius: 7px; margin: 10px;"
+                    href="">cat1</a>
+    <a style="height: 7px; width: 25px; color: white; background-color: orangered; border-radius: 7px; margin: 10px;"
+                    href="">cat2</a>
+    <a style="height: 7px; width: 25px; color: white; background-color: orangered; border-radius: 7px; margin: 10px;"
+                    href="">cat3</a> {% endcomment %}
+    
+
+    <!-- Container for live search results -->
+    <div id="searchResultsContainer"></div>
 
     <!-- footer -->
     <div class="footer-area">
@@ -242,7 +219,6 @@
     </div>
     </div>
     <!-- end footer -->
-
     <script src="{% static 'assets/assets1/js/jquery-1.11.3.min.js' %}"></script>
     <script src="{% static 'assets/assets1/bootstrap/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'assets/assets1/js/jquery.countdown.js' %}"></script>
@@ -270,6 +246,31 @@
     <script src="{% static 'assets/assets3/js/main.js' %}"></script>
 
     <script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
-</body>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            // Initially hide the search results container
+            $('#searchResultsContainer').hide();
+
+            $('#searchInput').on('input', function () {
+                var searchQuery = $(this).val();
+                $.ajax({
+                    type: 'GET',
+                    url: "{% url 'search' customer_id=request.session.customer_id %}",
+                    data: { search_query: searchQuery },
+                    success: function (data) {
+                        // Check if there are search results and the searchQuery is not empty
+                        if (data.trim() !== '' && searchQuery.trim() !== '') {
+                            $('#searchResultsContainer').html(data).show();
+                        } else {
+                            // Hide the container if there are no search results or if the searchQuery is empty
+                            $('#searchResultsContainer').hide();
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+</body>
 </html>

@@ -1,5 +1,15 @@
 from projects.imports import *
 
+from django.shortcuts import render
+from django.http import JsonResponse
+from django.template.loader import render_to_string
+
+from django.shortcuts import render
+
+
+from django.shortcuts import render
+from django.http import JsonResponse
+
 def searchitems(request, customer_id):
     customer = None
 
@@ -10,9 +20,9 @@ def searchitems(request, customer_id):
     if request.method == 'GET':
         search_query = request.GET.get('search_query', '')
         items = Item.objects.filter(
-            Q(itemtitle__iexact=search_query) |
-            Q(seller__storename__iexact=search_query) |  
-            Q(category__categoryname__iexact=search_query)  
+            Q(itemtitle__icontains=search_query) |
+            Q(seller__storename__icontains=search_query) |
+            Q(category__categoryname__icontains=search_query)
         )
 
         context = {
@@ -21,4 +31,10 @@ def searchitems(request, customer_id):
             'customer': customer,
         }
 
-        return render(request, 'customer/search.html', context)
+        if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+            # This is an AJAX request, return the search results as HTML
+            return render(request, 'customer/searchresult.html', context)
+
+    # For non-AJAX requests, return the full HTML page
+    return render(request, 'customer/search.html', context)
+
