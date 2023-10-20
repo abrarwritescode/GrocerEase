@@ -52,7 +52,7 @@
                             {% endfor %}
 						</div>
 						<p>
-							Seller: <a href="{% url 'selleritems' seller_id=item.seller.pk %}">{{ item.seller.storename }}</a>
+							Seller: <a href="{% url 'selleritems' seller_id=item.seller.pk customer_id=request.session.customer_id %}">{{ item.seller.storename }}</a>
 						</p>
 				</div>
 			</div>
