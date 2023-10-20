@@ -4,25 +4,116 @@
 <head> 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GrocerEase | Home</title>
+    <title>{{ category.categoryname }}</title>
     <link rel="shortcut icon" type="image/png" href="{% static 'assets/assets1/img/favicon.png' %}">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="{% static 'assets/assets1/css/main.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/assets1/css/all.min.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/assets1/css/owl.carousel.css' %}">
+	<link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+   
+   <link rel="stylesheet" href="{% static 'assets/assets1/css/main.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/assets1/css/all.min.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/assets1/css/owl.carousel.css' %}">
 
     <link rel="stylesheet" href="{% static 'assets/assets2/css/animate.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/assets2/css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/assets2/css/ionicons.min.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/assets2/css/flaticon.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/assets2/css/icomoon.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/assets2/css/style.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/assets2/css/ionicons.min.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/assets2/css/flaticon.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/assets2/css/icomoon.css' %}">
 
-    <link rel="stylesheet" href="{% static 'assets/assets3/css/style.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/assets3/css/style.css' %}">
 
-   <body>
+
+</head>
+<body>
+
+    <div style="position: relative; top: 50px;" class="section-title">
+        <h2>Filter Items by category: {{ category.categoryname }}</h2>
+        <p>{{ items|length }} results found</p>
+    </div>
+	
     <div class="search-body-area-result footer-area">
+<<<<<<< HEAD
+            
+        <di style="justify-content: center; align-items: center;" class="row">
+            {% for item in items %} 
+                <div class="col-md-6 col-lg-3 ftco-animate">
+                    <div class="product">
+                        <a href="#" class="img-prod"><img class="img-fluid" src="{{ item.itemfeaturedimage.url }}" alt="">
+                            <div class="overlay"></div>
+                        </a>
+                        <div class="text py-3 pb-4 px-3 text-center">
+                            <h3><strong>{{item.itemtitle}}</strong></h3>
+                            <div class="d-flex">
+                                <div class="pricing">
+                                    <p class="price"><span class="price-sale">BDT {{item.itemprice}}</span></p>
+                                </div>
+                            </div>
+                            <div class="bottom-area d-flex px-3">
+                                <div class="m-auto d-flex">
+                                    <a href="{% url 'singleitemcustomer' item.id %}" class="add-to-cart d-flex justify-content-center align-items-center text-center">
+                                        <span><i class="ion-ios-menu"></i></span>
+                                    </a>
+                                    <a href="{% url 'cart' customer_id=request.session.customer_id %}" data-product="{{item.id}}" data-action="add" class="add-btn update-cart add-to-cart buy-now d-flex justify-content-center align-items-center mx-1">
+                                        <span><i class="ion-ios-cart"></i></span>
+                                    </a>                           
+        
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+          </div>
+        
+</div>
+
+    <!-- footer -->
+	<div class="footer-area">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-3 col-md-6">
+					<div class="footer-box about-widget">
+						<h2 class="widget-title">About us</h2>
+                        <p>Your one-stop online destination for all your grocery shopping needs. We understand the importance of convenience in today's fast-paced world, and that's why we're here to simplify your shopping experience and make it as effortless as possible.</p>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<div class="footer-box get-in-touch">
+						<h2 class="widget-title">Get in Touch</h2>
+						<ul>
+							<li>Dhaka, Bangladesh</li>
+							<li>grocereasedp1@gmail.com</li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<div class="footer-box pages">
+						<h2 class="widget-title">Pages</h2>
+						<ul>
+							<li><a href="{% url 'homecustomer' customer_id=request.session.customer_id %}">Home</a></li>
+							<li><a href="{% url 'shop' customer_id=request.session.customer_id %}">Shop</a></li> 
+						</ul>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-6">
+					<div class="footer-box subscribe">
+						<h2 class="widget-title">Follow us</h2>
+						<p>To get the latest updates.</p>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end footer -->
+
+	<script src="{% static 'assets/assets1/js/jquery-1.11.3.min.js' %}"></script>
+	<script src="{% static 'assets/assets1/bootstrap/js/bootstrap.min.js' %}"></script>
+	<script src="{% static 'assets/assets1/js/jquery.countdown.js' %}"></script>
+	<script src="{% static 'assets/assets1/js/jquery.isotope-3.0.6.min.js' %}"></script>
+	<script src="{% static 'assets/assets1/js/waypoints.js' %}"></script>
+	<script src="{% static 'assets/assets1/js/owl.carousel.min.js' %}"></script>
+	<script src="{% static 'assets/assets1/js/jquery.magnific-popup.min.js' %}"></script>
+=======
         <p>{{ items|length }} results found</p>
             
 							<div style="justify-content: center; align-items: center;" class="row">
@@ -64,9 +155,10 @@
     <script src="{% static 'assets/assets1/js/waypoints.js' %}"></script>
     <script src="{% static 'assets/assets1/js/owl.carousel.min.js' %}"></script>
     <script src="{% static 'assets/assets1/js/jquery.magnific-popup.min.js' %}"></script>
+>>>>>>> 1ab81fd4e5a3cb01da61f7046c3ba902637be9e1
     <script src="{% static 'assets/assets1/js/jquery.meanmenu.min.js' %}"></script>
-    <script src="{% static 'assets/assets1/js/sticker.js' %}"></script>
-    <script src="{% static 'assets/assets1/js/main.js' %}"></script>
+	<script src="{% static 'assets/assets1/js/sticker.js' %}"></script>
+	<script src="{% static 'assets/assets1/js/main.js' %}"></script>
 
     <script src="{% static 'assets/assets2/js/jquery.min.js' %}"></script>
     <script src="{% static 'assets/assets2/js/jquery-migrate-3.0.1.min.js' %}"></script>
@@ -77,11 +169,15 @@
     <script src="{% static 'assets/assets2/js/jquery.magnific-popup.min.js' %}"></script>
     <script src="{% static 'assets/assets2/js/aos.js' %}"></script>
     <script src="{% static 'assets/assets2/js/scrollax.min.js' %}"></script>
-    <script src="{% static 'assets/assets2/js/main.js' %}"></script>
+	<script src="{% static 'assets/assets2/js/main.js' %}"></script>
+
 
     <script src="{% static 'assets/assets3/js/jquery.slicknav.js' %}"></script>
     <script src="{% static 'assets/assets3/js/owl.carousel.min.js' %}"></script>
     <script src="{% static 'assets/assets3/js/main.js' %}"></script>
 
-   </body>
+    <script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
+
+
+</body>
 </html>

@@ -12,3 +12,4 @@ from projects.views.seller.items.myitems import myitems
 from projects.views.seller.resetpassword.sendotp import sendsellerresetotp
 from projects.views.seller.resetpassword.verifyotp import verifysellerresetotp
 from projects.views.seller.resetpassword.newpassword import changesellerpassword
+from projects.views.seller.search.searchmyitems import sellersearch

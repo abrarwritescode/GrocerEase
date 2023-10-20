@@ -21,6 +21,12 @@
 
 	<link rel="stylesheet" href="{% static 'assets/assets3/css/style.css' %}">
 
+    <style>
+        #sellerSearchResultsContainer {
+            display: none;
+        }
+    </style>
+
     
 <body>
 
@@ -57,7 +63,7 @@
 							</ul>
                             
 						
-						<a class="mobile-show search-bar-icon" href="{% url 'searchseller' seller_id=request.session.seller_id %}"><i class="fas fa-search"></i></a>
+						
 						<div class="mobile-menu"></div>
                     </nav>
                         
@@ -81,19 +87,20 @@
                         <div class="search-bar">
                             <div class="search-bar-tablecell">
                                 <h3>Search For:</h3>
-                                <input type="text" placeholder="Items In GrocerEase">
-                                <button type="submit">Search <i class="fas fa-search"></i></button>
+                                <form id='sellerSearchForm' class="form" method="get">
+                                    <div class="form__field">
+                                        <input class="input input--text" id="sellerSearchInput" type="text" name="search_query" placeholder="Your Items & Related Categories" value="{{ search_query }}" />
+                                    </div>
+                                </form>
                                 
                             </div>
                         </div>
                        
                     </div>
                 </div>
-                <a style="height: 7px; width: 25px; color: white; background-color: orangered; border-radius: 7px; margin: 10px;" href="">cat1</a>
-                <a style="height: 7px; width: 25px; color: white; background-color: orangered; border-radius: 7px; margin: 10px;" href="">cat2</a>
-                <a style="height: 7px; width: 25px; color: white; background-color: orangered; border-radius: 7px; margin: 10px;" href="">cat3</a>  </div>
+              
        <!-- Container for live search results -->
-    <div id="searchResultsContainer"></div>
+    <div id="sellerSearchResultsContainer"></div>
 
     </div>
 </div>
@@ -164,7 +171,32 @@
 <script src="{% static 'assets/assets3/js/owl.carousel.min.js' %}"></script>
 <script src="{% static 'assets/assets3/js/main.js' %}"></script>
 
-  <script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Initially hide the search results container
+        $('#sellerSearchResultsContainer').hide();
+
+        $('#sellerSearchInput').on('input', function () {
+            var searchQuery = $(this).val();
+            $.ajax({
+                type: 'GET',
+                url: "{% url 'searchseller' seller_id=request.session.seller_id %}",
+                data: { search_query: searchQuery },
+                success: function (data) {
+                    // Check if there are search results and the searchQuery is not empty
+                    if (data.trim() !== '' && searchQuery.trim() !== '') {
+                        $('#sellerSearchResultsContainer').html(data).show();
+                    } else {
+                        // Hide the container if there are no search results or if the searchQuery is empty
+                        $('#sellerSearchResultsContainer').hide();
+                    }
+                }
+            });
+        });
+    });
+</script>
+
 
 </body>
 </html>

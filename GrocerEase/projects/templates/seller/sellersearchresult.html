@@ -24,35 +24,36 @@
    <body>
     <div class="search-body-area-result footer-area">
             
-							<di style="justify-content: center; align-items: center;" class="row">
-								<!-- {% for item in items %}  -->
-									<div class="col-md-6 col-lg-3 ftco-animate">
-										<div class="product">
-											<a href="#" class="img-prod"><img class="img-fluid" src="" alt="">
-												<div class="overlay"></div>
-											</a>
-											<div class="text py-3 pb-4 px-3 text-center">
-												<h3><strong></strong></h3>
-												<div class="d-flex">
-													<div class="pricing">
-														<p class="price"><span class="price-sale">BDT </span></p>
-													</div>
-												</div>
-												<div class="bottom-area d-flex px-3">
-													<div class="m-auto d-flex">
-														<a href="" class="add-to-cart d-flex justify-content-center align-items-center text-center">
-															<span><i class="ion-ios-menu"></i></span>
-														</a>
-														
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								<!-- {% endfor %} -->
-							  </div>
-							
-    </div>
+      <di style="justify-content: center; align-items: center;" class="row">
+        {% for item in items %} 
+          <div class="col-md-6 col-lg-3 ftco-animate">
+            <div class="product">
+              <a href="#" class="img-prod"><img class="img-fluid" src="{{ item.itemfeaturedimage.url }}" alt="">
+                <div class="overlay"></div>
+              </a>
+              <div class="text py-3 pb-4 px-3 text-center">
+                <h3><strong>{{item.itemtitle}}</strong></h3>
+                <div class="d-flex">
+                  <div class="pricing">
+                    <p class="price"><span class="price-sale">BDT {{item.itemprice}}</span></p>
+                  </div>
+                </div>
+                <div class="bottom-area d-flex px-3">
+                  <div class="m-auto d-flex">
+                    <a href="{% url 'singleitemcustomer' item.id %}" class="add-to-cart d-flex justify-content-center align-items-center text-center">
+                      <span><i class="ion-ios-menu"></i></span>
+                    </a>
+                           
+      
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+        </div>
+      
+</div>
     <script src="{% static 'assets/assets1/js/jquery-1.11.3.min.js' %}"></script>
     <script src="{% static 'assets/assets1/bootstrap/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'assets/assets1/js/jquery.countdown.js' %}"></script>
