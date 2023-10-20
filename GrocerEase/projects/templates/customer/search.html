@@ -225,9 +225,9 @@
                         </div>
                     </div>
                     <a class="searchanchor" 
-                    href="{% url 'filteritemsbycategory' 'Vegetables' %}">Vegetables</a>
+                    href="{% url 'filteritemsbycategory'  category_name='Vegetables'  customer_id=request.session.customer_id %}">Vegetables</a>
                     <a class="searchanchor"
-                    href="{% url 'filteritemsbycategory' 'Fruits' %}">Fruits</a>
+                    href="{% url 'filteritemsbycategory' category_name='Fruits'  customer_id=request.session.customer_id %}">Fruits</a>
     
                     <div id="category-items">
                     </div>

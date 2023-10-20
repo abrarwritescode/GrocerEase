@@ -67,7 +67,10 @@
                         <div class="col-md-4">
                                 <div class="category-wrap ftco-animate img mb-4 d-flex align-items-end" style="background-image: url('{{ category.categoryimage.url }}');">
                                     <div class="text px-3 py-1">
-                                        <h2 class="mb-0"><a href="{% url 'filteritemsbycategory' category.categoryname %}">{{ category.categoryname }}</a></h2>
+                                        <h2 class="mb-0"><a href="{% url 'filteritemsbycategory' category_name=category.categoryname customer_id=request.session.customer_id %}">
+                                            {{ category.categoryname }}
+                                        </a>
+                                        </h2>
                                     </div>
                                 </div>
                         </div>
