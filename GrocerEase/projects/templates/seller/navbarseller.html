@@ -48,7 +48,7 @@
 
 								<li>
 									<div class="header-icons">
-										{% comment %} <a class="mobile-hide search-bar-icon" href="{% url 'searchseller' seller_id=request.session.seller_id  %}"><i class="fas fa-search"></i></a> {% endcomment %}
+										<a class="mobile-hide search-bar-icon" href="{% url 'searchseller' seller_id=request.session.seller_id  %}"><i class="fas fa-search"></i></a>
                                         <a href="{% url 'logoutseller' %}"><i class="fas fa-sign-out-alt"></i></a>
                                         <a href="{% url 'sellerprofile' seller_id=request.session.seller_id %}"><i class="fas fa-user"></i></a>									
 
@@ -56,7 +56,7 @@
 							</ul>
                             
 						
-						{% comment %} <a class="mobile-show search-bar-icon" href="{% url 'searchseller' seller_id=request.session.seller_id %}"><i class="fas fa-search"></i></a> {% endcomment %}
+						<a class="mobile-show search-bar-icon" href="{% url 'searchseller' seller_id=request.session.seller_id %}"><i class="fas fa-search"></i></a>
 						<div class="mobile-menu"></div>
                     </nav>
                         
