@@ -18,6 +18,6 @@ def searchitems(request, customer_id):
             'customer': customer,
         }
 
-        return render(request, 'projects/search.html', context)
+        return render(request, 'customer/search.html', context)
 
   

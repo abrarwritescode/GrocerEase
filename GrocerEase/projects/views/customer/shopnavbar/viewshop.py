@@ -25,6 +25,6 @@ def viewshop(request, customer_id):
             'categories': categories 
         }
 
-        return render(request, 'projects/shop.html', context)
+        return render(request, 'customer/shop.html', context)
     else:
         return redirect('logincustomer')

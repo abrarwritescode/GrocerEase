@@ -26,4 +26,4 @@ def logincustomer(request):
     else:
         form = LoginCustomerForm()
 
-    return render(request, 'projects/logincustomer.html', {'form': form})
+    return render(request, 'customer/logincustomer.html', {'form': form})

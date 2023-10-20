@@ -5,4 +5,4 @@ def myitemdetails(request, pk):
             seller_id = request.session['seller_id']
     itemObj = Item.objects.get(id=pk)
     categorys = itemObj.category.all() 
-    return render(request, 'projects/singleitem.html', {'item':itemObj, 'categorys':categorys})
+    return render(request, 'seller/singleitem.html', {'item':itemObj, 'categorys':categorys})

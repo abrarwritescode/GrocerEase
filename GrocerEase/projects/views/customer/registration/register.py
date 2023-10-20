@@ -64,4 +64,4 @@ def registercustomer(request):
     else:
         form = RegistrationCustomerForm()
 
-    return render(request, 'projects/signupcustomer.html', {'form': form})
+    return render(request, 'customer/signupcustomer.html', {'form': form})

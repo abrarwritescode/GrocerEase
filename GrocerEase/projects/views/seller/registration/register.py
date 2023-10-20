@@ -70,4 +70,4 @@ def registerseller(request):
     else:
         form = RegistrationSellerForm()
 
-    return render(request, 'projects/signupseller.html', {'form': form})
+    return render(request, 'seller/signupseller.html', {'form': form})

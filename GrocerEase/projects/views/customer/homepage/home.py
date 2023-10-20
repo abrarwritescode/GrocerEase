@@ -25,6 +25,6 @@ def homecustomer(request, customer_id):
             'categories': categories 
         }
 
-        return render(request, 'projects/homecustomer.html', context)
+        return render(request, 'customer/homecustomer.html', context)
     else:
         return redirect('logincustomer')

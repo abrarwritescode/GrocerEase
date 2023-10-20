@@ -10,4 +10,4 @@ def deleteitem(request, pk):
                 return redirect('homeseller', seller_id=seller_id)
 
     context = {'object': item}
-    return render(request, 'projects/deleteitem.html', context)
+    return render(request, 'seller/deleteitem.html', context)

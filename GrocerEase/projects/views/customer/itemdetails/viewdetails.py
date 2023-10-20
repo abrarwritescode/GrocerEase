@@ -5,6 +5,6 @@ def itemdetails(request, pk):
             customer_id = request.session['customer_id']
     itemObj = Item.objects.get(id=pk)
     categorys = itemObj.category.all() 
-    return render(request, 'projects/singleitemcustomer.html', {'item':itemObj, 'categorys':categorys})
+    return render(request, 'customer/singleitemcustomer.html', {'item':itemObj, 'categorys':categorys})
 
 

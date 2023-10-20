@@ -11,4 +11,4 @@ def verifysellerresetotp(request, email):
             error_message = 'Invalid OTP. Please try again.'
             return render(request, 'projects/verify_reset_seller_otp.html', {'error_message': error_message, 'email': email})
 
-    return render(request, 'projects/verify_reset_seller_otp.html', {'email': email})
+    return render(request, 'seller/verify_reset_seller_otp.html', {'email': email})

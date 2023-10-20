@@ -25,7 +25,7 @@ def changecustomerpassword(request, email):
 
         if digit_error or special_char_error or capital_error or small_letter_error or length_error:
             error_messages = [message for message in [digit_error, special_char_error, capital_error, small_letter_error, length_error] if message]
-            return render(request, 'projects/change_password.html', {'error_messages': error_messages, 'email': email})
+            return render(request, 'customer/change_password.html', {'error_messages': error_messages, 'email': email})
 
         customer.customerpassword = make_password(new_password)
         customer.otp = None
@@ -33,4 +33,4 @@ def changecustomerpassword(request, email):
 
         return redirect('logincustomer')
 
-    return render(request, 'projects/change_password.html', {'email': email})
+    return render(request, 'customer/change_password.html', {'email': email})

@@ -14,4 +14,4 @@ def cart(request, customer_id=None):
     else:
         context = {'items': [], 'order': {}, 'cartItems': 0, 'customer': None}
 
-    return render(request, 'projects/cart.html', context)
+    return render(request, 'customer/cart.html', context)

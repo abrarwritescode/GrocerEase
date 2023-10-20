@@ -23,9 +23,9 @@ def verifyotpcustomer(request):
                 return redirect('logincustomer')
             else:
                 error_message = 'Invalid OTP. Please try again.'
-                return render(request, 'projects/verify_otpcustomer.html', {'error_message': error_message})
+                return render(request, 'customer/verify_otpcustomer.html', {'error_message': error_message})
         else:
             error_message = 'Customer email not found. Please register again.'
-            return render(request, 'projects/verify_otpcustomer.html', {'error_message': error_message})
+            return render(request, 'customer/verify_otpcustomer.html', {'error_message': error_message})
 
-    return render(request, 'projects/verify_otpcustomer.html')
+    return render(request, 'customer/verify_otpcustomer.html')

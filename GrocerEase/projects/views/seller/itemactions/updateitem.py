@@ -14,4 +14,4 @@ def updateitem(request, pk):
                 return redirect('homeseller', seller_id=seller_id)
 
     context = {'form': form, 'item': item}
-    return render(request, 'projects/uploaditem.html', context)
+    return render(request, 'seller/uploaditem.html', context)

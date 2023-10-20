@@ -23,9 +23,9 @@ def verifyotpseller(request):
                 return redirect('loginseller')
             else:
                 error_message = 'Invalid OTP. Please try again.'
-                return render(request, 'projects/verify_otpseller.html', {'error_message': error_message})
+                return render(request, 'seller/verify_otpseller.html', {'error_message': error_message})
         else:
             error_message = 'Seller email not found. Please register again.'
-            return render(request, 'projects/verify_otpseller.html', {'error_message': error_message})
+            return render(request, 'seller/verify_otpseller.html', {'error_message': error_message})
 
-    return render(request, 'projects/verify_otpseller.html')
+    return render(request, 'seller/verify_otpseller.html')

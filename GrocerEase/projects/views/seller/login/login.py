@@ -25,4 +25,4 @@ def loginseller(request):
     else:
         form = LoginSellerForm()
 
-    return render(request, 'projects/loginseller.html', {'form': form})
+    return render(request, 'seller/loginseller.html', {'form': form})

@@ -16,6 +16,6 @@ def uploaditem(request, seller_id):
                 return redirect('homeseller', seller_id=seller_id)
 
         context = {'form': form, 'seller':seller}
-        return render(request, 'projects/uploaditem.html', context)
+        return render(request, 'seller/uploaditem.html', context)
     else:
         return redirect('loginseller')

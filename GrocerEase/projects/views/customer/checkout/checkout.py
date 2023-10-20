@@ -18,4 +18,4 @@ def checkout(request, customer_id=None):
 
     context = {'items': items, 'order': order, 'cartItems': cartItems, 'customer': customer}
 
-    return render(request, 'projects/checkout.html', context)
+    return render(request, 'customer/checkout.html', context)

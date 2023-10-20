@@ -31,4 +31,4 @@ def sendcustomerresetotp(request):
     else:
         form = PasswordResetForm()
 
-    return render(request, 'projects/reset_password.html', {'form': form})
+    return render(request, 'customer/reset_password.html', {'form': form})
