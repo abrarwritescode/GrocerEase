@@ -1,37 +1,8 @@
 from django.urls import path
 
+from .views.customer.imports.customerviewsimport import *
 
-from .views.customer.registration.register import registercustomer
-from .views.customer.verification.verifyotp import verifyotpcustomer
-from .views.customer.login.login import logincustomer
-from .views.customer.homepage.home import homecustomer
-from .views.customer.profile.myprofile import customerprofile
-from .views.customer.logout.logout import logoutcustomer
-from .views.customer.cart.viewcart import cart
-from .views.customer.itemdetails.viewdetails import itemdetails
-from .views.customer.cart.updatecart import updatecart
-from .views.customer.checkout.checkout import checkout
-from .views.customer.resetpassword.sendresetotp import sendcustomerresetotp
-from .views.customer.resetpassword.verifyresetotp import verifycustomerresetotp
-from .views.customer.resetpassword.newpassword import changecustomerpassword
-from .views.customer.search.searchitems import searchitems
-from .views.customer.shopnavbar.viewshop import viewshop
-
-
-from .views.seller.registration.register import registerseller
-from .views.seller.verification.verifyotp import verifyotpseller
-from .views.seller.login.login import loginseller
-from .views.seller.logout.logout import logoutseller
-from .views.seller.homepage.home import homeseller
-from .views.seller.profile.myprofile import sellerprofile
-from .views.seller.itemactions.uploaditem import uploaditem
-from .views.seller.itemactions.updateitem import updateitem
-from .views.seller.itemactions.deleteitem import deleteitem
-from .views.seller.items.viewdetails import myitemdetails
-from .views.seller.items.myitems import myitems
-from .views.seller.resetpassword.sendotp import sendsellerresetotp
-from .views.seller.resetpassword.verifyotp import verifysellerresetotp
-from .views.seller.resetpassword.newpassword import changesellerpassword
+from .views.seller.imports.sellerviewsimport import *
 
 
 urlpatterns = [
