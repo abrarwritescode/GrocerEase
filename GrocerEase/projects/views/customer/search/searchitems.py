@@ -11,8 +11,8 @@ def searchitems(request, customer_id):
         search_query = request.GET.get('search_query', '')
         items = Item.objects.filter(
             Q(itemtitle__iexact=search_query) |
-            Q(seller__storename__iexact=search_query) |  # Change 'name' to the actual field name for the seller's name
-            Q(category__categoryname__iexact=search_query)   # Change 'name' to the actual field name for the category's name
+            Q(seller__storename__iexact=search_query) |  
+            Q(category__categoryname__iexact=search_query)  
         )
 
         context = {

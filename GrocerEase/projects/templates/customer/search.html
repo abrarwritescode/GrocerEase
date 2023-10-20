@@ -172,7 +172,13 @@
                                 <div class="card__body">
                                     <h3 class="project__title">{{ item.itemtitle }}</h3>
                                     <h3 class="project__title">{{ item.itemprice }}</h3>
-                                    <h3 class="project__title">{{ item.category }}</h3>
+                                    <ul>
+                                        {% for category in item.category.all %}
+                                            <h3>{{ category.categoryname }}</h3>
+                                        {% endfor %}
+                                    </ul>
+                                    <h3 class="project__title">{{ item.seller.storename }}</h3>
+                                    
                                     <h3 class="project__title">{{ item.itemquantity }}</h3>
                                     <h3 class="project__title">{{ item.itemdescription }}</h3>
                                 </div>
