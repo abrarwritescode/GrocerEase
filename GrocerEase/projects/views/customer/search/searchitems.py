@@ -9,8 +9,11 @@ def searchitems(request, customer_id):
 
     if request.method == 'GET':
         search_query = request.GET.get('search_query', '')
-        items = Item.objects.filter(itemtitle__iexact=search_query)
-
+        items = Item.objects.filter(
+            Q(itemtitle__iexact=search_query) |
+            Q(seller__storename__iexact=search_query) |  # Change 'name' to the actual field name for the seller's name
+            Q(category__categoryname__iexact=search_query)   # Change 'name' to the actual field name for the category's name
+        )
 
         context = {
             'items': items,
@@ -19,5 +22,3 @@ def searchitems(request, customer_id):
         }
 
         return render(request, 'customer/search.html', context)
-
-  

@@ -23,4 +23,5 @@ from projects.utils import cookieCart, cartData, guestOrder
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.forms import PasswordResetForm
 from django.conf import settings
+from django.db.models import Q
 
