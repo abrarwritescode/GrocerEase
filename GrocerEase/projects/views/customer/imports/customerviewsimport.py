@@ -11,5 +11,6 @@ from projects.views.customer.checkout.checkout import checkout
 from projects.views.customer.resetpassword.sendresetotp import sendcustomerresetotp
 from projects.views.customer.resetpassword.verifyresetotp import verifycustomerresetotp
 from projects.views.customer.resetpassword.newpassword import changecustomerpassword
-from projects.views.customer.search.searchitems import searchitems
+from projects.views.customer.searchfilter.searchitemcategoryseller import searchitems
 from projects.views.customer.shopnavbar.viewshop import viewshop
+from projects.views.customer.searchfilter.filteritemsbycategory import filteritemsbycategory
