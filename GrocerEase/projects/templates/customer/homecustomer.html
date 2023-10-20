@@ -65,20 +65,19 @@
                     <div class="row categories__slider owl-carousel">
                     {% for category in categories %}
                         <div class="col-md-4">
-                            <div class="category-wrap ftco-animate img mb-4 d-flex align-items-end" style="background-image: url('{{ category.categoryimage.url }}');">
-                                <div class="text px-3 py-1">
-                                    <h2 class="mb-0"><a href="#">{{category.categoryname}}</a></h2>
+                                <div class="category-wrap ftco-animate img mb-4 d-flex align-items-end" style="background-image: url('{{ category.categoryimage.url }}');">
+                                    <div class="text px-3 py-1">
+                                        <h2 class="mb-0"><a href="{% url 'filteritemsbycategory' category.categoryname %}">{{ category.categoryname }}</a></h2>
+                                    </div>
                                 </div>
-                            </div>
                         </div>
                     {% endfor %}
                     </div>
                 </div>
             </div>
         </div>
-    </section>    
+    </section>
     
-
     <div class="container">
         <div class="row justify-content-center mb-3 pb-3">
             <div class="col-md-12 heading-section text-center ftco-animate">
@@ -329,7 +328,7 @@
  
   <!-- deal of the day -->
 
-  <section class="ftco-section img" style="background-image: url('{% static 'assets/assets2/images/bg_3.jpg' %}');">
+  <section id="best_deal" class="ftco-section img" style="background-image: url('{% static 'assets/assets2/images/bg_3.jpg' %}');">
 
     <div class="container">
             <div class="row justify-content-end">

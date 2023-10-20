@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-{% extends 'customer/navbarcustomer.html' %}
 {% load static %}
 <html lang="en">
 <head>
-    <meta charset="UTF-8"> 
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Item info</title>
+    <title>GrocerEase | Home </title>
     <link rel="shortcut icon" type="image/png" href="{% static 'assets/assets1/img/favicon.png' %}">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
@@ -14,7 +13,7 @@
 	<link rel="stylesheet" href="{% static 'assets/assets1/css/all.min.css' %}">
 	<link rel="stylesheet" href="{% static 'assets/assets1/css/owl.carousel.css' %}">
 
-    <link rel="stylesheet" href="{% static 'assets/assets2/css/animate.css' %}">
+	<link rel="stylesheet" href="{% static 'assets/assets2/css/animate.css' %}">
 	<link rel="stylesheet" href="{% static 'assets/assets2/css/style.css' %}">
 	<link rel="stylesheet" href="{% static 'assets/assets2/css/ionicons.min.css' %}">
 	<link rel="stylesheet" href="{% static 'assets/assets2/css/flaticon.css' %}">
@@ -22,44 +21,64 @@
 
 	<link rel="stylesheet" href="{% static 'assets/assets3/css/style.css' %}">
 
-
 </head>
 <body>
-{% block content %}
 
-    <div style="position: relative; top: 50px;" class="section-title">
-        <h2>Item: {{item.itemtitle}}</h2>
-    </div>
-	
-	<!-- single product -->
-	<div class="single-product mt-150 mb-150">
+    
+    <!-- header -->
+	<div style="background-color: #042405;" class="top-header-area" id="sticker">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-5">
-					<div class="single-product-img">
-						<img src="{{ item.itemfeaturedimage.url }}" alt="">
-					</div>
-				</div>
-				<div class="col-md-7">
-					<div class="single-product-content">
-                        <h3>{{item.itemtitle}}</h3>
-						<h3>Description: {{item.itemdescription}}</h3>
-						<p class="single-product-pricing"><span>Per Kg</span>BDT {{item.itemprice}}</p>
-						<div class="single-product-form">
-							<a href="{% url 'cart' customer_id=request.session.customer_id %}" data-product="{{item.id}}" data-action="add" class="cart-btn update-cart add-to-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
-                            {% for category in categorys %}
-							<p><strong>Categories: </strong>{{category}}</p>
-                            {% endfor %}
-						</div>
+				<div class="col-lg-12 col-sm-12 text-center">
+					<div class="main-menu-wrap">
 						
+						<!-- menu start -->
+						<nav class="main-menu">
+							<ul>
+								<li>
+                                    <a href="{% url 'homeseller' seller_id=request.session.seller_id %}">Home</span></a>
+								</li>
+
+                                <li>
+                                    <a href="{% url 'uploaditem' seller_id=request.session.seller_id %}">Upload Item</span></a>
+								</li>
+
+                                <li>
+                                </li>
+
+								<li>
+									<div class="header-icons">
+										{% comment %} <a class="mobile-hide search-bar-icon" href="{% url 'searchseller' seller_id=request.session.seller_id  %}"><i class="fas fa-search"></i></a> {% endcomment %}
+                                        <a href="{% url 'logoutseller' %}"><i class="fas fa-sign-out-alt"></i></a>
+                                        <a href="{% url 'sellerprofile' seller_id=request.session.seller_id %}"><i class="fas fa-user"></i></a>									
+
+								</li>
+							</ul>
+                            
+						
+						{% comment %} <a class="mobile-show search-bar-icon" href="{% url 'searchseller' seller_id=request.session.seller_id %}"><i class="fas fa-search"></i></a> {% endcomment %}
+						<div class="mobile-menu"></div>
+                    </nav>
+                        
+
+						<!-- menu end -->
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<!-- end single product -->
+	<!-- end header -->
 
-    <!-- footer -->
+
+    
+        {% block content %}
+
+
+        {% endblock content %}
+   
+
+
+	<!-- footer -->
 	<div class="footer-area">
 		<div class="container">
 			<div class="row">
@@ -82,8 +101,7 @@
 					<div class="footer-box pages">
 						<h2 class="widget-title">Pages</h2>
 						<ul>
-							<li><a href="{% url 'homecustomer' customer_id=request.session.customer_id %}">Home</a></li>
-							<li><a href="{% url 'shop' customer_id=request.session.customer_id %}">Shop</a></li> 
+							<li><a href="{% url 'homeseller' seller_id=request.session.seller_id %}">Home</a></li>
 						</ul>
 					</div>
 				</div>
@@ -98,7 +116,7 @@
 		</div>
 	</div>
 	<!-- end footer -->
-
+	
 	<script src="{% static 'assets/assets1/js/jquery-1.11.3.min.js' %}"></script>
 	<script src="{% static 'assets/assets1/bootstrap/js/bootstrap.min.js' %}"></script>
 	<script src="{% static 'assets/assets1/js/jquery.countdown.js' %}"></script>
@@ -125,9 +143,6 @@
     <script src="{% static 'assets/assets3/js/jquery.slicknav.js' %}"></script>
     <script src="{% static 'assets/assets3/js/owl.carousel.min.js' %}"></script>
     <script src="{% static 'assets/assets3/js/main.js' %}"></script>
-
-    <script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
-
-{% endblock content %}
+    
 </body>
 </html>
