@@ -1,16 +1,20 @@
 var updateBtns = document.getElementsByClassName('update-cart');
-var user = '{{ customer_data|safe }}'
+var user = '{{ customer_data|safe }}';
 
 for (var i = 0; i < updateBtns.length; i++) {
     updateBtns[i].addEventListener('click', function() {
         var productId = this.dataset.product;
         var action = this.dataset.action;
-        console.log('productId:', productId, 'Action:', action);
-        console.log('customer:', user);
+        console.log('Button clicked. Product ID:', productId, 'Action:', action);
+        console.log('Customer:', user);
 
+<<<<<<< HEAD
         updateUserOrder(productId, action);  
+=======
+        updateUserOrder(productId, action);
+>>>>>>> 9515c91552d3f8420c2f2d135a85a81c79d50f6e
     });
-} 
+}
 
 function updateUserOrder(productId, action) {
     console.log('User is authenticated, sending data...');
@@ -22,12 +26,14 @@ function updateUserOrder(productId, action) {
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ 'productId': productId, 'action': action })
+        body: JSON.stringify({ 'productId': productId, 'action': action }),
     })
     .then((response) => {
+        console.log('Request sent. Waiting for response...');
         return response.json();
     })
     .then((data) => {
+        console.log('Response received:', data);
         location.reload();
     });
 }
