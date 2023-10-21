@@ -48,7 +48,11 @@
 						<tbody>
 							{% for item in items %}
 							<tr class="table-body-row">
-								<td class="product-remove"><a href="#"><i class="far fa-window-close"></i></a></td>
+								<td class="product-remove">
+									<button onclick="confirmDelete('{{ item.id }}')">
+										<i class="far fa-window-close"></i>
+									</button>
+								</td>								
 								<td class="product-image"><img src="{{item.product.itemfeaturedimage.url}}" alt=""></td>
 								<td class="product-name">{{item.product.itemtitle}}</td>
 								<td class="product-price">BDT {{item.product.itemprice|floatformat:2}}</td>
@@ -93,6 +97,8 @@
 		</div>
 	</div>
 </div>
+
+	
 <!-- end cart -->
 
 {% endblock content %}

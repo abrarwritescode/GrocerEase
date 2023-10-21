@@ -16,7 +16,7 @@ def updatecart(request):
             return JsonResponse({'message': 'Customer not found'}, status=404)
 
         product = Item.objects.get(id=productId)
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        order, created = Order.objects.get_or_create(customer=customer, is_cart=True)
 
         orderItem, created = OrderItem.objects.get_or_create(order=order, product=product)
 

@@ -1,5 +1,37 @@
-<div class="quantity">
-	<img data-product="{{item.product.id}}" data-action="add" class="chg-quantity update-cart" src="{% static  'images/arrow-up.png' %}">
+var updateBtns = document.getElementsByClassName('update-cart');
+var user = '{{ customer_data|safe }}';
 
-	<img data-product="{{item.product.id}}" data-action="remove" class="chg-quantity update-cart" src="{% static  'images/arrow-down.png' %}">
-</div>
+for (var i = 0; i < updateBtns.length; i++) {
+    updateBtns[i].addEventListener('click', function() {
+        var productId = this.dataset.product;
+        var action = this.dataset.action;
+        console.log('productId:', productId, 'Action:', action);
+        console.log('customer:', user);
+
+        // Show a confirmation dialog before proceeding with the removal
+        var confirmed = confirm('Are you sure you want to remove this item from your cart?');
+        if (confirmed) {
+            updateUserOrder(productId, action);
+        }
+    });
+}
+
+function updateUserOrder(productId, action) {
+    console.log('User is authenticated, sending data...');
+
+    var url = '/updatecart/';
+
+    fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 'productId': productId, 'action': action })
+    })
+    .then((response) => {
+        return response.json();
+    })
+    .then((data) => {
+        location.reload();
+    });
+}

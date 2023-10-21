@@ -7,6 +7,7 @@ from projects.views.customer.logout.logout import logoutcustomer
 from projects.views.customer.cart.viewcart import cart
 from projects.views.customer.itemdetails.viewdetails import itemdetails
 from projects.views.customer.cart.updatecart import updatecart
+from projects.views.customer.cart.deletecartitems import delete_cart_item
 from projects.views.customer.checkout.checkout import checkout
 from projects.views.customer.resetpassword.sendresetotp import sendcustomerresetotp
 from projects.views.customer.resetpassword.verifyresetotp import verifycustomerresetotp

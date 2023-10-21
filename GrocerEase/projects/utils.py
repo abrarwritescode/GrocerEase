@@ -45,7 +45,7 @@ def cartData(request, customer_id):
     if 'customer_id' in request.session:
         customer_id = request.session['customer_id']
         customer = Customer.objects.get(pk=customer_id)
-        order, created = Order.objects.get_or_create(customer=customer, complete=False)
+        order, created = Order.objects.get_or_create(customer=customer, is_cart=True)
         items = order.orderitem_set.all()
         cartItems = order.get_cart_items
     else:
@@ -69,7 +69,7 @@ def guestOrder(request, data):
 
     order = Order.objects.create(
         customer=customer,
-        complete=False,
+        is_cart=True,
     )
 
     for item in items:
