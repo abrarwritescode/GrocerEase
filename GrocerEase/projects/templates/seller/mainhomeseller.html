@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 {% load static %}
+
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="csrf-token" content="{% csrf_token %}">
     <title>GrocerEase | Home </title>
     <link rel="shortcut icon" type="image/png" href="{% static 'assets/assets1/img/favicon.png' %}">
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
@@ -20,8 +23,46 @@
 	<link rel="stylesheet" href="{% static 'assets/assets2/css/icomoon.css' %}">
 
 	<link rel="stylesheet" href="{% static 'assets/assets3/css/style.css' %}">
+	
 
 </head>
+<style>
+/* Style the notification icon */
+.notification-icon {
+    position: relative;
+}
+
+.notification-trigger {
+    text-decoration: none;
+    color: #333; /* Change the color as needed */
+}
+
+.notification-trigger:hover + #notifications {
+    display: block;
+}
+
+/* Style the notification content */
+.notification-content {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    width: 300px; /* Adjust the width as needed */
+    background-color: #042405;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border: 1px solid #ddd;
+	color: white;
+    z-index: 1;
+    /* Add more styles as needed */
+}
+
+/* Style the notifications inside the content */
+.notification-item {
+    margin: 5px 0;
+    /* Add more styles as needed */
+}
+</style>
 <body>
 
     
@@ -34,7 +75,9 @@
 						
 						<!-- menu start -->
 						<nav class="main-menu">
+							
 							<ul>
+								
 								<li>
                                     <a href="{% url 'homeseller' seller_id=request.session.seller_id %}">Home</span></a>
 								</li>
@@ -42,25 +85,42 @@
                                 <li>
                                     <a href="{% url 'uploaditem' seller_id=request.session.seller_id %}">Upload Item</span></a>
 								</li>
+								
 
                                 <li>
                                 </li>
 
 								<li>
+									
 									<div class="header-icons">
+										
 										<a class="mobile-hide search-bar-icon" href="{% url 'searchseller' seller_id=request.session.seller_id  %}"><i class="fas fa-search"></i></a> 
                                         <a href="{% url 'logoutseller' %}"><i class="fas fa-sign-out-alt"></i></a>
-                                        <a href="{% url 'sellerprofile' seller_id=request.session.seller_id %}"><i class="fas fa-user"></i></a>									
+                                        <a href="{% url 'sellerprofile' seller_id=request.session.seller_id %}"><i class="fas fa-user"></i></a>			
+														
 
 								</li>
 							</ul>
                         
-						<a class="mobile-show search-bar-icon" href="">N<i class="fas fa-search"></i></a> 
-						<div class="mobile-menu"></div>
+							
 						
 						<a class="mobile-show search-bar-icon" href="{% url 'searchseller' seller_id=request.session.seller_id %}"><i class="fas fa-search"></i></a> 
+						
 						<div class="mobile-menu"></div>
+						<div class="notification-icon">
+							<a href="#" id="view-notifications" class="notification-trigger">
+								<i class="fas fa-bell"></i>
+								<span id="notification-count"></span>
+							</a>
+						</div>
+
+						
+						
                     </nav>
+					<div id="notifications" class="notification-content">
+						<!-- Notifications will be displayed here -->
+						
+					</div>
                         
 
 						<!-- menu end -->
@@ -198,6 +258,75 @@
     <script src="{% static 'assets/assets3/js/jquery.slicknav.js' %}"></script>
     <script src="{% static 'assets/assets3/js/owl.carousel.min.js' %}"></script>
     <script src="{% static 'assets/assets3/js/main.js' %}"></script>
-    
-</body>
+
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+	
+			// Function to get a specific cookie value by name
+			function getCookie(name) {
+				let cookieValue = null;
+				if (document.cookie && document.cookie !== '') {
+					const cookies = document.cookie.split(';');
+					for (let i = 0; i < cookies.length; i++) {
+						const cookie = cookies[i].trim();
+						// Does this cookie string begin with the name we want?
+						if (cookie.substring(0, name.length + 1) === (name + '=')) {
+							cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+							break;
+						}
+					}
+				}
+				return cookieValue;
+			}
+	
+			$(document).ready(function () {
+				const viewNotificationsLink = $('#view-notifications');
+				const notificationsContainer = $('#notifications');
+				const csrfToken = getCookie("csrftoken");
+				const notificationCount = $('#notification-count');
+	
+				// Function to update the notification count
+				function updateNotificationCount() {
+					$.get("{% url 'getnotificationcount' seller_id=request.session.seller_id %}", function (data) {
+						const count = data.count;
+						notificationCount.text(count);
+				
+						// Only hide the count if it's zero and was previously displayed
+						if (count === 0 && notificationCount.is(':visible')) {
+							notificationCount.hide();
+						} else if (count > 0) {
+							notificationCount.show();
+						}
+					});
+				}
+	
+				// Fetch and update the initial notification count
+				updateNotificationCount();
+	
+				// Handle clicking on the "View Notifications" link
+				viewNotificationsLink.on("click", function (event) {
+					event.preventDefault();
+	
+					// Include the CSRF token in the headers
+					const headers = new Headers({
+						'X-CSRFToken': csrfToken
+					});
+	
+					// Make an AJAX request to fetch notifications.
+					$.get("{% url 'notifications' seller_id=request.session.seller_id %}", function (data) {
+						notificationsContainer.html(data.notifications);
+						notificationsContainer.show();
+						// Mark notifications as read when the dropdown is opened
+						$.post("{% url 'marknotificationsasread' seller_id=request.session.seller_id %}", { csrfmiddlewaretoken: csrfToken },
+						function () {
+							// Update the notification count after marking as read
+							updateNotificationCount();
+						});
+					});
+				});
+			});
+		</script>
+	
+	
 </html>

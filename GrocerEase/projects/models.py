@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 import uuid
 
 class Customer(models.Model):
@@ -92,6 +93,9 @@ class Notification(models.Model):
     recipient = models.ForeignKey(Seller, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     message = models.TextField()
+    created_at = models.DateTimeField(default=timezone.now)
+    is_read = models.BooleanField(default=False) 
+
 
     def __str__(self):
         return f"Notification {self.id}"
