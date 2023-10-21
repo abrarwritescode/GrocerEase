@@ -2,6 +2,29 @@
 {% load static %}
 {% block content %}  
 
+<style>
+	.quantity{
+	display: inline-block;
+	font-weight: 700;
+	padding-right:10px;
+	
+
+}
+
+.chg-quantity{
+	width: 12px;
+	cursor: pointer;
+	display: block;
+	margin-top: 5px;
+	transition:.1s;
+}
+
+.chg-quantity:hover{
+	opacity: .6;
+}
+
+</style>
+
 <div style="position: relative; top: 30%;" class="section-title">
 	<h2>Cart</h2>
 </div>
@@ -29,7 +52,13 @@
 								<td class="product-image"><img src="{{item.product.itemfeaturedimage.url}}" alt=""></td>
 								<td class="product-name">{{item.product.itemtitle}}</td>
 								<td class="product-price">BDT {{item.product.itemprice|floatformat:2}}</td>
-								<td class="product-quantity"><input type="number" placeholder="{{item.quantity}}"></td>
+								<td class="product-quantity">
+									<div class="quantity">
+										<img data-product="{{item.product.id}}" data-action="add" class="chg-quantity update-cart" src="{% static  'images/arrow-up.png' %}">
+										<p>{{item.quantity}}</p>
+										<img data-product="{{item.product.id}}" data-action="remove" class="chg-quantity update-cart" src="{% static  'images/arrow-down.png' %}">
+									</div>
+								</td>
 								<td class="product-total">BDT {{item.get_total|floatformat:2}}</td>
 							</tr>
 							{% endfor %}
@@ -60,7 +89,7 @@
 					</div>
 				</div>
 
-			</div>
+			</div> 
 		</div>
 	</div>
 </div>
