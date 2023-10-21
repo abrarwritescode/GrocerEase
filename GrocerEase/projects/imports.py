@@ -16,7 +16,8 @@ import re
 from django.core.mail import send_mail
 import random
 from django.urls import reverse
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponseRedirect
+
 import json
 from projects.models import * 
 from projects.utils import cookieCart, cartData, guestOrder
