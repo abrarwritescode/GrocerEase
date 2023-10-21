@@ -29,7 +29,7 @@ def updatecart(request):
                     if current_quantity == 1:
                         # Handle the case where the stock becomes 0
                         product.itemquantity = 0
-                        restock_message = " It needs to be restocked"
+                        restock_message = " It needs to be restocked."
                     else:
                         # Decrease the quantity by 1
                         product.itemquantity = current_quantity - 1
@@ -40,7 +40,7 @@ def updatecart(request):
 
                     added_datetime = timezone.now()  # Get the current date and time
                     current_datetime = added_datetime + timedelta(hours=6)
-                    message = f"Your item '{product.itemtitle}' was added to a customer: {customer.customername}'s cart at {current_datetime}. (Current Quantity: {product.itemquantity}){restock_message}"
+                    message = f"Your item '{product.itemtitle}' was added to a customer: {customer.customername}'s cart at {current_datetime}. Current Quantity: {product.itemquantity}. {restock_message}"
                     Notification.objects.create(sender=customer, recipient=seller, item=product, message=message)
             #     else:
             #         # Handle the case where the cart quantity equals or exceeds the available stock
@@ -64,7 +64,7 @@ def updatecart(request):
             product.save()
             added_datetime = timezone.now()
             current_datetime = added_datetime + timedelta(hours=6)
-            message = f"Your item '{product.itemtitle}' was removed from a customer: {customer.customername}'s cart at {current_datetime}. (Current Quantity: {product.itemquantity})"
+            message = f"Your item '{product.itemtitle}' was removed from a customer: {customer.customername}'s cart at {current_datetime}. Current Quantity: {product.itemquantity}"
             Notification.objects.create(sender=customer, recipient=seller, item=product, message=message)
 
         orderItem.save()
