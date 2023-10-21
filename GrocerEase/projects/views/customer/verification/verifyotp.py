@@ -1,4 +1,6 @@
 from projects.imports import *
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 
 def verifyotpcustomer(request):
     if request.method == 'POST':
@@ -20,7 +22,7 @@ def verifyotpcustomer(request):
                     otp=session_otp,  
                     is_verified=True
                 )
-                return redirect('logincustomer')
+                return HttpResponseRedirect(reverse('logincustomer') + '#login-section')
             else:
                 error_message = 'Invalid OTP. Please try again.'
                 return render(request, 'customer/verify_otpcustomer.html', {'error_message': error_message})

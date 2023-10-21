@@ -6,6 +6,16 @@ def searchitems(request, customer_id):
     if 'customer_id' in request.session:
         customer_id = request.session['customer_id']
         customer = Customer.objects.get(pk=customer_id)
+        data = cartData(request, customer_id)
+
+        cartItems = data['cartItems']
+        order = data['order']
+        items = data['items']
+
+       
+        products = Item.objects.all()
+        categories = Category.objects.all()
+
 
     if request.method == 'GET':
         search_query = request.GET.get('search_query', '')
@@ -19,6 +29,8 @@ def searchitems(request, customer_id):
             'items': items,
             'search_query': search_query,
             'customer': customer,
+  
+            'cartItems': cartItems,
         }
 
         if request.headers.get('x-requested-with') == 'XMLHttpRequest':

@@ -13,7 +13,7 @@ urlpatterns = [
     path('customerprofile/<int:customer_id>/', customerprofile, name='customerprofile'),
     path('logoutcustomer/', logoutcustomer, name='logoutcustomer'),
     path('cart/<int:customer_id>/', cart, name="cart"),
-    path('itemdetails/<str:pk>/', itemdetails, name="singleitemcustomer"),
+    path('itemdetails/<str:pk>/<int:customer_id>/', itemdetails, name="singleitemcustomer"),
     path('updatecart/', updatecart, name="updatecart"),
     path('checkout/<int:customer_id>/', checkout, name="checkout"),
     path('resetpassword/', sendcustomerresetotp, name='reset_password'),
@@ -21,10 +21,11 @@ urlpatterns = [
     path('changeassword/<str:email>/', changecustomerpassword, name='change_password'),
     path('search/<int:customer_id>/', searchitems, name="search"),
     path('shop/<int:customer_id>/', viewshop, name="shop"),
-    path('category/<str:category_name>/', filteritemsbycategory, name='filteritemsbycategory'),
+    path('filterbycategory/<str:category_name>/<int:customer_id>/', filteritemsbycategory, name='filteritemsbycategory'),
     path('filterbyprice/', filteritemsbyprice, name='filteritemsbyprice'),
 
-
+    path('selleritems/<int:seller_id>/<int:customer_id>/', selleritems, name='selleritems'),
+    
     path('signupseller/', registerseller, name='signupseller'),
     path('verify_otpseller/', verifyotpseller, name='verify_otpseller'),
     path('loginseller/', loginseller, name='loginseller'),
