@@ -48,19 +48,20 @@
     top: 100%;
     right: 0;
     width: 300px; /* Adjust the width as needed */
+    max-height: 300px; /* Set a maximum height for scrolling */
+    overflow-y: auto; /* Enable vertical scrolling when content exceeds max-height */
     background-color: #042405;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: 10px;
     border: 1px solid #ddd;
-	color: white;
+    color: white;
     z-index: 1;
-    /* Add more styles as needed */
 }
 
 /* Style the notifications inside the content */
 .notification-item {
     margin: 5px 0;
-    /* Add more styles as needed */
+    
 }
 </style>
 <body>
@@ -95,9 +96,13 @@
 									<div class="header-icons">
 										
 										<a class="mobile-hide search-bar-icon" href="{% url 'searchseller' seller_id=request.session.seller_id  %}"><i class="fas fa-search"></i></a> 
+										<a href="#" id="view-notifications" class="notification-trigger">
+											<i class="fas fa-bell"></i>
+											<span id="notification-count"></span>
+										</a>
                                         <a href="{% url 'logoutseller' %}"><i class="fas fa-sign-out-alt"></i></a>
                                         <a href="{% url 'sellerprofile' seller_id=request.session.seller_id %}"><i class="fas fa-user"></i></a>			
-														
+												
 
 								</li>
 							</ul>
@@ -107,12 +112,8 @@
 						<a class="mobile-show search-bar-icon" href="{% url 'searchseller' seller_id=request.session.seller_id %}"><i class="fas fa-search"></i></a> 
 						
 						<div class="mobile-menu"></div>
-						<div class="notification-icon">
-							<a href="#" id="view-notifications" class="notification-trigger">
-								<i class="fas fa-bell"></i>
-								<span id="notification-count"></span>
-							</a>
-						</div>
+							
+					
 
 						
 						
