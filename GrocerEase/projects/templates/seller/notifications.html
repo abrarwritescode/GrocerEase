@@ -5,17 +5,31 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title></title>
   </head>
+  <style>
+    .notification-item {
+        margin: 5px 0;
+        border-bottom: 1px solid #fff; /* Add a border at the bottom of each notification */
+        padding-bottom: 5px; /* Add some space between notifications */
+    }
+    
+    /* Style the last notification to remove the border */
+    .notification-item:last-child {
+        border-bottom: none; /* Remove the border for the last notification */
+    }
+    
+</style>
   <body>
     
 {% block content %}
 
 <ul>
     {% for notification in notifications %}
-        <li>
-            {{ notification.message }}
-        </li>
+    <li class="notification-item">
+        {{ notification.message }}
+    </li>
     {% endfor %}
 </ul>
+
 {% endblock %}
 </body>
 </html>
