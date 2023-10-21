@@ -55,12 +55,16 @@
 								</li>
 							</ul>
                         
-							<a href="{% url 'notifications' seller_id=request.session.seller_id %}">View Notifications</a>
+							<a href="#" id="view-notifications">View Notifications</a>
 						
 						
 						<a class="mobile-show search-bar-icon" href="{% url 'searchseller' seller_id=request.session.seller_id %}"><i class="fas fa-search"></i></a> 
 						<div class="mobile-menu"></div>
                     </nav>
+					<div id="notifications" style="display: none;">
+						<!-- Notifications will be displayed here -->
+						
+					</div>
                         
 
 						<!-- menu end -->
@@ -198,6 +202,24 @@
     <script src="{% static 'assets/assets3/js/jquery.slicknav.js' %}"></script>
     <script src="{% static 'assets/assets3/js/owl.carousel.min.js' %}"></script>
     <script src="{% static 'assets/assets3/js/main.js' %}"></script>
-    
-</body>
+
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const viewNotificationsLink = document.getElementById('view-notifications');
+            const notificationsContainer = document.getElementById('notifications');
+
+            viewNotificationsLink.addEventListener('click', function(event) {
+                event.preventDefault();
+
+                // Make an AJAX request to fetch notifications.
+                fetch('{% url 'notifications' seller_id=request.session.seller_id %}')
+                    .then(response => response.json())
+                    .then(data => {
+                        notificationsContainer.innerHTML = data.notifications;
+                        notificationsContainer.style.display = 'block';
+                    });
+            });
+        });
+    </script>
 </html>

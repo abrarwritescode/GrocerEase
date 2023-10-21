@@ -8,11 +8,7 @@ for (var i = 0; i < updateBtns.length; i++) {
         console.log('Button clicked. Product ID:', productId, 'Action:', action);
         console.log('Customer:', user);
 
-<<<<<<< HEAD
-        updateUserOrder(productId, action);  
-=======
         updateUserOrder(productId, action);
->>>>>>> 9515c91552d3f8420c2f2d135a85a81c79d50f6e
     });
 }
 

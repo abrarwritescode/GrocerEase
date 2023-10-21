@@ -5,6 +5,11 @@ def sellernotifs(request, seller_id):
         seller_id = request.session['seller_id']
         seller = Seller.objects.get(pk=seller_id)
         notifications = Notification.objects.filter(recipient=seller).order_by('-created_at')
+        notifications_html = render_to_string('seller/notifications.html', {'notifications': notifications})
+        return JsonResponse({'notifications': notifications_html})
 
     
-    return render(request, 'seller/notifications.html', {'notifications': notifications})
+    
+
+
+

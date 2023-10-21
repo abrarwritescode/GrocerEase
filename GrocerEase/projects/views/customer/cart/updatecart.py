@@ -55,22 +55,17 @@ def updatecart(request):
                 current_quantity = product.itemquantity  # Get the current quantity in seller stock
 
                 product.itemquantity = current_quantity + 1
-                product.save()
 
-                added_datetime = timezone.now()
-                current_datetime = added_datetime + timedelta(hours=6)
-                message = f"Your item '{product.itemtitle}' was removed from a customer: {customer.customername}'s cart at {current_datetime}. (Current Quantity: {product.itemquantity})"
-                Notification.objects.create(sender=customer, recipient=seller, item=product, message=message)
             else: 
                current_quantity = product.itemquantity  # Get the current quantity in seller stock
 
                product.itemquantity = current_quantity + 1
-               product.save()
 
-               added_datetime = timezone.now()
-               current_datetime = added_datetime + timedelta(hours=6)
-               message = f"Your item '{product.itemtitle}' was removed from a customer: {customer.customername}'s cart at {current_datetime}. (Current Quantity: {product.itemquantity})"
-               Notification.objects.create(sender=customer, recipient=seller, item=product, message=message)
+            product.save()
+            added_datetime = timezone.now()
+            current_datetime = added_datetime + timedelta(hours=6)
+            message = f"Your item '{product.itemtitle}' was removed from a customer: {customer.customername}'s cart at {current_datetime}. (Current Quantity: {product.itemquantity})"
+            Notification.objects.create(sender=customer, recipient=seller, item=product, message=message)
 
         orderItem.save()
 
@@ -78,6 +73,6 @@ def updatecart(request):
                 orderItem.delete()
         # else:
         #     # Handle the case where there's nothing to remove
-        #     # You can raise an exception or handle it as needed
+        
 
     return JsonResponse({'message': 'Item was added'}, safe=False)
