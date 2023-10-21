@@ -1,6 +1,6 @@
 from projects.imports import *
 
-@csrf_exempt
+@csrf_exempt 
 def updatecart(request):
     if 'customer_id' in request.session:
         customer_id = request.session['customer_id']
