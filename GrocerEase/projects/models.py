@@ -40,7 +40,7 @@ class Item(models.Model):
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
     date_ordered = models.DateTimeField(auto_now_add=True)
-    complete = models.BooleanField(default=False)
+    is_cart = models.BooleanField(default=True)  # To indicate whether it's a cart or a confirmed order
     transaction_id = models.CharField(max_length=100, null=True)
 
     def __str__(self):
@@ -64,6 +64,8 @@ class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.SET_NULL, null=True)
     quantity = models.IntegerField(default=0, null=True, blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
+    confirmed = models.BooleanField(default=False)  # To indicate whether it's a cart item or a confirmed order item
+
     
     def __str__(self):
         return f"OrderItem {self.order}"
