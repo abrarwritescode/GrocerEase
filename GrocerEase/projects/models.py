@@ -92,6 +92,7 @@ class Notification(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     message = models.TextField()
     created_at = models.DateTimeField(default=timezone.now)
+    is_read = models.BooleanField(default=False) 
 
 
     def __str__(self):

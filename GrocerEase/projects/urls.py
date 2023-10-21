@@ -43,4 +43,6 @@ urlpatterns = [
     path('verifyresetseller_otp/<str:email>/', verifysellerresetotp, name='verify_reset_seller_otp'),
     path('changesellerpassword/<str:email>/', changesellerpassword, name='change_seller_password'),
     path('sellernotifications/<int:seller_id>/', sellernotifs, name='notifications'),
+    path('getnotificationcount/<int:seller_id>/', getnotificationcount, name='getnotificationcount'),
+    path('marknotificationsasread/<int:seller_id>/', marknotificationsasread, name='marknotificationsasread'),
 ] 

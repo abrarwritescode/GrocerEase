@@ -14,3 +14,5 @@ from projects.views.seller.resetpassword.verifyotp import verifysellerresetotp
 from projects.views.seller.resetpassword.newpassword import changesellerpassword
 from projects.views.seller.search.searchmyitems import sellersearch
 from projects.views.seller.notifications.viewnotifs import sellernotifs
+from projects.views.seller.notifications.viewnotifscount import getnotificationcount
+from projects.views.seller.notifications.marknotifsread import marknotificationsasread
