@@ -8,9 +8,7 @@ for (var i = 0; i < updateBtns.length; i++) {
         console.log('Button clicked. Product ID:', productId, 'Action:', action);
         console.log('Customer:', user);
 
-
         updateUserOrder(productId, action);  
-        
     });
 }
 
