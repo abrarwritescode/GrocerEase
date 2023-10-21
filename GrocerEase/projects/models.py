@@ -8,6 +8,7 @@ class Customer(models.Model):
     customerpassword = models.CharField(max_length=128)
     otp = models.CharField(max_length=6, blank=True, null=True)  
     is_verified = models.BooleanField(default=False) 
+    customerimage = models.ImageField(null=True, blank=True, default="user-default.png")
 
     def __str__(self):
         return f"{self.id} - {self.customername}"
@@ -18,6 +19,7 @@ class Seller(models.Model):
     sellerpassword = models.CharField(max_length=128)
     otp = models.CharField(max_length=6, blank=True, null=True)  
     is_verified = models.BooleanField(default=False) 
+    sellerimage = models.ImageField(null=True, blank=True, default="user-default.png")
 
     def __str__(self):
         return f"{self.id} - {self.storename}"

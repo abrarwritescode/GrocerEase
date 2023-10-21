@@ -7,7 +7,7 @@ class RegistrationCustomerForm(forms.ModelForm):
 
     class Meta:
         model = Customer
-        fields = ['customername', 'customeremail', 'customerpassword']
+        fields = ['customername', 'customeremail', 'customerpassword', 'customerimage']
 
 class LoginCustomerForm(forms.Form):
     customeremail = forms.EmailField()
@@ -23,7 +23,7 @@ class RegistrationSellerForm(forms.ModelForm):
 
     class Meta:
         model = Seller
-        fields = ['storename', 'selleremail', 'sellerpassword']
+        fields = ['storename', 'selleremail', 'sellerpassword', 'sellerimage']
 
 class LoginSellerForm(forms.Form):
     selleremail = forms.EmailField()
@@ -38,3 +38,8 @@ class ItemForm(ModelForm):
     class Meta:
         model = Item
         fields = ['itemtitle', 'itemprice', 'category', 'itemquantity', 'itemdescription', 'itemfeaturedimage']
+
+class EditSellerForm(forms.ModelForm):
+    class Meta:
+        model = Seller
+        fields = [ 'storename', 'selleremail']
