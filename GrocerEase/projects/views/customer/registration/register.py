@@ -1,4 +1,6 @@
 from projects.imports import *
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 
 def registercustomer(request):
     if request.method == 'POST':
@@ -60,7 +62,7 @@ def registercustomer(request):
                     fail_silently=False,
                 )
 
-                return redirect('verify_otpcustomer')
+                return HttpResponseRedirect(reverse('verify_otpcustomer') + '#verify-otp')
     else:
         form = RegistrationCustomerForm()
 
