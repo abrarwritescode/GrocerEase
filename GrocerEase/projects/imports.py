@@ -1,7 +1,7 @@
 import hashlib
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from projects.models import Customer, Seller, Item
+from projects.models import Customer, Seller, Item, Notification
 from projects.forms import RegistrationCustomerForm, LoginCustomerForm, OTPVerificationCustomerForm, ItemForm, RegistrationSellerForm, LoginSellerForm, OTPVerificationSellerForm
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
@@ -26,5 +26,5 @@ from django.conf import settings
 from django.db.models import Q
 from django.template.loader import render_to_string
 from django.template import loader
-
+from datetime import timedelta
 
