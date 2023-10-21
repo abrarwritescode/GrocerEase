@@ -84,3 +84,13 @@ class Category(models.Model):
 
     def __str__(self):
         return self.categoryname
+    
+class Notification(models.Model):
+    sender = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)
+    recipient = models.ForeignKey(Seller, on_delete=models.CASCADE)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    message = models.TextField()
+
+    def __str__(self):
+        return f"Notification {self.id}"
+
