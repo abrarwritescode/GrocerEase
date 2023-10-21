@@ -15,6 +15,7 @@ urlpatterns = [
     path('cart/<int:customer_id>/', cart, name="cart"),
     path('itemdetails/<str:pk>/<int:customer_id>/', itemdetails, name="singleitemcustomer"),
     path('updatecart/', updatecart, name="updatecart"),
+    path('deletecart/<int:item_id>/', delete_cart_item, name='delete_cart_item'),
     path('checkout/<int:customer_id>/', checkout, name="checkout"),
     path('resetpassword/', sendcustomerresetotp, name='reset_password'),
     path('verifyresetotp/<str:email>/', verifycustomerresetotp, name='verify_reset_otp'),

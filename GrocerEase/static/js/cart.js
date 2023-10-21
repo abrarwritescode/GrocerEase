@@ -8,7 +8,11 @@ for (var i = 0; i < updateBtns.length; i++) {
         console.log('Button clicked. Product ID:', productId, 'Action:', action);
         console.log('Customer:', user);
 
+<<<<<<< HEAD
+        updateUserOrder(productId, action);  
+=======
         updateUserOrder(productId, action);
+>>>>>>> 9515c91552d3f8420c2f2d135a85a81c79d50f6e
     });
 }
 
@@ -31,5 +35,37 @@ function updateUserOrder(productId, action) {
     .then((data) => {
         console.log('Response received:', data);
         location.reload();
+    });
+}
+
+function confirmDelete(itemId) {
+    if (confirm('Are you sure you want to delete this item from your cart?')) {
+        // The user clicked OK, so proceed with item deletion
+        deleteCartItem(itemId);
+    } else {
+        // The user clicked Cancel, so do nothing
+        return false;
+    }
+}
+
+function deleteCartItem(itemId) {
+    console.log('User is authenticated, sending data...');
+
+    var url = '/deletecart/' + itemId + '/';
+
+    fetch(url, {
+        method: 'POST', // You can use 'DELETE' if your Django view handles DELETE requests
+        headers: {
+            'X-CSRFToken': csrftoken, // Make sure to include your CSRF token
+        },
+    })
+    .then((response) => {
+        if (response.status === 200) {
+            // Deletion was successful
+            location.reload(); // Refresh the cart or update it as needed
+        } else {
+            // Handle the case where deletion failed
+            console.error('Deletion failed');
+        }
     });
 }
