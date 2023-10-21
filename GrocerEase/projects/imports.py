@@ -2,11 +2,7 @@ import hashlib
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from projects.models import Customer, Seller, Item, Notification
-<<<<<<< HEAD
 from projects.forms import RegistrationCustomerForm, LoginCustomerForm, OTPVerificationCustomerForm, ItemForm, RegistrationSellerForm, LoginSellerForm, OTPVerificationSellerForm, EditSellerForm
-=======
-from projects.forms import RegistrationCustomerForm, LoginCustomerForm, OTPVerificationCustomerForm, ItemForm, RegistrationSellerForm, LoginSellerForm, OTPVerificationSellerForm
->>>>>>> 4cb036b3643bce8099185ad404c28f1d0507288c
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.contrib.auth.hashers import make_password
