@@ -22,7 +22,7 @@ urlpatterns = [
     path('search/<int:customer_id>/', searchitems, name="search"),
     path('shop/<int:customer_id>/', viewshop, name="shop"),
     path('filterbycategory/<str:category_name>/<int:customer_id>/', filteritemsbycategory, name='filteritemsbycategory'),
-    path('filterbyprice/', filteritemsbyprice, name='filteritemsbyprice'),
+    path('filterbyprice/<int:customer_id>/', filteritemsbyprice, name='filteritemsbyprice'),
 
     path('selleritems/<int:seller_id>/<int:customer_id>/', selleritems, name='selleritems'),
     

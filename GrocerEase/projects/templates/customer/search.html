@@ -374,7 +374,7 @@
         
                 $.ajax({
                     type: "GET",
-                    url: "{% url 'filteritemsbyprice' %}", // Update with the correct URL
+                    url: "{% url 'filteritemsbyprice' customer_id=request.session.customer_id %}", // Update with the correct URL
                     data: { min_price: minPrice, max_price: maxPrice },
                     success: function(data) {
                         $("#filteredResultsContainer").html(data);
