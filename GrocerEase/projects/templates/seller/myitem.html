@@ -18,7 +18,7 @@
     <p>{{item.itemprice}} BDT</p>
     <p>{{item.itemquantity}} grams</p>
     <p>{{item.itemdescription}}</p>
-    <a href="{% url 'singleitem' item.id %}">View</a>
+    <a href="{% url 'singleitem' pk=item.id seller_id=request.session.seller_id %}">View</a>
     <a href="{% url 'updateitem' item.id %}">Edit</a>
     <a href="{% url 'deleteitem' item.id %}">Delete</a>
 
