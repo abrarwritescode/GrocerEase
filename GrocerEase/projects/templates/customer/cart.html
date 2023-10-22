@@ -7,19 +7,38 @@
         display: inline-block;
         font-weight: 700;
         padding-right: 10px;
+        position: relative; /* Make the parent container relative */
     }
 
-    .exceeds-stock {
-        display: inline-block;
+     {% comment %} .exceeds-stock {
+        display: block;
         background-color: red;
         color: white;
-        font-size: 14px;
-        padding: 4px 8px;
-        border-radius: 4px;
-	    z-index: 1;
-		backface-visibility: hidden;
-		
-    }
+        font-size: 12px;
+        padding: 2px 5px;
+        border-radius: 2px;
+        z-index: 1;
+        backface-visibility: hidden;
+        position: absolute;
+        top: 45px; /* Position it above the quantity */
+        right: 445px; /* Keep it at the same horizontal position as the quantity */
+        transform: translateY(-100%); /* Move it upward */
+    }  {% endcomment %}
+
+	.exceeds-stock {
+        display: block;
+        background-color: red;
+        color: white;
+        font-size: 12px;
+        padding: 2px 5px;
+        border-radius: 2px;
+        z-index: 1;
+        backface-visibility: hidden;
+        position: absolute;
+        top: 49px; /* Position it above the quantity */
+        right: 565px; /* Keep it at the same horizontal position as the quantity */
+        transform: translateY(-100%); /* Move it upward */
+    } 
 
     .chg-quantity {
         width: 12px;
@@ -33,6 +52,7 @@
         opacity: 0.6;
     }
 </style>
+
 <div style="position: relative; top: 30%;" class="section-title">
     <h2>Cart</h2>
 </div>
