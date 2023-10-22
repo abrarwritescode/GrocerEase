@@ -12,7 +12,7 @@ def itemdetails(request, pk, customer_id):
             items = data['items']
 
             products = Item.objects.all()
-            categories = Category.objects.all()
+            categories = Category.objects.all() 
 
     itemObj = Item.objects.get(id=pk)
     categorys = itemObj.category.all() 

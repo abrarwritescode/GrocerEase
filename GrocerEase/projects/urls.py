@@ -28,6 +28,7 @@ urlpatterns = [
     path('getfavoritescount/<int:customer_id>/', getfavoritescount, name='getfavoritescount'), 
     path('togglefavorite/<str:pk>/<int:customer_id>/', togglefavorite, name='togglefavorite'),
 
+
     path('selleritems/<int:seller_id>/<int:customer_id>/', selleritems, name='selleritems'),
     
     path('signupseller/', registerseller, name='signupseller'),

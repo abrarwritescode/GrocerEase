@@ -41,7 +41,7 @@
     right: 92px;
     position: absolute; /* Set the position to relative */
     top: 32px; 
-    font-size: 10.5px;
+    font-size: 12.5px;
     width: 21.5px;
 	height: 23px;
     justify-content: center;
@@ -176,7 +176,7 @@
                             </a>
                             <a href="{% url 'removefromfavorites' pk=item.id customer_id=request.session.customer_id %}" class="remove-from-favorites d-flex justify-content-center align-items-center text-center">
                                 <span><i class="ion-ios-heart"></i></span>
-                            </a>
+                            </a> 
                             {% endcomment %}
                             <a href="{% url 'togglefavorite' pk=item.id customer_id=request.session.customer_id %}" class="toggle-favorite d-flex justify-content-center align-items-center text-center" data-item-id="{{ item.id }}" data-user-id="{{ request.session.customer_id }}">
                                 <span><i class="ion-ios-heart"></i></span>
