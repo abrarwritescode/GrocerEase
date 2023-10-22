@@ -302,12 +302,14 @@
   	<script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+
 	$(document).ready(function () {
 		const toggleFavorite = $('.toggle-favorite');
 		const favoriteCount = $('#favorite-count');
 		
 		toggleFavorite.each(function () {
 			const link = $(this);
+			const icon = link.find('i');
 			
 			link.on('click', function(event) {
 				event.preventDefault();
@@ -316,15 +318,28 @@
 				$.get(url)
 				.done(function(data) {
 					const isFavorite = data.is_favorite;
+					
+					// Update the icon and local storage for this specific item
 					updateIcon(link, isFavorite);
+					
+					// Update the local storage to remember this specific item's favorite status
+					const itemId = link.attr('data-item-id');
+					localStorage.setItem('favorite_' + itemId, isFavorite.toString());
+					
+					// Update the favorite count
 					updateFavoriteCount();
 				})
 				.fail(function(jqXHR, textStatus, errorThrown) {
 					console.error("Failed to toggle favorite:", textStatus, errorThrown);
 				});
 			});
-		});
 	
+			// Read the local storage to initialize the icon for this specific item
+			const itemId = link.attr('data-item-id');
+			const isFavorite = localStorage.getItem('favorite_' + itemId) === 'true';
+			updateIcon(link, isFavorite);
+		});
+		
 		// Function to update the icon based on the item's state (favorite or not)
 		function updateIcon(link, isFavorite) {
 			const icon = link.find('i');
@@ -334,7 +349,7 @@
 				icon.removeClass('ion-ios-heart').addClass('ion-ios-heart-empty');
 			}
 		}
-	
+		
 		// Function to update the favorite count
 		function updateFavoriteCount() {
 			$.get("{% url 'getfavoritescount' customer_id=request.session.customer_id %}")
@@ -352,10 +367,11 @@
 				console.error("AJAX request failed:", textStatus, errorThrown);
 			});
 		}
-	
+		
 		// Fetch and update the initial favorite count
 		updateFavoriteCount();
 	});
+	
 	
 </script>
     
