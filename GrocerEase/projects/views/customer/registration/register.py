@@ -1,6 +1,4 @@
 from projects.imports import *
-from django.urls import reverse
-from django.http import HttpResponseRedirect
 
 def registercustomer(request):
     if request.method == 'POST':

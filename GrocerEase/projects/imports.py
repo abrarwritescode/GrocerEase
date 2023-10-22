@@ -2,7 +2,7 @@ import hashlib
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from projects.models import Customer, Seller, Item, Notification, Favorite
-from projects.forms import RegistrationCustomerForm, LoginCustomerForm, OTPVerificationCustomerForm, ItemForm, RegistrationSellerForm, LoginSellerForm, OTPVerificationSellerForm, EditSellerForm,ChangeCustomerImageForm
+from projects.forms import RegistrationCustomerForm, LoginCustomerForm, OTPVerificationCustomerForm, ItemForm, RegistrationSellerForm, LoginSellerForm, OTPVerificationSellerForm, EditSellerForm
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.contrib.auth.hashers import make_password
