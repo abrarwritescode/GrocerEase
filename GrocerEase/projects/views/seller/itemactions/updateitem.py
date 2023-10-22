@@ -2,7 +2,7 @@ from projects.imports import *
 
 def updateitem(request, pk):
     item = Item.objects.get(id=pk)
-    form = ItemForm(instance=item)
+    form = ItemForm(instance=item)  
 
     if request.method == 'POST':
         form = ItemForm(request.POST, request.FILES, instance=item)

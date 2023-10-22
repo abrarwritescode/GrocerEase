@@ -1,6 +1,7 @@
 from django.forms import ModelForm
-from .models import Customer, Item, Seller
+from .models import Customer, Item, Seller, Category
 from django import forms
+from django.forms import ClearableFileInput
 
 class RegistrationCustomerForm(forms.ModelForm):
     customerpassword = forms.CharField(widget=forms.PasswordInput)
@@ -34,10 +35,17 @@ class OTPVerificationSellerForm(forms.Form):
     sellerotp = forms.CharField(max_length=6, widget=forms.TextInput(attrs={'class': 'form-control'}))
 
 
-class ItemForm(ModelForm):
+class ItemForm(forms.ModelForm):
     class Meta:
         model = Item
         fields = ['itemtitle', 'itemprice', 'category', 'itemquantity', 'itemdescription', 'itemfeaturedimage']
+        widgets = {
+            'itemtitle': forms.TextInput(attrs={'placeholder': 'Input item name here..', 'style': 'width: 510px;'}),
+            'itemprice': forms.TextInput(attrs={'placeholder': 'Price', 'style': 'width: 510px;'}),
+            'itemquantity': forms.TextInput(attrs={'placeholder': 'Quantity', 'style': 'width: 510px;'}),
+            'itemdescription': forms.Textarea(attrs={'placeholder': 'Description', 'style': 'width: 520px; height: 50px;'}),
+        }
+    
 
 class EditSellerForm(forms.ModelForm):
     class Meta:

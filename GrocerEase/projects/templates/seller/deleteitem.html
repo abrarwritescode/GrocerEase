@@ -89,7 +89,7 @@ label {
 			<p>Are you sure you want to delete "{{ object }}"?</p>
 		</div>
 	<a href="{% url 'homeseller' seller_id=request.session.seller_id %}">Go Back</a>
-    <input type="submit" name = "Confirm" >
+    <input value="Delete" type="submit" name = "Confirm" >
 
   </form>
 {% endblock %}

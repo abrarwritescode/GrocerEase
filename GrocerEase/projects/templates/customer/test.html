@@ -1,84 +1,94 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RRF Filter By Category</title>
-    </head>
+{% extends 'seller/navbarseller.html' %}
+{% load static %}
+{% block content %}
 
-    <style>
+<style>
+  .form-group {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 10px;
+  }
+  .form-group p {
+    flex: 1;
+    text-align: right;
+    margin-right: 10px;
+  }
+  .form-group select, .form-group input {
+    width: 100%; /* Adjust the width as needed */
+  }
+</style>
 
-body{
-    background-color: #042405;
-}
-
-.attribute {
-        font-size: 18px;
-        font-style: normal;
-        position: relative;
-        top: 30px;
-        font-family: 'Times New Roman', Times, serif;
-		color: black;
-        }
-
-    .banner{
-  max-width: 600px;
-  height: 300px;
-  margin: auto;
-  text-align: center;
-  font-family: 'Times New Roman', Times, serif;
-  background-color: white;
-  position: relative;
-  top: 100px;
-  border-radius: 5px;
-    }
-
-label {
-    position: relative;
-    right: 10px;
-}
-.banner form input[type="submit"]{
-    float: left;
-  display: block;
-  color: #042405;
-  text-align: center;
-  padding: 10px;
-  text-decoration:none;
-  font-size: 15px;
-  background-color: white;
-  margin: 10px;
-  border-radius: 5px;
-  font-family: 'Times New Roman', Times, serif;
-  border: none;
-  position: relative;
-  top: 30px;
-  left: 240px;
-}
-
-
-    </style>
-
-<body>
-
-
-
-<div class = "banner">
-        
-  <form method = "POST" action = "" >
-	{% csrf_token %}
-
-        <div class = "attribute">
-			<p>Are you sure you want to delete "{{ object }}"?</p>
-		</div>
-	<a href="{% url 'homeseller' seller_id=request.session.seller_id %}">Go Back</a>
-    <input type="submit" name = "Confirm" >
-
-  </form>
-                                      
-
+<div style="position: relative; top: 30%;" class="section-title">
+  <h2>Upload Item Form</h2>
 </div>
 
+<div style="position: relative; top: 100px; width: 1000px; height: 500px; left: 280px;" class="checkout-section mt-150 mb-150">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8">
+        <div class="checkout-accordion-wrap">
+          <div class="accordion" id="accordionExample">
+            <div class="card single-accordion">
+              <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                  <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                    Input Item Information
+                  </button>
+                </h5>
+              </div>
 
-</body>
-</html>
+              <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                <div class="card-body">
+                  <div class="billing-address-form">
+                    <form action=""
+                    method="POST"
+                    enctype="multipart/form-data"> <!-- Add the 'method' and 'enctype' attributes -->
+                      {% csrf_token %}
+
+                      <div class="form-group">
+                        <p>Item name:</p>
+                        {{ form.itemtitle }}
+                      </div>
+
+                      <div class="form-group">
+                        <p>Price:</p>
+                        {{ form.itemprice }}
+                      </div>
+
+                      <div class="form-group">
+                        <p>quantity:</p>
+                        {{ form.itemquantity }}
+                      </div>
+
+
+                      <div class="form-group">
+                        <p>Category:</p>
+                        {{ form.category }}
+                      </div>
+
+                      <div class="form-group">
+                        <p>Description:</p>
+                        {{ form.itemdescription }}
+                      </div>
+
+                      <div class="form-group">
+                        <p>Image:</p>
+                        {{ form.itemfeaturedimage }}
+                      </div>
+
+                      <div class="form-group">
+                        <input type="submit">
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
