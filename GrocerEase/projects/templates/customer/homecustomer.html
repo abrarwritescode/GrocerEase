@@ -174,7 +174,9 @@
                             <a href="{% url 'favorites' pk=item.id customer_id=request.session.customer_id %}" class="add-to-cart d-flex justify-content-center align-items-center text-center">
                                 <span><i class="ion-ios-heart"></i></span>
                             </a>
-                            
+                            <a href="{% url 'removefromfavorites' pk=item.id customer_id=request.session.customer_id %}" class="remove-from-favorites d-flex justify-content-center align-items-center text-center">
+                                <span><i class="ion-ios-heart"></i></span>
+                            </a>
                            
                             
                         </div>
