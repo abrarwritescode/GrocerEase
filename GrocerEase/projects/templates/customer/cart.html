@@ -89,7 +89,7 @@
                                         {% if item.product.itemquantity > 0 %}
                                             <img data-product="{{ item.product.id }}" data-action="add" class="chg-quantity update-cart" src="{% static 'images/arrow-up.png' %}">
                                         {% else %}
-                                            <span class="exceeds-stock">Exceeds Stock</span>
+                                            <span class="exceeds-stock">Max Reached</span>
                                            
                                         {% endif %}
                                         <p>{{ item.quantity }}</p>
