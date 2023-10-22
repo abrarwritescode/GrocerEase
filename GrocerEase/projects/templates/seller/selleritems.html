@@ -17,6 +17,9 @@
                     <div class="product">
                         <a href="#" class="img-prod"><img class="img-fluid" src="{{ item.itemfeaturedimage.url }}" alt="">
                             <div class="overlay"></div>
+                            {% if item.itemquantity <= 0 %}
+                        <span class="out-of-stock-label">Out of Stock</span>
+                        {% endif %}
                         </a>
                         <div class="text py-3 pb-4 px-3 text-center">
                             <h3><strong>{{ item.itemtitle }}</strong></h3>
@@ -32,9 +35,9 @@
                                         <span><i class="ion-ios-menu"></i></span>
                                     </a>
                                     
-                                    <a href="{% url 'cart' customer_id=request.session.customer_id %}" data-product="{{ item.id }}" data-action="add" class="add-btn update-cart add-to-cart buy-now d-flex justify-content-center align-items-center mx-1">
+                                    <a href="{% url 'cart' customer_id=request.session.customer_id %}" data-product="{{item.id}}" data-action="add" class="add-btn update-cart add-to-cart buy-now d-flex justify-content-center align-items-center mx-1 {% if item.itemquantity <= 0 %}out-of-stock{% endif %}">
                                         <span><i class="ion-ios-cart"></i></span>
-                                    </a>
+                                    </a>  
                                 </div>
                             </div>
                         </div>
