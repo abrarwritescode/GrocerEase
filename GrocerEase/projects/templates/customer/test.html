@@ -177,7 +177,7 @@ body{
     <input type="checkbox" id="flip">
     <div class="cover">
       <div class="front">
-        <img src="{% static 'assets/assets2/images/gif1.gif' %}" alt="">
+        <img src="{% static 'assets/assets2/images/gif11.gif' %}" alt="">
         <div class="text">
         </div>
       </div>
@@ -187,30 +187,23 @@ body{
     <div class="forms">
         <div class="form-content">
           <div class="login-form">
-            <div class="title">Customer Login</div>
-          <form method="post" enctype="multipart/form-data">
+            <div class="title">Verify OTP for seller</div>
+            {% if error_message %}
+  <p style="color: red; font-size: 16px; text-align: center">
+    {{ error_message }}
+  </p>
+  {% endif %} 
+  
+          <form method="post">
             {% csrf_token %}
             <div class="input-boxes">
               <div class="input-box">
                 <i class="fas fa-envelope"></i>
-                {{ form.customeremail }}
+                <input type="text" id="otp" name="otp" class="form-control" required />
               </div>
-              <div class="input-box">
-                <i class="fas fa-lock"></i>
-                {{ form.customerpassword }}
-              </div>{% if messages %}
-              <div>
-                <ul>
-                  {% for message in messages %}
-                  <li>{{ message }}</li>
-                  {% endfor %}
-                </ul>
-              </div>
-              {% endif %}
               <div class="button input-box">
                 <input type="submit">
               </div>
-              <div class="text sign-up-text">Don't have an account? Sign up<a href="{% url 'signupcustomer' %}"> here.</a> 
             </div>
 
         </form>
