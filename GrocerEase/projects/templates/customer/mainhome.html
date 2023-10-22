@@ -311,8 +311,8 @@
 			const link = $(this);
 			const icon = link.find('i');
 			const itemId = link.attr('data-item-id');
-			const userId = link.attr('data-user-id'); // You may need to adjust how you get the user's ID
-	
+			const userId = link.attr('data-user-id'); 
+			
 			// Construct a unique key for this specific item and user
 			const storageKey = 'favorite_' + userId + '_' + itemId;
 			const isFavorite = localStorage.getItem(storageKey) === 'true';

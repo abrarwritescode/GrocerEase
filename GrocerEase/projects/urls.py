@@ -24,12 +24,9 @@ urlpatterns = [
     path('shop/<int:customer_id>/', viewshop, name="shop"),
     path('filterbycategory/<str:category_name>/<int:customer_id>/', filteritemsbycategory, name='filteritemsbycategory'),
     path('filterbyprice/<int:customer_id>/', filteritemsbyprice, name='filteritemsbyprice'),
-    
     path('myfavorites/<int:customer_id>/', viewfavorites, name='myfavorites'),
-    path('getfavoritescount/<int:customer_id>/', getfavoritescount, name='getfavoritescount'),
-   
+    path('getfavoritescount/<int:customer_id>/', getfavoritescount, name='getfavoritescount'), 
     path('togglefavorite/<str:pk>/<int:customer_id>/', togglefavorite, name='togglefavorite'),
-
 
     path('selleritems/<int:seller_id>/<int:customer_id>/', selleritems, name='selleritems'),
     
