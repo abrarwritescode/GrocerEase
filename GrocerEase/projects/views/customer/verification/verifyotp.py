@@ -11,6 +11,7 @@ def verifyotpcustomer(request):
         user_email = request.session.get('registered_user_email', None)
         customer_name = request.session.get('registered_user_name', None)  
         customer_password = request.session.get('registered_user_password', None) 
+        customer_image= request.session.get('registered_user_image', None)
         print(user_email, customer_name, customer_password)
 
         if user_email:
@@ -19,6 +20,7 @@ def verifyotpcustomer(request):
                     customername=customer_name,  
                     customeremail=user_email,
                     customerpassword=customer_password,
+                    customerimage=customer_image,
                     otp=session_otp,  
                     is_verified=True
                 )

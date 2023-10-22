@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect
 
 def registercustomer(request):
     if request.method == 'POST':
-        form = RegistrationCustomerForm(request.POST)
+        form = RegistrationCustomerForm(request.POST, request.FILES)
         if form.is_valid():
             password = form.cleaned_data['customerpassword']
 
@@ -46,6 +46,7 @@ def registercustomer(request):
                 request.session['registered_user_email'] = user.customeremail
                 request.session['registered_user_name'] = user.customername
                 request.session['registered_user_password'] = user.customerpassword
+                request.session['registered_user_image'] = user.customerimage.url
                 request.session['otp'] = otp
 
                 send_mail(

@@ -19,7 +19,7 @@
   >
     Customer Registration
   </h2>
-  <form method="post" style="max-width: 600px; margin: 0 auto; font-size: 20px">
+  <form method="post" enctype="multipart/form-data" style="max-width: 600px; margin: 0 auto; font-size: 20px">
     {% csrf_token %}
 
     <div style="text-align: left; margin-bottom: 20px">
@@ -48,10 +48,18 @@
 
     <div style="text-align: left; margin-bottom: 20px">
       <label
-        for="{{ form.customerpassword.id_for_label }}"
+        for="{{ form.customerimage.id_for_label }}"
         style="font-size: 24px; display: block; margin-bottom: 10px"
-        >{{ form.customerpassword.label_tag }}</label
+        >{{ form.customerimage.label_tag }}</label
       >
+      {{ form.customerimage }}
+    </div>
+
+    <div style="text-align: left; margin-bottom: 20px">
+      <label
+        for="{{ form.customerpassword.id_for_label }}"
+        style="font-size: 24px; display: block; margin-bottom: 10px">
+        {{ form.customerpassword.label_tag }}</label>
       {{ form.customerpassword }} {% if form.customerpassword.errors %}
       <ul class="errorlist">
         {% for error in form.customerpassword.errors %}
