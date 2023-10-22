@@ -32,6 +32,26 @@
     }
 }
 
+/* Add this to your CSS file or style block */
+.favorite-count {
+    background-color: red; /* Red background color for the circle */
+    color: white; /* White text color */
+    border-radius: 50%; /* Make it a circle by setting border-radius to 50% */
+    padding: 3px 11px; /* Adjust padding for size and positioning */
+    right: 92px;
+    position: absolute; /* Set the position to relative */
+    top: 32px; 
+    font-size: 10.5px;
+    width: 21.5px;
+	height: 23px;
+    justify-content: center;
+	align-items: center;
+    display: flex;
+
+
+}
+
+
 
 
 
@@ -151,11 +171,17 @@
                             <a href="{% url 'cart' customer_id=request.session.customer_id %}" data-product="{{item.id}}" data-action="add" class="add-btn update-cart add-to-cart buy-now d-flex justify-content-center align-items-center mx-1 {% if item.itemquantity <= 0 %}out-of-stock{% endif %}">
                                 <span><i class="ion-ios-cart"></i></span>
                             </a>
-                            <a href="{% url 'favorites' pk=item.id customer_id=request.session.customer_id %}" class="add-to-cart d-flex justify-content-center align-items-center text-center">
+                            {% comment %} <a href="{% url 'favorites' pk=item.id customer_id=request.session.customer_id %}" class="add-to-cart d-flex justify-content-center align-items-center text-center">
+                                <span><i class="ion-ios-heart"></i></span>
+                            </a>
+                            <a href="{% url 'removefromfavorites' pk=item.id customer_id=request.session.customer_id %}" class="remove-from-favorites d-flex justify-content-center align-items-center text-center">
+                                <span><i class="ion-ios-heart"></i></span>
+                            </a>
+                            {% endcomment %}
+                            <a href="{% url 'togglefavorite' pk=item.id customer_id=request.session.customer_id %}" class="toggle-favorite d-flex justify-content-center align-items-center text-center">
                                 <span><i class="ion-ios-heart"></i></span>
                             </a>
                             
-                           
                             
                         </div>
                     </div>
