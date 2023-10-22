@@ -100,3 +100,10 @@ class Notification(models.Model):
     def __str__(self):
         return f"Notification {self.id}"
 
+class Favorite(models.Model):
+    user = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(default=timezone.now)
+
+    def __str__(self):
+        return f"Favorite {self.id}"
