@@ -23,41 +23,55 @@
 	<link rel="stylesheet" href="{% static 'assets/assets3/css/style.css' %}">
 
 
+	
+    
 </head>
 <body>
 {% block content %}
 
     <div style="position: relative; top: 50px;" class="section-title">
-        <h2>Item: {{item.itemtitle}}</h2>
+        <h2>Item: {{ item.itemtitle }}</h2>
     </div>
-	
-	<!-- single product -->
-	<div class="single-product mt-150 mb-150">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-5">
-					<div class="single-product-img">
-						<img src="{{ item.itemfeaturedimage.url }}" alt="">
-					</div>
-				</div>
-				<div class="col-md-7">
-					<div class="single-product-content">
-                        <h3>{{item.itemtitle}}</h3>
-						<h3>Description: {{item.itemdescription}}</h3>
-						<p class="single-product-pricing"><span>Per Kg</span>BDT {{item.itemprice}}</p>
-						<div class="single-product-form">
-							<a href="{% url 'cart' customer_id=request.session.customer_id %}" data-product="{{item.id}}" data-action="add" class="cart-btn update-cart add-to-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+
+    <!-- single product -->
+    <div class="single-product mt-150 mb-150">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="single-product-img">
+                        <div class="product-image-container">
+                            <a href="#" class="img-prod">
+                                <img class="img-fluid" src="{{ item.itemfeaturedimage.url }}" alt="">
+								{% if item.itemquantity <= 0 %}
+                                <span class="out-of-stock-label">Out of Stock</span>
+                                {% endif %}
+                                
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <div class="single-product-content">
+						
+
+                        <h3>{{ item.itemtitle }}</h3>
+                        <h3>Description: {{ item.itemdescription }}</h3>
+                        <p class="single-product-pricing"><span>Per Kg</span> BDT {{ item.itemprice }}</p>
+                        <div class="single-product-form">
+                            <a href="{% url 'cart' customer_id=request.session.customer_id %}" data-product="{{ item.id }}" data-action="add" class="cart-btn update-cart add-to-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
                             {% for category in categorys %}
-							<p><strong>Categories: </strong>{{category}}</p>
+                            <p><strong>Categories: </strong>{{ category }}</p>
                             {% endfor %}
-						</div>
-						<p>
-							Seller: <a href="{% url 'selleritems' seller_id=item.seller.pk customer_id=request.session.customer_id %}">{{ item.seller.storename }}</a>
-						</p>
-				</div>
-			</div>
-		</div>
-	</div>
+                        </div>
+                        <p>
+                            Seller: <a href="{% url 'selleritems' seller_id=item.seller.pk customer_id=request.session.customer_id %}">{{ item.seller.storename }}</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 	<!-- end single product -->
 
     <!-- footer -->

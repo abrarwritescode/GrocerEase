@@ -2,6 +2,42 @@
 {% load static %}
 {% block content %} 
 
+<style>
+    /* Add styles for out-of-stock items */
+    .out-of-stock {
+        filter: blur(1px); /* Apply a blur effect to the item */
+        opacity: 0.5; /* Reduce opacity to indicate it's out of stock */
+        pointer-events: none; /* Disable pointer events so it can't be clicked */
+    }
+    .out-of-stock-label {
+        display: block;
+        background-color: red;
+        color: white;
+        font-size: 14px;
+        padding: 4px 8px;
+        border-radius: 4px;
+        position: absolute;
+        top: 10px;
+        left: 10px;
+        z-index: 1;
+        opacity: 0; 
+        animation: fade-in 0.5s ease-in-out forwards; 
+    }
+    
+    @keyframes fade-in {
+        from {
+            opacity: 0; /* Start with zero opacity */
+        }
+        to {
+            opacity: 1; /* Fade in to full opacity */
+        }
+    }
+    
+    
+    
+    
+    </style>
+
 <section style="position: relative; top: 15vh;" class="ftco-section"> 
     <div class="container">
         <div class="row justify-content-center mb-3 pb-3">
@@ -21,37 +57,39 @@
                 </ul>
             </div>
         </div>
-        <div style="justify-content: center; align-items: center;" class="row">
-            {% for item in products %} 
-                <div class="col-md-6 col-lg-3 ftco-animate">
-                    <div class="product">
-                        <a href="#" class="img-prod"><img class="img-fluid" src="{{ item.itemfeaturedimage.url }}" alt="">
-                            <div class="overlay"></div>
-                        </a>
-                        <div class="text py-3 pb-4 px-3 text-center">
-                            <h3><strong>{{item.itemtitle}}</strong></h3>
-                            <div class="d-flex">
-                                <div class="pricing">
-                                    <p class="price"><span class="price-sale">BDT {{item.itemprice}}</span></p>
-                                </div>
-                            </div>
-                            <div class="bottom-area d-flex px-3">
-                                <div class="m-auto d-flex">
-                                    <a href="{% url 'singleitemcustomer' pk=item.id customer_id=request.session.customer_id %}" class="add-to-cart d-flex justify-content-center align-items-center text-center">
-                                        <span><i class="ion-ios-menu"></i></span>
-                                    </a>
-                                    
-                                    <a href="{% url 'cart' customer_id=request.session.customer_id %}" data-product="{{item.id}}" data-action="add" class="add-btn update-cart add-to-cart buy-now d-flex justify-content-center align-items-center mx-1">
-                                        <span><i class="ion-ios-cart"></i></span>
-                                    </a>                           
         
-                                </div>
-                            </div>
+    <div style="justify-content: center; align-items: center;" class="row">
+        {% for item in products %} 
+        <div class="col-md-6 col-lg-3 ftco-animate">
+            <div class="product">
+                <a href="#" class="img-prod"><img class="img-fluid" src="{{ item.itemfeaturedimage.url }}" alt=""></a>
+                {% if item.itemquantity <= 0 %}
+                    <span class="out-of-stock-label">Out of Stock</span>
+                {% endif %}
+                <div class="text py-3 pb-4 px-3 text-center">
+                    <h3><strong>{{item.itemtitle}}</strong></h3>
+                    <div class="d-flex">
+                        <div class="pricing">
+                            <p class="price"><span class="price-sale">BDT {{item.itemprice}}</span></p>
+                        </div>
+                    </div>
+                    <div class="bottom-area d-flex px-3">
+                        <div class="m-auto d-flex">
+                            <a href="{% url 'singleitemcustomer' pk=item.id customer_id=request.session.customer_id %}" class="add-to-cart d-flex justify-content-center align-items-center text-center">
+                                <span><i class="ion-ios-menu"></i></span>
+                            </a>
+                            <a href="{% url 'cart' customer_id=request.session.customer_id %}" data-product="{{item.id}}" data-action="add" class="add-btn update-cart add-to-cart buy-now d-flex justify-content-center align-items-center mx-1 {% if item.itemquantity <= 0 %}out-of-stock{% endif %}">
+                                <span><i class="ion-ios-cart"></i></span>
+                            </a>
                         </div>
                     </div>
                 </div>
-            {% endfor %}
-          </div>
+            </div>
+        </div>
+        
+        {% endfor %}
+    </div>
+    
         
             <!-- pagignation -->
         

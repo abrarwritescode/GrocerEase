@@ -8,6 +8,33 @@
     opacity: 0.5; /* Reduce opacity to indicate it's out of stock */
     pointer-events: none; /* Disable pointer events so it can't be clicked */
 }
+.out-of-stock-label {
+    display: block;
+    background-color: red;
+    color: white;
+    font-size: 14px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 1;
+    opacity: 0; 
+    animation: fade-in 0.5s ease-in-out forwards; 
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0; /* Start with zero opacity */
+    }
+    to {
+        opacity: 1; /* Fade in to full opacity */
+    }
+}
+
+
+
+
 </style>
 <div>
 
@@ -99,13 +126,14 @@
     </div>
 
 
-<div style="justify-content: center; align-items: center;" class="row">
-    {% for item in products %} 
+    <div style="justify-content: center; align-items: center;" class="row">
+        {% for item in products %} 
         <div class="col-md-6 col-lg-3 ftco-animate">
             <div class="product">
-                <a href="#" class="img-prod"><img class="img-fluid" src="{{ item.itemfeaturedimage.url }}" alt="">
-                    <div class="overlay"></div>
-                </a>
+                <a href="#" class="img-prod"><img class="img-fluid" src="{{ item.itemfeaturedimage.url }}" alt=""></a>
+                {% if item.itemquantity <= 0 %}
+                    <span class="out-of-stock-label">Out of Stock</span>
+                {% endif %}
                 <div class="text py-3 pb-4 px-3 text-center">
                     <h3><strong>{{item.itemtitle}}</strong></h3>
                     <div class="d-flex">
@@ -118,26 +146,18 @@
                             <a href="{% url 'singleitemcustomer' pk=item.id customer_id=request.session.customer_id %}" class="add-to-cart d-flex justify-content-center align-items-center text-center">
                                 <span><i class="ion-ios-menu"></i></span>
                             </a>
-                            
-                            <a href="{% url 'cart' customer_id=request.session.customer_id %}"
-                            data-product="{{item.id}}"
-                            data-action="add"
-                            class="add-btn update-cart add-to-cart buy-now d-flex justify-content-center align-items-center mx-1
-                            {% if item.itemquantity <= 0 %}out-of-stock{% endif %}">
-                             <span><i class="ion-ios-cart"></i></span>
-                         </a>
-                            
-                            <!-- Add this to your template to display messages -->
-                            
-                
-
+                            <a href="{% url 'cart' customer_id=request.session.customer_id %}" data-product="{{item.id}}" data-action="add" class="add-btn update-cart add-to-cart buy-now d-flex justify-content-center align-items-center mx-1 {% if item.itemquantity <= 0 %}out-of-stock{% endif %}">
+                                <span><i class="ion-ios-cart"></i></span>
+                            </a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-	{% endfor %}
-  </div>
+        
+        {% endfor %}
+    </div>
+    
 
   <!-- Latest Product Section Begin -->
   <section class="latest-product spad">
