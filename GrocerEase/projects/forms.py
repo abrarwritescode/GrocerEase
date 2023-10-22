@@ -9,10 +9,19 @@ class RegistrationCustomerForm(forms.ModelForm):
     class Meta:
         model = Customer
         fields = ['customername', 'customeremail', 'customerpassword', 'customerimage']
+        widgets = {
+            'customername': forms.TextInput(attrs={'placeholder': 'Enter your name', 'style': 'width: 510px;'}),
+            'customeremail': forms.TextInput(attrs={'placeholder': 'Enter your email', 'style': 'width: 510px;'}),
+            'customerpassword': forms.PasswordInput(attrs={'placeholder': 'Enter your password', 'style': 'width: 510px;'}),
+        }
 
 class LoginCustomerForm(forms.Form):
     customeremail = forms.EmailField()
     customerpassword = forms.CharField(widget=forms.PasswordInput)
+    widgets = {
+            'customeremail': forms.TextInput(attrs={'placeholder': 'Enter your email', 'style': 'width: 510px;'}),
+            'customerpassword': forms.PasswordInput(attrs={'placeholder': 'Enter your password', 'style': 'width: 510px;'}),
+        }
 
 
 class OTPVerificationCustomerForm(forms.Form):
