@@ -171,13 +171,17 @@
                             <a href="{% url 'cart' customer_id=request.session.customer_id %}" data-product="{{item.id}}" data-action="add" class="add-btn update-cart add-to-cart buy-now d-flex justify-content-center align-items-center mx-1 {% if item.itemquantity <= 0 %}out-of-stock{% endif %}">
                                 <span><i class="ion-ios-cart"></i></span>
                             </a>
-                            <a href="{% url 'favorites' pk=item.id customer_id=request.session.customer_id %}" class="add-to-cart d-flex justify-content-center align-items-center text-center">
+                            {% comment %} <a href="{% url 'favorites' pk=item.id customer_id=request.session.customer_id %}" class="add-to-cart d-flex justify-content-center align-items-center text-center">
                                 <span><i class="ion-ios-heart"></i></span>
                             </a>
                             <a href="{% url 'removefromfavorites' pk=item.id customer_id=request.session.customer_id %}" class="remove-from-favorites d-flex justify-content-center align-items-center text-center">
                                 <span><i class="ion-ios-heart"></i></span>
                             </a>
-                           
+                            {% endcomment %}
+                            <a href="{% url 'togglefavorite' pk=item.id customer_id=request.session.customer_id %}" class="toggle-favorite d-flex justify-content-center align-items-center text-center">
+                                <span><i class="ion-ios-heart"></i></span>
+                            </a>
+                            
                             
                         </div>
                     </div>

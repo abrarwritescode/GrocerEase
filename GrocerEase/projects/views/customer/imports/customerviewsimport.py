@@ -22,3 +22,4 @@ from projects.views.customer.favorites.viewfavs import viewfavorites
 from projects.views.customer.profile.myprofile import change_customer_image
 from projects.views.customer.favorites.viewfavscount import getfavoritescount
 from projects.views.customer.favorites.removefromfavorites import removefromfavorites
+from projects.views.customer.favorites.togglefavs import togglefavorite

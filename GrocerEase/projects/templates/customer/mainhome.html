@@ -303,20 +303,45 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 	$(document).ready(function () {
+		const toggleFavorite = $('.toggle-favorite');
 		const favoriteCount = $('#favorite-count');
+		
+		toggleFavorite.each(function () {
+			const link = $(this);
+			
+			link.on('click', function(event) {
+				event.preventDefault();
+				const url = link.attr('href');
+				
+				$.get(url)
+				.done(function(data) {
+					const isFavorite = data.is_favorite;
+					updateIcon(link, isFavorite);
+					updateFavoriteCount();
+				})
+				.fail(function(jqXHR, textStatus, errorThrown) {
+					console.error("Failed to toggle favorite:", textStatus, errorThrown);
+				});
+			});
+		});
+	
+		// Function to update the icon based on the item's state (favorite or not)
+		function updateIcon(link, isFavorite) {
+			const icon = link.find('i');
+			if (isFavorite) {
+				icon.removeClass('ion-ios-heart-empty').addClass('ion-ios-heart');
+			} else {
+				icon.removeClass('ion-ios-heart').addClass('ion-ios-heart-empty');
+			}
+		}
 	
 		// Function to update the favorite count
 		function updateFavoriteCount() {
 			$.get("{% url 'getfavoritescount' customer_id=request.session.customer_id %}")
 			.done(function(data) {
 				const count = data.favorite_count;
-	
-				// Log the count received from the server
-				console.log("Received count:", count);
-	
 				favoriteCount.text(count);
-	
-				// Only hide the count if it's zero and was previously displayed
+				
 				if (count === 0 && favoriteCount.is(':visible')) {
 					favoriteCount.hide();
 				} else if (count > 0) {
@@ -327,9 +352,6 @@
 				console.error("AJAX request failed:", textStatus, errorThrown);
 			});
 		}
-	
-		// Log a message when the document is ready
-		console.log("Document is ready.");
 	
 		// Fetch and update the initial favorite count
 		updateFavoriteCount();
