@@ -1,6 +1,6 @@
 {% extends 'seller/navbarseller.html' %}
     <div style="position: relative; top: 50px;" class="section-title">
-        <h2>Item: {{item.itemtitle}}</h2>
+        <h2>Item: {{item.itemtitle}}</h2> 
     </div>
 {% block content %}
 	<!-- single product -->
@@ -20,7 +20,7 @@
 				</div>
 				<div class="col-md-7">
 					<div class="single-product-content">
-                        <h3>{{item.itemtitle}}</h3>
+                        <h3>{{item.itemtitle}}</h3> <span class="heart-icon" style="color: red; font-size: 24px;">&hearts;</span> {{ item.favorite_count }}
 						<p>Description: {{item.itemdescription}}</p>
 						<p>Quantity: {{item.itemquantity}} Kg</p>
 						{% for category in categorys %}

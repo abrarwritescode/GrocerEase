@@ -15,6 +15,15 @@ def togglefavorite(request, pk, customer_id):
             Favorite.objects.create(customer=customer, item=item)
             is_favorite = True
 
-        return JsonResponse({'is_favorite': is_favorite})
+        # Update the favorite count for the item
+        item.favorite_count = Favorite.objects.filter(item=item).count()
+        item.save()
+
+        response_data = {
+            'is_favorite': is_favorite,
+            'favorite_count': item.favorite_count,
+        }
+
+        return JsonResponse(response_data)
 
     return JsonResponse({'is_favorite': False})
