@@ -80,7 +80,7 @@
                 <div class="col-md-8">
                   <div class="card mb-3">
                     <div class="card-body">
-                        <form method="post" action="{% url 'sellerprofile' seller.id %}">
+                        <form method="post" enctype="multipart/form-data" action="{% url 'sellerprofile' seller.id %}">
                         {% csrf_token %}
                         <div class="row">
                           <div class="col-sm-3">
@@ -101,6 +101,16 @@
                           </div>
                         </div>
                         <hr>
+                        <div class="row">
+                          <div class="col-sm-3">
+                            <h6 class="mb-0">Image</h6>
+                          </div>
+                          <div class="col-sm-9 text-secondary">
+                              <input class="mb-0" type="file" name="sellerimage">
+                          </div>
+                        </div>
+                        <hr>
+                        
                         <div class="row">
                           <div class="col-sm-12">
                             <button style="float: left; display: block; color: white; text-align: center; padding: auto; text-decoration: none; font-size: 15px; background-color: #f28123; margin: 10px; border-radius: 20px; font-family: serif; border: none; height: 30px; width: 100px;" type="submit">Save Changes</button>

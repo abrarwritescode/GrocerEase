@@ -11,7 +11,7 @@ def sellerprofile(request, seller_id):
             form.save()  # Save the edited seller information
             return redirect('sellerprofile', seller_id=seller.id)  # Redirect to the seller profile page or another appropriate URL after editing
 
-    else: 
+    else:  
         form = EditSellerForm(instance=seller)  # Prefill the form with the seller's current information
 
     return render(request, 'seller/sellerprofile.html', {'seller': seller, 'form': form})
