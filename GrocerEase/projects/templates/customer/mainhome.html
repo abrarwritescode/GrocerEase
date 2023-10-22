@@ -310,7 +310,16 @@
 		toggleFavorite.each(function () {
 			const link = $(this);
 			const icon = link.find('i');
+			const itemId = link.attr('data-item-id');
+			const userId = link.attr('data-user-id'); // You may need to adjust how you get the user's ID
+	
+			// Construct a unique key for this specific item and user
+			const storageKey = 'favorite_' + userId + '_' + itemId;
+			const isFavorite = localStorage.getItem(storageKey) === 'true';
 			
+			// Initialize the icon based on the favorite state
+			updateIcon(link, isFavorite);
+	
 			link.on('click', function(event) {
 				event.preventDefault();
 				const url = link.attr('href');
@@ -319,25 +328,16 @@
 				.done(function(data) {
 					const isFavorite = data.is_favorite;
 					
-					// Update the icon and local storage for this specific item
+					// Update the icon and local storage for this specific item and user
 					updateIcon(link, isFavorite);
+					localStorage.setItem(storageKey, isFavorite.toString());
 					
-					// Update the local storage to remember this specific item's favorite status
-					const itemId = link.attr('data-item-id');
-					localStorage.setItem('favorite_' + itemId, isFavorite.toString());
-					
-					// Update the favorite count
 					updateFavoriteCount();
 				})
 				.fail(function(jqXHR, textStatus, errorThrown) {
 					console.error("Failed to toggle favorite:", textStatus, errorThrown);
 				});
 			});
-	
-			// Read the local storage to initialize the icon for this specific item
-			const itemId = link.attr('data-item-id');
-			const isFavorite = localStorage.getItem('favorite_' + itemId) === 'true';
-			updateIcon(link, isFavorite);
 		});
 		
 		// Function to update the icon based on the item's state (favorite or not)
