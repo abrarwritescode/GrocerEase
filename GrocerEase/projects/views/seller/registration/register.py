@@ -1,12 +1,14 @@
 from projects.imports import *
+from django.urls import reverse
+from django.http import HttpResponseRedirect
 
 def registerseller(request):
     if request.method == 'POST':
-        form = RegistrationSellerForm(request.POST)
+        form = RegistrationSellerForm(request.POST, request.FILES)
 
         if form.is_valid():
             
-            password = form.cleaned_data['sellerpassword']
+            password = form.cleaned_data['sellerpassword'] 
             
 
             digit_error = None
@@ -47,6 +49,7 @@ def registerseller(request):
                 request.session['registered_user_email'] = user.selleremail
                 request.session['registered_user_name'] = user.storename
                 request.session['registered_user_password'] = user.sellerpassword
+                request.session['registered_user_image'] = user.sellerimage.name
                 request.session['otp'] = otp
 
                 send_mail(

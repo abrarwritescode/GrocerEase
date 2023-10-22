@@ -40,7 +40,7 @@
   <body>
     <div class="container">
       <h2 class="text-center mb-4">Seller Registration</h2>
-      <form method="post">
+      <form method="post" enctype="multipart/form-data" method="post">
         {% csrf_token %} 
         {{ form.storename.label_tag }}
         {{ form.storename }}
@@ -57,7 +57,12 @@
                 </ul>
             {% endif %}
         </div>
-      
+
+        {{ form.sellerimage.label_tag }}
+        {{ form.sellerimage }}
+        <div class="form-group">
+        </div>
+
         {{ form.sellerpassword.label_tag }}
         {{ form.sellerpassword }}
         <div class="form-group">

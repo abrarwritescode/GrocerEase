@@ -46,7 +46,7 @@ def registercustomer(request):
                 request.session['registered_user_email'] = user.customeremail
                 request.session['registered_user_name'] = user.customername
                 request.session['registered_user_password'] = user.customerpassword
-                request.session['registered_user_image'] = user.customerimage.url
+                request.session['registered_user_image'] = user.customerimage.name
                 request.session['otp'] = otp
 
                 send_mail(

@@ -9,6 +9,7 @@ def verifyotpseller(request):
         user_email = request.session.get('registered_user_email', None)
         seller_name = request.session.get('registered_user_name', None)  
         seller_password = request.session.get('registered_user_password', None) 
+        seller_image= request.session.get('registered_user_image', None)
         print(user_email, seller_name, seller_password)
 
         if user_email:
@@ -17,9 +18,11 @@ def verifyotpseller(request):
                     storename=seller_name,  
                     selleremail=user_email,
                     sellerpassword=seller_password,
+                    sellerimage=seller_image,
                     otp=session_otp,  
                     is_verified=True
                 )
+               
                 return redirect('loginseller')
             else:
                 error_message = 'Invalid OTP. Please try again.'

@@ -42,4 +42,4 @@ class ItemForm(ModelForm):
 class EditSellerForm(forms.ModelForm):
     class Meta:
         model = Seller
-        fields = [ 'storename', 'selleremail']
+        fields = [ 'storename', 'selleremail', 'sellerimage']
