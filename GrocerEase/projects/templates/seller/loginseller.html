@@ -1,72 +1,71 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Seller Login</title>
-
-    <link
-      rel="stylesheet"
-      href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    />
-
-    <style>
-      body {
-        background-color: #d0ddea;
-        color: #343a40;
-        font-family: 'Arial', sans-serif;
-      }
-      .container {
-        max-width: 400px;
-        margin: auto;
-        background-color: #c4e0e4;
-        border-radius: 10px;
-        padding: 20px;
-        margin-top: 50px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-      }
-      .form-group {
-        margin-bottom: 20px;
-      }
-      .btn-primary {
-        background-color: #007bff;
-        border-color: #007bff;
-      }
-      .btn-primary:hover {
-        background-color: #0056b3;
-        border-color: #0056b3;
-      }
-      .forgot-password {
-        margin-top: 10px;
-        text-align: center;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="container">
-      <h2 class="text-center mb-4">Seller Login</h2>
-      <form method="post">
-        {% csrf_token %} {{ form.as_p }} {% if messages %}
-        <div>
-          <ul>
-            {% for message in messages %}
-            <li>{{ message }}</li>
-            {% endfor %}
-          </ul>
-        </div>
-        {% endif %}
-
-        <button type="submit" class="btn btn-primary btn-block">Login</button>
-      </form>
-
-      <p class="forgot-password">
-        Forgot password? Reset
-        <a href="{% url 'reset_seller_password' %}">here</a>
-      </p> 
-    </div>
-
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-  </body>
-</html>
+{% extends 'seller\auth_seller_navbar.html' %} {% block content %}
+<div
+  class="container"
+  id="login-section"
+  style="
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #f8f9fa;
+  "
+>
+  <div
+    style="
+      max-width: 400px;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    "
+  >
+    <h2
+      style="
+        font-size: 43px;
+        color: #042405;
+        margin-bottom: 34px;
+        font-weight: bold;
+      "
+    >
+      Seller Login
+    </h2>
+    <form method="post">
+      {% csrf_token %} {{ form.as_p }} {% if messages %}
+      <div>
+        <ul>
+          {% for message in messages %}
+          <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+      {% endif %}
+      <button
+        type="submit"
+        style="
+          width: 100%;
+          padding: 12px;
+          background-color: #042405;
+          border: none;
+          color: #fff;
+          font-size: 18px;
+          font-weight: bold;
+          cursor: pointer;
+          margin-top: 15px;
+          margin-bottom: 30px;
+        "
+      >
+        Login
+      </button>
+    </form>
+    <p
+      class="forgot-password"
+      style="text-align: center; margin-top: 10px; font-size: 16px"
+    >
+      Forgot password? Reset
+      <a href="{% url 'reset_seller_password' %}" style="color: #042405"
+        >here</a
+      >
+    </p>
+  </div>
+</div>
+{% endblock content %}
