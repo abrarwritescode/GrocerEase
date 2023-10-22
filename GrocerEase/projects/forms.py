@@ -42,4 +42,17 @@ class ItemForm(ModelForm):
 class EditSellerForm(forms.ModelForm):
     class Meta:
         model = Seller
+<<<<<<< HEAD
         fields = [ 'storename', 'selleremail', 'sellerimage']
+=======
+        fields = [ 'storename', 'selleremail']
+
+
+class ChangeCustomerImageForm(forms.ModelForm):
+    class Meta:
+        model = Customer
+        fields = ['customerimage']
+        widgets = {
+            'customerimage': forms.FileInput(attrs={'clearable': False}),
+        }
+>>>>>>> 5b0ae731c4815148ea0df74fbc076cc1b3d49989

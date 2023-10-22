@@ -101,7 +101,7 @@ class Notification(models.Model):
         return f"Notification {self.id}"
 
 class Favorite(models.Model):
-    user = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     created_at = models.DateTimeField(default=timezone.now)
 

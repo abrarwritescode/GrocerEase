@@ -132,6 +132,10 @@
 									<div class="header-icons">
 										<a class="shopping-cart" href="{% url 'cart' customer_id=request.session.customer_id %}"><i  id="cart-icon" class="fas fa-shopping-cart"></i></a>
 										<a class="mobile-hide search-bar-icon" href="{% url 'search' customer_id=request.session.customer_id  %}"><i class="fas fa-search"></i></a> 
+										<a href="{% url 'myfavorites' customer_id=request.session.customer_id  %}">
+											<span><i class="ion-ios-heart"></i></span>
+										</a>
+										
                                         <a href="{% url 'logoutcustomer' %}"><i class="fas fa-sign-out-alt"></i></a>
                                         <a href="{% url 'customerprofile' customer_id=request.session.customer_id %}"><i class="fas fa-user"></i></a>									
 									</div><p id="cart-total">{{cartItems}}</p>

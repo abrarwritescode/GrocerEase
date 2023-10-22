@@ -1,20 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>OTP Verification</title>
-  </head>
-  <body>
-    <h2>OTP Verification</h2>
-    {% if error_message %}
-    <p style="color: red">{{ error_message }}</p>
-    {% endif %}
-    <form method="post">
-      {% csrf_token %}
-      <label for="otp">Enter OTP:</label>
-      <input type="text" id="otp" name="otp" required />
-      <button type="submit">Verify OTP</button>
-    </form>
-  </body>
-</html>
+{% extends 'customer/auth_customer_navbar.html' %} {% block content %}
+<div style="text-align: center; border: 30px; margin-bottom: 40px">
+  <h2 style="margin-top: 150px">OTP Verification</h2>
+  {% if error_message %}
+  <p style="color: red">{{ error_message }}</p>
+  {% endif %}
+  <form method="post">
+    {% csrf_token %}
+    <label for="otp">Enter OTP:</label>
+    <input type="text" id="otp" name="otp" required />
+    <button type="submit">Verify OTP</button>
+  </form>
+</div>
+{% endblock content %}

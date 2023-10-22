@@ -24,6 +24,8 @@ urlpatterns = [
     path('shop/<int:customer_id>/', viewshop, name="shop"),
     path('filterbycategory/<str:category_name>/<int:customer_id>/', filteritemsbycategory, name='filteritemsbycategory'),
     path('filterbyprice/<int:customer_id>/', filteritemsbyprice, name='filteritemsbyprice'),
+    path('addtofavorites/<str:pk>/<int:customer_id>/', addtofavorites, name='favorites'),
+    path('myfavorites/<int:customer_id>/', viewfavorites, name='myfavorites'),
 
     path('selleritems/<int:seller_id>/<int:customer_id>/', selleritems, name='selleritems'),
     
@@ -45,4 +47,5 @@ urlpatterns = [
     path('sellernotifications/<int:seller_id>/', sellernotifs, name='notifications'),
     path('getnotificationcount/<int:seller_id>/', getnotificationcount, name='getnotificationcount'),
     path('marknotificationsasread/<int:seller_id>/', marknotificationsasread, name='marknotificationsasread'),
+    path('customer/<int:customer_id>/change-image/',change_customer_image, name='change_customer_image'),
 ] 

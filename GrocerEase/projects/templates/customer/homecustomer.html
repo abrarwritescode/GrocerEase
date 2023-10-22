@@ -136,9 +136,11 @@
                 {% endif %}
                 <div class="text py-3 pb-4 px-3 text-center">
                     <h3><strong>{{item.itemtitle}}</strong></h3>
+                    
                     <div class="d-flex">
                         <div class="pricing">
                             <p class="price"><span class="price-sale">BDT {{item.itemprice}}</span></p>
+                            
                         </div>
                     </div>
                     <div class="bottom-area d-flex px-3">
@@ -149,6 +151,12 @@
                             <a href="{% url 'cart' customer_id=request.session.customer_id %}" data-product="{{item.id}}" data-action="add" class="add-btn update-cart add-to-cart buy-now d-flex justify-content-center align-items-center mx-1 {% if item.itemquantity <= 0 %}out-of-stock{% endif %}">
                                 <span><i class="ion-ios-cart"></i></span>
                             </a>
+                            <a href="{% url 'favorites' pk=item.id customer_id=request.session.customer_id %}" class="add-to-cart d-flex justify-content-center align-items-center text-center">
+                                <span><i class="ion-ios-heart"></i></span>
+                            </a>
+                            
+                           
+                            
                         </div>
                     </div>
                 </div>
