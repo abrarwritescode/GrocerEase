@@ -3,6 +3,8 @@ from projects.imports import *
 
 def customerprofile(request, customer_id):
     customer = Customer.objects.get(pk=customer_id)
+    
+    cart_total = Order.objects.filter(customer=customer, is_cart=True).first().get_cart_items
 
     if request.method == 'POST':
         image_form = ChangeCustomerImageForm(request.POST, request.FILES, instance=customer)
@@ -16,6 +18,7 @@ def customerprofile(request, customer_id):
     context = {
         'customer': customer,
         'image_form': image_form,
+        'cart_total': cart_total
     }
     return render(request, 'customer/customerprofile.html', context)
 
