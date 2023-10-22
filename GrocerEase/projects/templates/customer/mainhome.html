@@ -302,13 +302,24 @@
   	<script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
+
 	$(document).ready(function () {
 		const toggleFavorite = $('.toggle-favorite');
 		const favoriteCount = $('#favorite-count');
 		
 		toggleFavorite.each(function () {
 			const link = $(this);
+			const icon = link.find('i');
+			const itemId = link.attr('data-item-id');
+			const userId = link.attr('data-user-id'); // You may need to adjust how you get the user's ID
+	
+			// Construct a unique key for this specific item and user
+			const storageKey = 'favorite_' + userId + '_' + itemId;
+			const isFavorite = localStorage.getItem(storageKey) === 'true';
 			
+			// Initialize the icon based on the favorite state
+			updateIcon(link, isFavorite);
+	
 			link.on('click', function(event) {
 				event.preventDefault();
 				const url = link.attr('href');
@@ -316,7 +327,11 @@
 				$.get(url)
 				.done(function(data) {
 					const isFavorite = data.is_favorite;
+					
+					// Update the icon and local storage for this specific item and user
 					updateIcon(link, isFavorite);
+					localStorage.setItem(storageKey, isFavorite.toString());
+					
 					updateFavoriteCount();
 				})
 				.fail(function(jqXHR, textStatus, errorThrown) {
@@ -324,7 +339,7 @@
 				});
 			});
 		});
-	
+		
 		// Function to update the icon based on the item's state (favorite or not)
 		function updateIcon(link, isFavorite) {
 			const icon = link.find('i');
@@ -334,7 +349,7 @@
 				icon.removeClass('ion-ios-heart').addClass('ion-ios-heart-empty');
 			}
 		}
-	
+		
 		// Function to update the favorite count
 		function updateFavoriteCount() {
 			$.get("{% url 'getfavoritescount' customer_id=request.session.customer_id %}")
@@ -352,10 +367,11 @@
 				console.error("AJAX request failed:", textStatus, errorThrown);
 			});
 		}
-	
+		
 		// Fetch and update the initial favorite count
 		updateFavoriteCount();
 	});
+	
 	
 </script>
     

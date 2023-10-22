@@ -178,9 +178,11 @@
                                 <span><i class="ion-ios-heart"></i></span>
                             </a>
                             {% endcomment %}
-                            <a href="{% url 'togglefavorite' pk=item.id customer_id=request.session.customer_id %}" class="toggle-favorite d-flex justify-content-center align-items-center text-center">
+                            <a href="{% url 'togglefavorite' pk=item.id customer_id=request.session.customer_id %}" class="toggle-favorite d-flex justify-content-center align-items-center text-center" data-item-id="{{ item.id }}" data-user-id="{{ request.session.customer_id }}">
                                 <span><i class="ion-ios-heart"></i></span>
                             </a>
+                            
+                            
                             
                             
                         </div>
