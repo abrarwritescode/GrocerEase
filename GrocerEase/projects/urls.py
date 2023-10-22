@@ -26,6 +26,8 @@ urlpatterns = [
     path('filterbyprice/<int:customer_id>/', filteritemsbyprice, name='filteritemsbyprice'),
     path('addtofavorites/<str:pk>/<int:customer_id>/', addtofavorites, name='favorites'),
     path('myfavorites/<int:customer_id>/', viewfavorites, name='myfavorites'),
+    path('getfavoritescount/<int:customer_id>/', getfavoritescount, name='getfavoritescount'),
+
 
     path('selleritems/<int:seller_id>/<int:customer_id>/', selleritems, name='selleritems'),
     
