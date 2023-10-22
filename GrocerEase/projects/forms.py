@@ -34,10 +34,20 @@ class RegistrationSellerForm(forms.ModelForm):
     class Meta:
         model = Seller
         fields = ['storename', 'selleremail', 'sellerpassword', 'sellerimage']
+        widgets = {
+            'storename': forms.TextInput(attrs={'placeholder': 'Enter your name', 'style': 'width: 510px;'}),
+            'selleremail': forms.TextInput(attrs={'placeholder': 'Enter your email', 'style': 'width: 510px;'}),
+            'sellerpassword': forms.PasswordInput(attrs={'placeholder': 'Enter your password', 'style': 'width: 510px;'}),
+        }
 
 class LoginSellerForm(forms.Form):
     selleremail = forms.EmailField()
     sellerpassword = forms.CharField(widget=forms.PasswordInput)
+    widgets = {
+            'selleremail': forms.TextInput(attrs={'placeholder': 'Enter your email', 'style': 'width: 510px;'}),
+            'sellerpassword': forms.PasswordInput(attrs={'placeholder': 'Enter your password', 'style': 'width: 510px;'}),
+        }
+
 
 
 class OTPVerificationSellerForm(forms.Form):
