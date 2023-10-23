@@ -50,5 +50,6 @@ urlpatterns = [
     path('getnotificationcount/<int:seller_id>/', getnotificationcount, name='getnotificationcount'),
     path('marknotificationsasread/<int:seller_id>/', marknotificationsasread, name='marknotificationsasread'),
     path('customer/<int:customer_id>/change-image/',change_customer_image, name='change_customer_image'),
+    path('clearsinglenotif/<int:notification_id>/<int:seller_id>/', clearsinglenotif, name='clearsinglenotif'),
     path('', non_logged_in_home, name='home'),
 ] 

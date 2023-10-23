@@ -22,14 +22,27 @@
     
 {% block content %}
 
+{% comment %} <a href="{% url 'clearallnotifs' seller_id=seller.id %}" class="btn btn-danger">Clear All Notifications</a> {% endcomment %}
+
+
+
 <ul>
     {% for notification in notifications %}
     <li class="notification-item">
         {{ notification.message }}
+    
+        <a href="{% url 'clearsinglenotif' notification_id=notification.id seller_id=notification.recipient.id %}" class="btn btn-danger">Clear</a>
+
     </li>
+
+
     {% endfor %}
-</ul>
+
+
+  </ul>
 
 {% endblock %}
+
+
 </body>
 </html>

@@ -7,5 +7,7 @@ def getnotificationcount(request, seller_id):
             recipient=seller_id, is_read=False
         ).count()
 
-        return JsonResponse({"count": unread_notification_count})
+        return JsonResponse({"count": unread_notification_count, 'seller_id': seller_id})
+    
 
+ 
