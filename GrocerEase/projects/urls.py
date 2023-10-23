@@ -4,6 +4,7 @@ from .views.customer.imports.customerviewsimport import *
 
 from .views.seller.imports.sellerviewsimport import *
 
+from .views.guestuser.imports.guestuserimports import *
 
 urlpatterns = [
     path('signupcustomer/', registercustomer, name='signupcustomer'),
