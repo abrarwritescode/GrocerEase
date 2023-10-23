@@ -55,8 +55,9 @@ def registerseller(request):
                 send_mail(
                     'GrocerEase OTP Verification',
                      f'Dear valued seller,\n\n'
-                     f'Thank you for choosing GrocerEase for your online shopping needs. To complete your account setup, '
-                     f'we require you to verify your email address. Your OTP for account verification is: {otp}\n\n'
+                     f'Welcome to GrocerEase! To complete your account setup, '
+                     'we require you to verify your email address.\n\n'
+                     f'Your OTP for account verification is: {otp}\n\n'
                      f'Please enter this code on our website to confirm your account and gain access to our services.\n\n'
                      f'Thank you for trusting GrocerEase.\n\n'
                      f'Best regards,\n'
