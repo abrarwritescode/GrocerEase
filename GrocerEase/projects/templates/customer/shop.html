@@ -4,7 +4,7 @@
 
 <style>
     /* Add styles for out-of-stock items */
-    .out-of-stock {
+    .out-of-stock { 
         filter: blur(1px); /* Apply a blur effect to the item */
         opacity: 0.5; /* Reduce opacity to indicate it's out of stock */
         pointer-events: none; /* Disable pointer events so it can't be clicked */
@@ -80,6 +80,9 @@
                             </a>
                             <a href="{% url 'cart' customer_id=request.session.customer_id %}" data-product="{{item.id}}" data-action="add" class="add-btn update-cart add-to-cart buy-now d-flex justify-content-center align-items-center mx-1 {% if item.itemquantity <= 0 %}out-of-stock{% endif %}">
                                 <span><i class="ion-ios-cart"></i></span>
+                            </a>
+                            <a href="{% url 'togglefavorite' pk=item.id customer_id=request.session.customer_id %}" class="toggle-favorite d-flex justify-content-center align-items-center text-center" data-item-id="{{ item.id }}" data-user-id="{{ request.session.customer_id }}">
+                                <span><i class="ion-ios-heart"></i></span>
                             </a>
                         </div>
                     </div>

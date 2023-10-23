@@ -75,7 +75,7 @@
         border-radius: 50%;
         font-size: 12.5px;
         position: relative;
-        left: 12%;
+        left: 15%;
         bottom: 22px;
         justify-content: center;
         align-items: center;
@@ -153,6 +153,26 @@
   height: 40px;
         }
 
+        .favorite-count {
+            background-color: red; /* Red background color for the circle */
+            color: white; /* White text color */
+            border-radius: 50%; /* Make it a circle by setting border-radius to 50% */
+            padding: 3px 11px; /* Adjust padding for size and positioning */
+            right: 92px;
+            position: absolute; /* Set the position to relative */
+            top: 35px; 
+            font-size: 13.5px;
+            width: 21.5px;
+            height: 23px;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+        
+        
+        }
+
+
+
   </style>
 <body>
      <!-- header -->
@@ -183,6 +203,12 @@
                                         <a class="shopping-cart" href="{% url 'cart' customer_id=request.session.customer_id %}">
                                             <i id="cart-icon" class="fas fa-shopping-cart"></i>
                                         </a>
+                                        <a href="{% url 'myfavorites' customer_id=request.session.customer_id  %}">
+											<span>
+												<i class="ion-ios-heart"></i>
+												<span id="favorite-count"class="favorite-count"></span>
+											</span>
+										</a>
                                         
                                         <a href="{% url 'logoutcustomer' %}">
                                             <i class="fas fa-sign-out-alt"></i>
@@ -385,6 +411,81 @@
         });
         
     </script>
+	  <script>
+	  
+		  $(document).ready(function () {
+			  const toggleFavorite = $('.toggle-favorite');
+			  const favoriteCount = $('#favorite-count');
+			  
+			  toggleFavorite.each(function () {
+				  const link = $(this);
+				  const icon = link.find('i');
+				  const itemId = link.attr('data-item-id');
+				  const userId = link.attr('data-user-id'); 
+				  
+				  // Construct a unique key for this specific item and user
+				  const storageKey = 'favorite_' + userId + '_' + itemId;
+				  const isFavorite = localStorage.getItem(storageKey) === 'true';
+				  
+				  // Initialize the icon based on the favorite state
+				  updateIcon(link, isFavorite);
+		  
+				  link.on('click', function(event) {
+					  event.preventDefault();
+					  const url = link.attr('href');
+					  
+					  $.get(url)
+					  .done(function(data) {
+						  const isFavorite = data.is_favorite;
+						  
+						  // Update the icon and local storage for this specific item and user
+						  updateIcon(link, isFavorite);
+						  localStorage.setItem(storageKey, isFavorite.toString());
+						  
+						  updateFavoriteCount();
+					  })
+					  .fail(function(jqXHR, textStatus, errorThrown) {
+						  console.error("Failed to toggle favorite:", textStatus, errorThrown);
+					  });
+				  });
+			  });
+			  
+			  // Function to update the icon based on the item's state (favorite or not)
+			  function updateIcon(link, isFavorite) {
+				  const icon = link.find('i');
+				  if (isFavorite) {
+					  icon.removeClass('ion-ios-heart-empty').addClass('ion-ios-heart');
+				  } else {
+					  icon.removeClass('ion-ios-heart').addClass('ion-ios-heart-empty');
+				  }
+			  }
+			  
+			  // Function to update the favorite count
+			  function updateFavoriteCount() {
+				  $.get("{% url 'getfavoritescount' customer_id=request.session.customer_id %}")
+				  .done(function(data) {
+					  const count = data.favorite_count;
+					  favoriteCount.text(count);
+					  
+					  if (count === 0 && favoriteCount.is(':visible')) {
+						  favoriteCount.hide();
+					  } else if (count > 0) {
+						  favoriteCount.show();
+					  }
+				  })
+				  .fail(function(jqXHR, textStatus, errorThrown) {
+					  console.error("AJAX request failed:", textStatus, errorThrown);
+				  });
+			  }
+			  
+			  // Fetch and update the initial favorite count
+			  updateFavoriteCount();
+		  });
+		  
+		  
+	  </script>
+      
+    
     
 </body>
 </html>
