@@ -7,6 +7,8 @@ from .views.seller.imports.sellerviewsimport import *
 from .views.guestuser.imports.guestuserimports import *
 
 urlpatterns = [
+    path('', non_logged_in_home, name='home'),
+
     path('signupcustomer/', registercustomer, name='signupcustomer'),
     path('verify_otpcustomer/', verifyotpcustomer, name='verify_otpcustomer'),
     path('logincustomer/', logincustomer, name='logincustomer'),
@@ -52,5 +54,5 @@ urlpatterns = [
     path('marknotificationsasread/<int:seller_id>/', marknotificationsasread, name='marknotificationsasread'),
     path('customer/<int:customer_id>/change-image/',change_customer_image, name='change_customer_image'),
     path('clearsinglenotif/<int:notification_id>/<int:seller_id>/', clearsinglenotif, name='clearsinglenotif'),
-    path('', non_logged_in_home, name='home'),
+
 ] 
