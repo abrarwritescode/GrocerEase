@@ -28,3 +28,5 @@ def homecustomer(request, customer_id):
         return render(request, 'customer/homecustomer.html', context)
     else:
         return redirect('logincustomer')
+    
+
