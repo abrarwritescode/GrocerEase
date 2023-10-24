@@ -251,14 +251,10 @@
                             </div>
                         </div>
                     </div>
-                    <a class="searchanchor" 
-                    href="{% url 'filteritemsbycategory'  category_name='Vegetables'  customer_id=request.session.customer_id %}">Vegetables</a>
-                    <a class="searchanchor"
-                    href="{% url 'filteritemsbycategory' category_name='Fruits'  customer_id=request.session.customer_id %}">Fruits</a>
-    
+                    
                     <div id="category-items">
                     </div>
-                    <form class="pricefilterform" style="position: relative; left: 230px; bottom: 35px;" id="filterForm" method="get">
+                    <form class="pricefilterform" style="position: relative; left: 370px; bottom: 35px;" id="filterForm" method="get">
                         
                         <label for="min_price">Min Price:</label>
                         <input class="filerinput" type="text" id="min_price" name="min_price">
