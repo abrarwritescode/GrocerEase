@@ -28,27 +28,7 @@
             opacity: 1; /* Fade in to full opacity */
         }
     }
-    
-    .favorite-count {
-        background-color: red; /* Red background color for the circle */
-        color: white; /* White text color */
-        border-radius: 50%; /* Make it a circle by setting border-radius to 50% */
-        padding: 3px 11px; /* Adjust padding for size and positioning */
-        right: 92px;
-        position: absolute; /* Set the position to relative */
-        top: 32px; 
-        font-size: 12.5px;
-        width: 21.5px;
-        height: 23px;
-        justify-content: center;
-        align-items: center;
-        display: flex;
-    
-    
-    }
-    
-    
-    
+     
     </style>
     <div class="search-body-area-result">
     <p style="color: white;">{{ items|length }} results found</p>
@@ -76,15 +56,15 @@
                         <div class="bottom-area d-flex px-3">
                             <div class="m-auto d-flex">
                                 <a href="{% url 'singleitemcustomer' pk=item.id customer_id=customer.id %}" class="add-to-cart d-flex justify-content-center align-items-center text-center">
-                                    <span><i class="ion-ios-menu"></i></span>
+                                    <span><i class="fas fa-bars"></i></span>
                                 </a> 
                                  
                                 <a href="" data-product="{{item.id}}" data-action="add" class="add-btn update-cart add-to-cart buy-now d-flex justify-content-center align-items-center mx-1 {% if item.itemquantity <= 0 %}out-of-stock{% endif %}">
-                                    <span><i class="ion-ios-cart"></i></span>
+                                    <span><i class="fas fa-shopping-cart"></i></span>
                                 </a>  
                                 
                                  <a href="{% url 'togglefavorite' pk=item.id customer_id=customer.id %}" class="toggle-favorite d-flex justify-content-center align-items-center text-center" data-item-id="{{ item.id }}" data-user-id="{{ request.session.customer_id }}">
-                                    <span><i class="ion-ios-heart"></i></span>
+                                    <span><i class="far fa-heart"></i></span>
                                 </a>                      
     
                             </div>
@@ -140,9 +120,9 @@
         function updateIcon(link, isFavorite) {
             const icon = link.find('i');
             if (isFavorite) {
-                icon.removeClass('ion-ios-heart-empty').addClass('ion-ios-heart');
+                icon.removeClass('far fa-heart').addClass('fas fa-heart');
             } else {
-                icon.removeClass('ion-ios-heart').addClass('ion-ios-heart-empty');
+                icon.removeClass('far fa-heart').addClass('far fa-heart');
             }
         }
         

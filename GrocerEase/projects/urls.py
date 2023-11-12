@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views.customer.imports.customerviewsimport import *
+from .views.customer.imports.customerviewsimport import * 
 
 from .views.seller.imports.sellerviewsimport import *
 
