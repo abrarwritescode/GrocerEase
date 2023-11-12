@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %} 
 
-<div style="height: 100vh; position: relative; top: 100px;">
+<div style="height: 130vh; position: relative; top: 100px;">
     <div  class="section-title">
         <h2>Cart</h2>
     </div>
@@ -66,7 +66,7 @@
                                     <td><strong>Total: {{ order.get_cart_items }} </strong></td>
                                     <td>BDT {{ order.get_cart_total|floatformat:2 }}</td>
                                 </tr>
-                            </tbody>
+                            </tbody> 
                         </table>
                         <div class="cart-buttons">
                             <a href="{% url 'homecustomer' customer_id=customer.id %}" class="boxed-btn">Continue Shopping</a>

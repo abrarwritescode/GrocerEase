@@ -45,7 +45,22 @@ class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
     date_ordered = models.DateTimeField(auto_now_add=True)
     is_cart = models.BooleanField(default=True)  # To indicate whether it's a cart or a confirmed order
-    transaction_id = models.CharField(max_length=100, null=True)
+
+    shipping_name = models.CharField(max_length=255, null=True, blank=True)
+    shipping_email = models.EmailField(null=True, blank=True)
+    shipping_address = models.TextField(null=True, blank=True)
+    shipping_phone = models.CharField(max_length=20, null=True, blank=True)
+    payment = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
+
+    STATUS_CHOICES = [
+        ('Pending', 'Pending'),
+        ('Processing', 'Processing'),
+        ('Shipped', 'Shipped'),
+        ('Delivered', 'Delivered'),
+        ('Cancelled', 'Cancelled'),
+    ]
+
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending')
 
     def __str__(self):
         return f"{self.id} - {self.customer}"

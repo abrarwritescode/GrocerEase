@@ -17,7 +17,7 @@
 								<div class="card-header" id="headingOne">
 								  <h5 class="mb-0">
 									<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-									  Billing Address
+									  Shipping Information
 									</button>
 								  </h5>
 								</div>
@@ -25,12 +25,25 @@
 								<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
 								  <div class="card-body">
 									<div class="billing-address-form">
-										<form action="index.html">
-											<p><input type="text" placeholder="Name"></p>
-											<p><input type="email" placeholder="Email"></p>
-											<p><input type="text" placeholder="Address"></p>
-											<p><input type="tel" placeholder="Phone"></p>
-										</form>
+										<form id="checkout-form" method="post" action="{% url 'checkout' customer_id=customer.id %}">
+											{% csrf_token %}
+											<p><input name="name" type="text" placeholder="Name"></p>
+											<p><input name="email" type="email" placeholder="Email"></p>
+											<p><input name="address" type="text" placeholder="Address"></p>
+											<p><input name="phone" type="tel" placeholder="Phone"></p>
+											<div id="card-element">
+											  </div>
+					  
+											  <div id="card-errors" role="alert"></div>
+
+											  <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+											  data-key="pk_test_51OBkLRBdZho5omzRXWqSB1WrOybt5hMdP8Tamwcnw3iDyLSzL4AdHmPthrPXiWBqeDCc2GqOUHaef4FwNVJWhs28001kB9WWzS"
+											  data-description="Payment"
+											  data-amount="{{amount_in_cents}}"
+											  data-currency="bdt"
+											  data-locale="auto">
+									  </script>
+										  </form>
 									</div>
 								  </div>
 								</div>
@@ -75,7 +88,6 @@
 									</tr>
 								</tbody>
 							</table>
-							<a href="#" class="boxed-btn">Place Order</a>
 						</div>
 					</div>
 				</div>
@@ -83,6 +95,54 @@
 		</div>
 	
 </div>
+
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+  var stripe = Stripe('{{pk_test_51OBkLRBdZho5omzRXWqSB1WrOybt5hMdP8Tamwcnw3iDyLSzL4AdHmPthrPXiWBqeDCc2GqOUHaef4FwNVJWhs28001kB9WWzS}}');
+  var elements = stripe.elements();
+
+  // Create an instance of the card Element.
+  var card = elements.create('card');
+
+  // Add an instance of the card Element into the `card-element` div.
+  card.mount('#card-element');
+
+  // Handle real-time validation errors from the card Element.
+  card.addEventListener('change', function(event) {
+    var displayError = document.getElementById('card-errors');
+    if (event.error) {
+      displayError.textContent = event.error.message;
+    } else {
+      displayError.textContent = '';
+    }
+  });
+
+  // Handle form submission.
+  var form = document.getElementById('checkout-form');
+  form.addEventListener('submit', function(event) {
+    event.preventDefault();
+
+    // Create a token from the card Element.
+    stripe.createToken(card).then(function(result) {
+      if (result.error) {
+        // Inform the user if there was an error.
+        var errorElement = document.getElementById('card-errors');
+        errorElement.textContent = result.error.message;
+      } else {
+        // Insert the token ID into the form so it gets submitted to the server.
+        var hiddenInput = document.createElement('input');
+        hiddenInput.setAttribute('type', 'hidden');
+        hiddenInput.setAttribute('name', 'stripeToken');
+        hiddenInput.setAttribute('value', result.token.id);
+        form.appendChild(hiddenInput);
+
+        // Submit the form.
+        form.submit();
+      }
+    });
+  });
+</script>
+
 
 {% endblock content %}
 	
