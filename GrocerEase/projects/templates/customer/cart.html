@@ -16,6 +16,7 @@
                                 <tr class="table-head-row">
                                     <th class="product-remove"></th>
                                     <th class="product-image">Product Image</th>
+                                    <th class="product-seller">Seller</th>
                                     <th class="product-name">Name</th>
                                     <th class="product-price">Price</th>
                                     <th class="product-quantity">Quantity</th>
@@ -31,6 +32,7 @@
                                         </button>
                                     </td>
                                     <td class="product-image"><img src="{{ item.product.itemfeaturedimage.url }}" alt=""></td>
+                                    <td class="product-seller">{{ item.product.seller }}</td>
                                     <td class="product-name">{{ item.product.itemtitle }}</td>
                                     <td class="product-price">BDT {{ item.product.itemprice|floatformat:2 }}</td>
                                     <td class="product-quantity">

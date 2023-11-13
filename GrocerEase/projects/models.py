@@ -22,7 +22,7 @@ class Seller(models.Model):
     sellerimage = models.ImageField(null=True, blank=True, default="user-default.png")
 
     def __str__(self):
-        return f"{self.id} - {self.storename}"
+        return f"{self.storename}"
 
 
 class Item(models.Model):
@@ -76,6 +76,20 @@ class Order(models.Model):
         orderitems = self.orderitem_set.all()
         total = sum([item.quantity for item in orderitems]) if orderitems else 0
         return total
+    
+    @property
+    def move_items_from_cart(self):
+        cart_items = OrderItem.objects.filter(order=self, confirmed=False)
+        
+        for cart_item in cart_items:
+            OrderItem.objects.create(
+                order=self,
+                product=cart_item.product,
+                quantity=cart_item.quantity,
+                confirmed=True 
+            )
+        
+        cart_items.delete()
 
 
 class OrderItem(models.Model):

@@ -176,56 +176,59 @@
 
   <h2 style="color: #042405; text-align: center; margin-top: 20px">
     Order History
-  </h2>
-  <ul style="list-style: none; padding: 0; text-align: center">
+</h2>
+<ul style="list-style: none; padding: 0; text-align: center">
     {% for order in customer.order_set.all %}
-    <li
-      style="
-        background-color: #fff;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        padding: 15px;
-        margin-bottom: 20px;
-      "
-    >
-      <div
-        style="
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-        "
-      >
-        <div>
-          <strong>Order ID:</strong> {{ order.id }}<br />
-          <strong>Total:</strong> Tk.{{ order.get_cart_total }}
-        </div>
-        <div style="color: #888">
-          <strong>Date:</strong> {{ order.date_ordered|date:"F j, Y H:i" }}
-        </div>
-      </div>
-      <div class="order-items">
-        <strong>Items:</strong>
-        <table style="width: 100%; border-collapse: collapse; margin-top: 20px">
-          <thead>
-            <tr>
-              <th>Product</th>
-              <th>Quantity</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for order_item in order.orderitem_set.all %}
-            <tr>
-              <td>{{ order_item.product.itemtitle }}</td>
-              <td>{{ order_item.quantity }} Pcs</td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>
-      </div>
-    </li>
+        {% if order.get_cart_total != 0 %}
+            <li
+                style="
+                    background-color: #fff;
+                    border: 1px solid #ddd;
+                    border-radius: 5px;
+                    padding: 15px;
+                    margin-bottom: 20px;
+                "
+            >
+                <div
+                    style="
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                    "
+                >
+                    <div>
+                        <strong>Order ID:</strong> {{ order.id }}<br />
+                        <strong>Total:</strong> Tk.{{ order.get_cart_total }}
+                    </div>
+                    <div style="color: #042405">
+                        <strong>Date:</strong> {{ order.date_ordered|date:"F j, Y H:i" }} <br>
+                        <strong>Status:</strong> {{ order.status }}
+                    </div>
+                </div>
+                <div class="order-items">
+                    <strong>Items:</strong>
+                    <table style="width: 100%; border-collapse: collapse; margin-top: 20px">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for order_item in order.orderitem_set.all %}
+                                <tr>
+                                    <td>{{ order_item.product.itemtitle }}</td>
+                                    <td>{{ order_item.quantity }} Pcs</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </li>
+        {% endif %}
     {% endfor %}
-  </ul>
-  {% endif %}
+</ul>
+{% endif %}
 </div>
 <!-- footer -->
 <div class="footer-area">

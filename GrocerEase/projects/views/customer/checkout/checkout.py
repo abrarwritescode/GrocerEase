@@ -38,10 +38,24 @@ def checkout(request, customer_id=None):
         try:
             token = request.POST['stripeToken']
 
-            order.save()
+            print(f"Order object: {order}")
+            if order:
+                order.is_cart = False
+                order.save()
 
-            order_items = order.orderitem_set.all()
-            order_items.delete()
+                send_mail(
+                    'GrocerEase Order Confirmation', 
+                     f'Dear valued customer,\n\n'
+                     f'Welcome to GrocerEase! '
+                     'Your order is placed successfully.\n\n'
+                     f'Your payable amount BDT { order.payment } for order ID: { order.id } is successful.\n\n'
+                     f'Thank you for trusting GrocerEase.\n\n'
+                     f'Best regards,\n'
+                     f'The GrocerEase Team',
+                    'grocereasedp1@gmail.com',
+                    [order.shipping_email],
+                    fail_silently=False,
+                )
 
             messages.success(request, 'Order placed successfully!')
             return redirect('homecustomer', customer_id=customer_id)
