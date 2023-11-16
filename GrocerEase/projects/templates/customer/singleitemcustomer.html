@@ -29,7 +29,7 @@
 						
 
                         <h3>{{ item.itemtitle }}</h3>
-                        <h3>Description: {{ item.itemdescription }}</h3>
+                        <h3>Description: {{ item.itemdescription }}</h3> 
                         <p class="single-product-pricing"><span>Per Kg</span> BDT {{ item.itemprice }}</p>
                         <div class="single-product-form">
                             <a href="{% url 'cart' customer_id=request.session.customer_id %}" data-product="{{ item.id }}" data-action="add" class="cart-btn update-cart add-to-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</a>

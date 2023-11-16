@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 
 {% load static %}
-{% block content %} 
 
 <head> 
     <meta charset="UTF-8">
@@ -73,56 +72,7 @@
 
 
   </head>
-  <style>
-	#cart-total{
-	display: block;
-	text-align: center;
-	color:#fff;
-	background-color: red;
-	width: 21.5px;
-	height: 23px;
-	border-radius: 50%;
-	font-size: 12.5px;
-	position: relative;
-	left: 12%;
-	bottom: 22px;
-	justify-content: center;
-	align-items: center;
-}
-.product-image-container {
-	position: relative;
-}
-
-.out-of-stock {
-    filter: blur(1px); /* Apply a blur effect to the item */
-    opacity: 0.5; /* Reduce opacity to indicate it's out of stock */
-    pointer-events: none; /* Disable pointer events so it can't be clicked */
-}
-
-.out-of-stock-label {
-	display: block;
-	background-color: red;
-	color: white;
-	font-size: 14px;
-	padding: 4px 8px;
-	border-radius: 4px;
-	position: absolute;
-	top: 10px;
-	left: 10px;
-	z-index: 1;
-	opacity: 0; 
-animation: fade-in 0.5s ease-in-out forwards; 
-}
-
-@keyframes fade-in {
-from {
-  opacity: 0; /* Start with zero opacity */
-}
-to {
-  opacity: 1; /* Fade in to full opacity */
-}
-}
-</style>
+  
   <body>
 
 	<header style="position: fixed; top: 0px; z-index: 1000;" class="navbar">
@@ -131,7 +81,7 @@ to {
 				<img class="logoimage" src="{% static 'pictures/logo.png' %}" alt="">	
 			</a>
         </div>
-		<div class="icons">
+		<div class="icons"> 
 
 			<a style="color: #042405;" class="shopping-cart icon" href="{% url 'cart' customer_id=request.session.customer_id %}"><i  id="cart-icon" class="fas fa-shopping-cart"></i></a>
 			<a style="color: #042405;" class="icon" href="{% url 'myfavorites' customer_id=request.session.customer_id  %}">
@@ -149,7 +99,7 @@ to {
         <div class="navbtn">
 			<a href="{% url 'logoutcustomer' %}" class="btnn-signup">Logout</a>
 		</div>
-		<p id="cart-total">{{cartItems}}</p>
+		<p id="cart-total">{{cart_total}}</p>
     </header>
 
    <div class="search-body-area-result ">
@@ -241,11 +191,10 @@ to {
 	</div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 <script src="{% static 'js/main.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
-
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     
 <script>
@@ -322,4 +271,4 @@ to {
 	
 </script>
     
-</body>{% endblock content %}
+</body>
