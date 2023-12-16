@@ -72,16 +72,23 @@
         <div class="col-md-6 col-lg-3 ftco-animate">
             <div class="product">
                 <a href="#" class="img-prod"><img class="img-fluid" src="{{ item.itemfeaturedimage.url }}" alt=""></a>
-                {% if item.itemquantity <= 0 %}
-                    <span class="out-of-stock-label">Out of Stock</span>
-                {% endif %}
-                <div class="text py-3 pb-4 px-3 text-center">
+                            <div class="overlay"></div>
+						    {% if item.itemquantity <= 0 %}
+						    <span class="out-of-stock-label">Out of Stock</span>
+						    {% endif %}
+                            {% if item.discount_percentage > 0 %}
+                    	    <span class="discount-label">BDT {{item.discounted_price}} on {{item.discount_percentage}}% sale</span>
+                		    {% endif %}	
+                            <div class="text py-3 pb-4 px-3 text-center">
                     <h3><strong>{{item.itemtitle}}</strong></h3>
                     
                     <div class="d-flex">
                         <div class="pricing">
-                            <p class="price"><span class="price-sale">BDT {{item.itemprice}}</span></p>
-                            
+                            {% if item.discount_percentage > 0 %} 
+									<p class="price"><span class="price-sale" style="text-decoration: line-through;">BDT {{item.itemprice}}</span></p>
+									{% else %}
+									<p class="price"><span class="price-sale">BDT {{item.itemprice}}</span></p>
+									{% endif %}                            
                         </div>
                     </div> 
                     <div class="bottom-area d-flex px-3">

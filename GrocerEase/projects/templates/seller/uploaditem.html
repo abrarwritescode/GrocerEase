@@ -19,7 +19,7 @@
   }
 </style>
 
-<div style="height: 150vh;">
+<div style="height: 200vh;">
 
   <div style="position: relative; top: 100px; color: #042405; right: 20px;" class="section-title">
     <h2>Upload Item Form</h2>
@@ -73,12 +73,28 @@
                           <p>Description:</p>
                           {{ form.itemdescription }}
                         </div>
-  
+
                         <div class="form-group">
                           <p>Image:</p>
                           {{ form.itemfeaturedimage }}
                         </div>
-  
+
+                        <div class="form-group">
+                          <p>Discount Name:</p>
+                          {{ form.discount_name }}
+                        </div>
+
+                        <div class="form-group">
+                          <p>Discount Percentage:</p>
+                          {{ form.discount_percentage }}
+                        </div>
+
+                  
+                        <div class="form-group">
+                          <p style="position: relative; right: 330px;">End Date:</p>
+                          {{ form.end_date }}
+                        </div> 
+    
                         <div class="form-group">
                           <input type="submit">
                         </div>

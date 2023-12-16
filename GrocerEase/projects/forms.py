@@ -102,12 +102,16 @@ class OTPVerificationSellerForm(forms.Form):
 class ItemForm(forms.ModelForm):
     class Meta:
         model = Item
-        fields = ['itemtitle', 'itemprice', 'category', 'itemquantity', 'itemdescription', 'itemfeaturedimage']
+        fields = ['itemtitle', 'itemprice', 'category', 'itemquantity', 'itemdescription', 'itemfeaturedimage', 'discount_name', 'discount_percentage', 'start_date', 'end_date']
         widgets = {
-            'itemtitle': forms.TextInput(attrs={'placeholder': 'Input item name here..', 'style': 'width: 510px;'}),
-            'itemprice': forms.TextInput(attrs={'placeholder': 'Price', 'style': 'width: 510px;'}),
-            'itemquantity': forms.TextInput(attrs={'placeholder': 'Quantity', 'style': 'width: 510px;'}),
-            'itemdescription': forms.Textarea(attrs={'placeholder': 'Description', 'style': 'width: 520px; height: 50px;'}),
+            'itemtitle': forms.TextInput(attrs={'placeholder': 'Input item name here..', 'style': 'width: 478px;'}),
+            'itemprice': forms.TextInput(attrs={'placeholder': 'Price', 'style': 'width: 478px;'}),
+            'itemquantity': forms.TextInput(attrs={'placeholder': 'Quantity', 'style': 'width: 508px;'}),
+            'itemdescription': forms.Textarea(attrs={'placeholder': 'Description', 'style': 'width: 530px; height: 30px;'}),
+            'discount_name': forms.Textarea(attrs={'placeholder': '', 'style': 'width: 525px; height:30px;'}),
+            'discount_percentage': forms.TextInput(attrs={'placeholder': 'Discount percentage', 'style': 'width: 480px;'}),
+            'end_date': forms.DateInput(attrs={'type': 'date', 'style': 'width: 140px; position: relative; right: 320px; bottom:10px;'}),
+
         }
     
 

@@ -46,7 +46,20 @@
     
     }
       
-      
+    .discount-label {
+          display: block;
+          background-color: red;
+          color: white;
+          font-size: 14px;
+          padding: 4px 8px;
+          border-radius: 4px;
+          position: absolute;
+          top: 45px;
+          left: 10px;
+          z-index: 1; 
+          opacity: 0; 
+          animation: fade-in 0.5s ease-in-out forwards; 
+        }
       
       </style>
    <body>
@@ -54,35 +67,45 @@
             
       <di style="justify-content: center; align-items: center; position: relative; bottom: 120px;" class="row">
         {% for item in items %} 
-          <div class="col-md-6 col-lg-3 ftco-animate">
-            <div class="product">
-              <a href="#" class="img-prod"><img class="img-fluid" src="{{ item.itemfeaturedimage.url }}" alt="">
-                <div class="overlay"></div>
-                        {% if item.itemquantity <= 0 %}
-                        <span class="out-of-stock-label">Out of Stock</span>
-                        {% endif %}
-              </a>
-              <div class="text py-3 pb-4 px-3 text-center">
-                <h3><strong>{{item.itemtitle}}</strong></h3>
-                <div class="d-flex">
-                  <div class="pricing">
-                    <p class="price"><span class="price-sale">BDT {{item.itemprice}}</span></p>
-                  </div>
-                </div>
-                <div class="bottom-area d-flex px-3">
-                  <div class="m-auto d-flex">
-                    <a href="{% url 'singleitem' pk=item.id seller_id=request.session.seller_id %}" class="add-to-cart d-flex justify-content-center align-items-center text-center">
-                      <span><i class="fas fa-bars"></i></span>
-                    </a> 
-                           
-      
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        {% endfor %}
-        </div>
+			<div style="position: relative; top: 30px;" class="col-md-6 col-lg-3 ftco-animate">
+				<div class="product">
+					<a href="#" class="img-prod"><img class="img-fluid" src="{{ item.itemfeaturedimage.url }}" alt="">
+						{% if item.discount_percentage > 0 %}
+                    		<span class="discount-label">BDT {{item.discounted_price}} on {{item.discount_percentage}}% sale</span>
+                		{% endif %}
+						<div class="overlay"></div>
+						{% if item.itemquantity <= 0 %}
+						<span class="out-of-stock-label">Out of Stock</span>
+						{% endif %}
+						
+					</a>
+					<div class="text py-3 pb-4 px-3 text-center">
+						<h3><strong>{{item.itemtitle}}</strong></h3>
+						<a class="edit" style="text-decoration: none; color: #042405;" href="{% url 'updateitem' item.id %}">Edit</a>
+						<a class="delete" style="text-decoration: none; color: #042405;" href="{% url 'deleteitem' item.id %}">Delete</a>
+						<div class="d-flex">
+							<div class="pricing">
+								{% if item.discount_percentage > 0 %} 
+								<p class="price"><span class="price-sale" style="text-decoration: line-through;">BDT {{item.itemprice}}</span></p>
+								{% else %}
+								<p class="price"><span class="price-sale">BDT {{item.itemprice}}</span></p>
+								{% endif %}
+							</div>
+							
+						</div>
+						<div class="bottom-area d-flex px-3">
+							<div class="m-auto d-flex">
+								<a href="{% url 'singleitem' pk=item.id seller_id=request.session.seller_id %}" class="add-to-cart d-flex justify-content-center align-items-center text-center">
+									<span><i class="fas fa-bars"></i></span>
+								</a>
+								
+							</div>
+						</div> 
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+</div>
       
 </div>
     <script src="{% static 'assets/assets1/js/jquery-1.11.3.min.js' %}"></script>

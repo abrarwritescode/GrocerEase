@@ -69,9 +69,25 @@
 	
 	</script>
 
-
-
   </head>
+
+  <style>
+	.discount-label {
+          display: block;
+          background-color: red;
+          color: white;
+          font-size: 14px;
+          padding: 4px 8px;
+          border-radius: 4px;
+          position: absolute;
+          top: 45px;
+          left: 10px;
+          z-index: 1; 
+          opacity: 0; 
+          animation: fade-in 0.5s ease-in-out forwards; 
+        }
+
+  </style>
   
   <body>
 
@@ -115,16 +131,25 @@
                     <div class="product">
                         <a href="#" class="img-prod"><img class="img-fluid" src="{{ favorite.item.itemfeaturedimage.url }}" alt="">
                             <div class="overlay"></div>
-                            {% if favorite.item.itemquantity <= 0 %}
-                            <span class="out-of-stock-label">Out of Stock</span>
-                            {% endif %}
+
+                        {% if favorite.item.discount_percentage > 0 %}
+                    	<span class="discount-label">BDT {{favorite.item.discounted_price}} on {{favorite.item.discount_percentage}}% sale</span>
+                		{% endif %}
+						<div class="overlay"></div>
+						{% if favorite.item.itemquantity <= 0 %}
+						<span class="out-of-stock-label">Out of Stock</span>
+						{% endif %}
+						
                         </a>
                         <div class="text py-3 pb-4 px-3 text-center">
                             <h3><strong>{{favorite.item.itemtitle}}</strong></h3>
                             <div class="d-flex">
                                 <div class="pricing">
-                                    <p class="price"><span class="price-sale">BDT {{favorite.item.itemprice}}</span></p>
-                                    
+									{% if favorite.item.discount_percentage > 0 %} 
+									<p class="price"><span class="price-sale" style="text-decoration: line-through;">BDT {{favorite.item.itemprice}}</span></p>
+									{% else %}
+									<p class="price"><span class="price-sale">BDT {{favorite.item.itemprice}}</span></p>
+									{% endif %}                                    
                                 </div>
                                 
                                     

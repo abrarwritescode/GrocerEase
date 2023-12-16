@@ -37,6 +37,28 @@ class Item(models.Model):
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False) #uuid4 is for encoding
     favorite_count = models.IntegerField(default=0)
 
+    discount_name = models.CharField(max_length=255, default="", blank=True)
+    discount_percentage = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, blank=True)
+    discount_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, blank=True)
+    start_date = models.DateField(null=True, blank=True)
+    end_date = models.DateField(null=True, blank=True)
+    discounted_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, blank=True)
+
+    def save(self, *args, **kwargs):
+        if not self.start_date:
+            self.start_date = timezone.now().date()
+        
+        if self.end_date and self.end_date < timezone.now().date():
+            self.discount_percentage = 0
+
+        if self.discount_percentage > 0:
+            self.discount_amount = (self.discount_percentage / 100) * self.itemprice
+            self.discounted_price = self.itemprice - self.discount_amount
+        else:
+            self.discounted_price = self.itemprice
+
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return self.itemtitle
 

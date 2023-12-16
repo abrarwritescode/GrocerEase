@@ -1,138 +1,293 @@
-{% extends 'customer/mainhome.html' %}
+<!DOCTYPE html>
+
 {% load static %}
-{% block content %}
 
-    <div class="container">
-        <div class="row services">
-            <div class="col-md-3">
-                <img src="{% static 'pictures/delivery.png' %}" style="height: 130px;" alt="">
-                <div class="servicetext">
-                    <h3 class="heading">Free Shipping</h3>
-                    <span>On order over BDT 10,000</span>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <img src="{% static 'pictures/supplies.png' %}" style="height: 130px;" alt="">
-                <div class="servicetext">
-                    <h3 class="heading">Always Fresh</h3>
-                    <span>Product well package</span>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <img src="{% static 'pictures/grocery.png' %}" style="height: 130px;" alt="">
-                <div class="servicetext">
-                    <h3 class="heading">Superior Quality</h3>
-                    <span>Quality Products</span>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <img src="{% static 'pictures/support.png' %}" style="height: 130px;" alt="">
-                <div class="servicetext">
-                    <h3 class="heading">Support</h3>
-                    <span>24/7 Support</span>
-                </div>
-            </div>
+<head> 
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="shortcut icon" type="image/png" href="{% static 'pictures/faviconcart.png' %}">
+    <title>GrocerEase | Home</title>
+ 
+    <script type="text/javascript">
+
+		var user = '{{customer|safe}}'
+		var customer = '{{ customer_json|safe }}'
+
+		function getToken(name) {
+		    var cookieValue = null;
+		    if (document.cookie && document.cookie !== '') {
+		        var cookies = document.cookie.split(';');
+		        for (var i = 0; i < cookies.length; i++) {
+		            var cookie = cookies[i].trim();
+		            // Does this cookie string begin with the name we want?
+		            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+		                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+		                break;
+		            }
+		        }
+		    }
+		    return cookieValue;
+		}
+		var csrftoken = getToken('csrftoken')
+
+
+		function getCookie(name) {
+		    // Split cookie string and get all individual name=value pairs in an array
+		    var cookieArr = document.cookie.split(";");
+
+		    // Loop through the array elements
+		    for(var i = 0; i < cookieArr.length; i++) {
+		        var cookiePair = cookieArr[i].split("=");
+
+		        /* Removing whitespace at the beginning of the cookie name
+		        and compare it with the given string */
+		        if(name == cookiePair[0].trim()) {
+		            // Decode the cookie value and return
+		            return decodeURIComponent(cookiePair[1]);
+		        }
+		    }
+
+		    // Return null if not found
+		    return null;
+		}
+		var cart = JSON.parse(getCookie('cart'))
+
+		if (cart == undefined){
+			cart = {}
+			console.log('Cart Created!', cart)
+			document.cookie ='cart=' + JSON.stringify(cart) + ";domain=;path=/"
+		}
+		console.log('Cart:', cart)
+	
+	</script>
+
+
+
+  </head>
+
+  <style>
+    .discount-label {
+          display: block;
+          background-color: red;
+          color: white;
+          font-size: 14px;
+          padding: 4px 8px;
+          border-radius: 4px;
+          position: absolute;
+          top: 45px;
+          left: 10px;
+          z-index: 1; 
+          opacity: 0; 
+          animation: fade-in 0.5s ease-in-out forwards; 
+        }
+
+  </style>
+  
+  <body>
+
+	<header style="position: fixed; top: 0px; z-index: 1000;" class="navbar">
+        <div class="logo">
+			<a href="{% url 'homecustomer' customer_id=request.session.customer_id %}">
+				<img class="logoimage" src="{% static 'pictures/logo.png' %}" alt="">	
+			</a>
         </div>
-    </div>
+		<div class="icons"> 
 
-    <div class="section-title">
-        <h2>Featured Categories</h2>
-    </div>
+			<a style="color: #042405;" class="shopping-cart icon" href="{% url 'cart' customer_id=request.session.customer_id %}"><i  id="cart-icon" class="fas fa-shopping-cart"></i></a>
+			<a style="color: #042405;" class="icon" href="{% url 'myfavorites' customer_id=request.session.customer_id  %}">
+				<span>
+					<i class="ion-ios-heart"></i>
+					<span id="favorite-count"class="favorite-count"></span>
+				</span>
+			</a>
+			<a style="color: #042405;" class="mobile-hide search-bar-icon icon" href="{% url 'search' customer_id=request.session.customer_id  %}"><i class="fas fa-search"></i></a> 
+		   
+			<a style="color: #042405;" href="{% url 'customerprofile' customer_id=request.session.customer_id %}" class="aboutus icon"><i class="fas fa-user"></i></a>
+			
+		</div>											
 
-    <section class="ftco-section ftco-category ftco-no-pt">
-        <div class="container categories">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="row categories__slider owl-carousel">
-                      {% for category in categories %}
-                        <div class="col-md-4">
-                                <div class="category-wrap ftco-animate img mb-4 d-flex align-items-end" style="background-image: url('{{ category.categoryimage.url }}'); width: 250px;">
-                                    <div class="text px-3 py-1">
-                                        <h2 class="mb-0"><a href="{% url 'logincustomer' %}">
-                                          {{ category.categoryname }}
-                                        </a>
-                                        </h2>
-                                    </div>
-                                </div>
-                        </div>
-                      {% endfor %}
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
+        <div class="navbtn">
+			<a href="{% url 'logoutcustomer' %}" class="btnn-signup">Logout</a>
+		</div>
+		<p id="cart-total">{{cart_total}}</p>
+    </header>
 
-    <div class="section-title">
-        <h2 class="mb-4">Our Products</h2>
-        <p style="font-size: 18px;">At Grocerease, we're committed to bringing you a wide selection of high-quality products at competitive prices.</p>
-    </div>
-
-    <div style="justify-content: center; align-items: center;" class="row">
-        {% for item in products %} 
-        <div class="col-md-6 col-lg-3 ftco-animate">
-            <div class="product">
-                <a href="#" class="img-prod"><img class="img-fluid" src="{{ item.itemfeaturedimage.url }}" alt=""></a>
-                {% if item.itemquantity <= 0 %}
-                    <span class="out-of-stock-label">Out of Stock</span>
-                {% endif %}
-                <div class="text py-3 pb-4 px-3 text-center">
-                    <h3><strong>{{item.itemtitle}}</strong></h3>
-                    
-                    <div class="d-flex">
-                        <div class="pricing">
-                            <p class="price"><span class="price-sale">BDT {{item.itemprice}}</span></p>
-                            
-                        </div>
-                    </div> 
-                    <div class="bottom-area d-flex px-3">
-                        <div class="m-auto d-flex">
-                            <a href="{% url 'singleitemcustomer' pk=item.id customer_id=request.session.customer_id %}" class="add-to-cart d-flex justify-content-center align-items-center text-center">
-                                <span><i class="ion-ios-menu"></i></span>
-                            </a>
-                            <a href="{% url 'cart' customer_id=request.session.customer_id %}" data-product="{{item.id}}" data-action="add" class="add-btn update-cart add-to-cart buy-now d-flex justify-content-center align-items-center mx-1 {% if item.itemquantity <= 0 %}out-of-stock{% endif %}">
-                                <span><i class="ion-ios-cart"></i></span>
-                            </a>
-                            {% comment %} <a href="{% url 'favorites' pk=item.id customer_id=request.session.customer_id %}" class="add-to-cart d-flex justify-content-center align-items-center text-center">
-                                <span><i class="ion-ios-heart"></i></span>
-                            </a>
-                            <a href="{% url 'removefromfavorites' pk=item.id customer_id=request.session.customer_id %}" class="remove-from-favorites d-flex justify-content-center align-items-center text-center">
-                                <span><i class="ion-ios-heart"></i></span>
-                            </a> 
-                            {% endcomment %}
-                            <a href="{% url 'togglefavorite' pk=item.id customer_id=request.session.customer_id %}" class="toggle-favorite d-flex justify-content-center align-items-center text-center" data-item-id="{{ item.id }}" data-user-id="{{ request.session.customer_id }}">
-                                <span><i class="ion-ios-heart"></i></span>
-                            </a>
-                            
-                            
-                            
-                            
-                        </div>
-                    </div>
-                </div>
-            </div>
+   <div class="search-body-area-result ">
+        <div style="position: relative; top: 160px; height: 45vh;" class="section-title">
+            <h2> Your Favourites: </h2>
         </div>
         
-        {% endfor %}
-    </div>
-  
-    <div class="cookimage">
-        <div class="preparetext">
-            <p>You prepare the food, we handle the rest</p>
+        <div style="justify-content: center; align-items: center;" class="row">
+        {% if favorites %}
+            
+            {% for favorite in favorites %}
+                <div class="col-md-6 col-lg-3 ftco-animate">
+                    <div class="product">
+                        <a href="#" class="img-prod"><img class="img-fluid" src="{{ favorite.item.itemfeaturedimage.url }}" alt="">
+                            <div class="overlay"></div>
+                            {% if favorite.item.itemquantity <= 0 %}
+                            <span class="out-of-stock-label">Out of Stock</span>
+                            {% endif %}
+
+                        </a>
+                        <div class="text py-3 pb-4 px-3 text-center">
+                            <h3><strong>{{favorite.item.itemtitle}}</strong></h3>
+                            <div class="d-flex">
+                                <div class="pricing">
+                                    <p class="price"><span class="price-sale">BDT {{favorite.item.itemprice}}</span></p>
+                                    
+                                </div>
+                                
+                                    
+                               
+                            </div>
+                            <div class="bottom-area d-flex px-3">
+                                <div class="m-auto d-flex">
+                                   
+                                    <a href="{% url 'singleitemcustomer' pk=favorite.item.id customer_id=request.session.customer_id %}" class="add-to-cart d-flex justify-content-center align-items-center text-center">
+                                        <span><i class="fas fa-bars"></i>
+										</i></span>
+                                    </a>   
+                                    <a href="{% url 'cart' customer_id=request.session.customer_id %}" data-product="{{favorite.item.id}}" data-action="add" class="add-btn update-cart add-to-cart buy-now d-flex justify-content-center align-items-center mx-1 {% if item.itemquantity <= 0 %}out-of-stock{% endif %}">
+                                        <span><i class="fas fa-shopping-cart"></i>
+										</span>
+                                    </a> 
+                                
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+            
+        {% endif %}
         </div>
-        <img class="fireimage" src="{% static 'pictures/bg_3.jpg' %}" alt="">
     </div>
 
-    <div class="bannerarea">
-        <div class="bannertext">
-            <div style="font-size: 25px;" class="text">Let's start shopping on GrocerEase!</div>
-            <div class="text">We are committed to providing enjoyable shopping experience for our valued customers.</div>
-            <div class="text">Whether you're a busy professional, a homemaker, or someone who simply loves convenience, GrocerEase is here to make your grocery shopping hassle-free.</div>
-            <div class="text">Interested? Let's start today!</div>
-        </div>
-        <button class="btn-start">Get started</button>
-    </div>
+ <div class="footer-area">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-3 col-md-6">
+				<div class="footer-box about-widget">
+					<h2 class="widget-title">About us</h2>
+					<p>Your one-stop online destination for all your grocery shopping needs. We understand the importance of convenience in today's fast-paced world, and that's why we're here to simplify your shopping experience and make it as effortless as possible.</p>
+				</div>
+			</div>
+			<div class="col-lg-3 col-md-6">
+				<div class="footer-box get-in-touch">
+					<h2 class="widget-title">Get in Touch</h2>
+					<ul>
+						<li>Dhaka, Bangladesh</li>
+						<li>grocereasedp1@gmail.com</li>
+					</ul>
+				</div>
+			</div>
+			<div class="col-lg-3 col-md-6">
+				<div class="footer-box pages">
+					<h2 class="widget-title">Pages</h2>
+					<ul>
+						<li><a href="{% url 'homecustomer' customer_id=request.session.customer_id %}">Home</a></li>
+						<li><a href="{% url 'shop' customer_id=request.session.customer_id %}">Shop</a></li> 
+					</ul>
+				</div>
+			</div>
+			<div class="col-lg-3 col-md-6">
+				<div class="footer-box subscribe">
+					<h2 class="widget-title">Follow us</h2>
+					<p>To get the latest updates.</p>
+					
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
 
-{% endblock content %}
-   
-  
-  
+<script src="{% static 'js/main.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    
+<script>
+
+	$(document).ready(function () {
+		const toggleFavorite = $('.toggle-favorite');
+		const favoriteCount = $('#favorite-count');
+		
+		toggleFavorite.each(function () {
+			const link = $(this);
+			const icon = link.find('i');
+			const itemId = link.attr('data-item-id');
+			const userId = link.attr('data-user-id'); 
+			
+			// Construct a unique key for this specific item and user
+			const storageKey = 'favorite_' + userId + '_' + itemId;
+			const isFavorite = localStorage.getItem(storageKey) === 'true';
+			
+			// Initialize the icon based on the favorite state
+			updateIcon(link, isFavorite);
+	
+			link.on('click', function(event) {
+				event.preventDefault();
+				const url = link.attr('href');
+				
+				$.get(url)
+				.done(function(data) {
+					const isFavorite = data.is_favorite;
+					
+					// Update the icon and local storage for this specific item and user
+					updateIcon(link, isFavorite);
+					localStorage.setItem(storageKey, isFavorite.toString());
+					
+					updateFavoriteCount();
+				})
+				.fail(function(jqXHR, textStatus, errorThrown) {
+					console.error("Failed to toggle favorite:", textStatus, errorThrown);
+				});
+			});
+		});
+		
+		// Function to update the icon based on the item's state (favorite or not)
+		function updateIcon(link, isFavorite) {
+			const icon = link.find('i');
+			if (isFavorite) {
+				icon.removeClass('far fa-heart').addClass('fas fa-heart');
+			} else {
+				icon.removeClass('fas fa-heart').addClass('far fa-heart');
+			}
+		}
+		
+		// Function to update the favorite count
+		function updateFavoriteCount() {
+			$.get("{% url 'getfavoritescount' customer_id=request.session.customer_id %}")
+			.done(function(data) {
+				const count = data.favorite_count;
+				favoriteCount.text(count);
+				
+				if (count === 0 && favoriteCount.is(':visible')) {
+					favoriteCount.hide();
+				} else if (count > 0) {
+					favoriteCount.show();
+				}
+			})
+			.fail(function(jqXHR, textStatus, errorThrown) {
+				console.error("AJAX request failed:", textStatus, errorThrown);
+			});
+		}
+		
+		// Fetch and update the initial favorite count
+		updateFavoriteCount();
+	});
+	
+	
+</script>
+    
+</body>

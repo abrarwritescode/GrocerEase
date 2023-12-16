@@ -21,4 +21,3 @@ admin.site.register(Notification)
 admin.site.register(Favorite)
 
 
-
