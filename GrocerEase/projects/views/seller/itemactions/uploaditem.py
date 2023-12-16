@@ -14,13 +14,14 @@ def uploaditem(request, seller_id):
                 item.storename = seller.storename
 
                 if item.discount_percentage > 0:
-                    discount_amount = (item.discount_percentage / 100) * item.itemprice
+                    discount_amount = (item.discount_percentage / 100) * item.original_price
+                    item.itemprice = item.original_price
                     item.discounted_price = item.itemprice - discount_amount
+                    item.itemprice=item.discounted_price
                 else:
-                    item.discounted_price = item.itemprice
+                    item.discounted_price = item.original_price
+                    item.itemprice = item.original_price
                 
-                item.discount_percentage = str(item.discount_percentage).split('.')[0]
-
                 item.save()
 
                 for category in form.cleaned_data['category']:

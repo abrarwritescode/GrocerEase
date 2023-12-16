@@ -38,6 +38,7 @@ class Item(models.Model):
     favorite_count = models.IntegerField(default=0)
 
     discount_name = models.CharField(max_length=255, default="", blank=True)
+    original_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
     discount_percentage = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, blank=True)
     discount_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, blank=True)
     start_date = models.DateField(null=True, blank=True)
@@ -50,12 +51,6 @@ class Item(models.Model):
         
         if self.end_date and self.end_date < timezone.now().date():
             self.discount_percentage = 0
-
-        if self.discount_percentage > 0:
-            self.discount_amount = (self.discount_percentage / 100) * self.itemprice
-            self.discounted_price = self.itemprice - self.discount_amount
-        else:
-            self.discounted_price = self.itemprice
 
         super().save(*args, **kwargs)
 
