@@ -5,6 +5,15 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
+    <link rel="shortcut icon" type="image/png" href="{% static 'pictures/faviconcart.png' %}">
+    <title>GrocerEase | Home</title>
+   
    </head>
    <style>
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
@@ -23,12 +32,13 @@ body{
   padding: 30px;
 }
 .container{
-  position: relative;
+  position: absolute;
   max-width: 700px;
   width: 100%;
   background: #fff;
   padding: 40px 30px;
   perspective: 2700px;
+  top: 110px;
 }
 .container .cover{
   position: absolute;
@@ -180,6 +190,20 @@ body{
 
    </style>
 <body>
+
+  <header style="position: fixed; top: 0px; z-index: 1000;" class="navbar">
+    <div class="logo">
+        <a href="{% url 'home'  %}">
+            <img class="logoimage" src="{% static 'pictures/logo.png' %}" alt="">
+        </a>
+    </div>
+    <div class="navbtn">
+        <a href="{% url 'logincustomer' %}" class="btnn-login">Customer</a>
+        <a href="{% url 'loginseller' %}" class="btnn-signup">Seller</a>
+    </div>
+    </div>
+</header>
+
   <div class="container">
     <input type="checkbox" id="flip">
     <div class="cover">
