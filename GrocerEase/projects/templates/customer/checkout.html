@@ -60,7 +60,7 @@
                         <table class="order-details">
 							<thead>
                                 <tr>
-                                    <th>Your order Details</th>
+                                    <th>Order Details</th>
                                     <th>Quantity</th>
                                     <th>Price</th>
                                 </tr>
@@ -81,7 +81,7 @@
                             </tbody>
                             <tbody class="checkout-details">
                                 <tr>
-                                    <td>Total</td>
+                                    <td>Subtotal</td>
                                     <td>{{order.get_cart_items}} Items</td>
                                     <td id="total-amount">BDT {{order.get_cart_total|floatformat:2}}</td>
                                 </tr>
@@ -91,6 +91,14 @@
                                     <td><input id="vouchercode" name="vouchercode" type="text" placeholder="Enter voucher code">
                                     </td>
                                     <td><button type="button" id="applyVoucherBtn">Apply Voucher</button></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Total</b></td>
+                                    {% if order.payment == 0.00 %}
+                                    <td><b>BDT {{ order.get_cart_total }}</b></td>
+                                    {% else %}
+                                    <td><b>BDT {{ order.payment }}</b></td>
+                                    {% endif %}
                                 </tr>
                             </tbody></form>
 
@@ -156,6 +164,7 @@
                 }
             }
         });
+
     } else {
         var amountInCents = '0';
         $('#total-amount').text('BDT 0.00');
@@ -185,9 +194,10 @@
         success: function (saveData) {
             if (saveData.success) {
                 console.log('Updated price saved to the database:', saveData);
+                location.reload();
             } else {
                 console.error('Failed to save updated price to the database:', saveData.error_message);
-            }
+            } 
         },
         error: function (error) {
             console.error('Error saving updated price to the database:', error);
