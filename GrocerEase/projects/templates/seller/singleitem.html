@@ -50,7 +50,7 @@
     					{% endfor %}   
 
 						{% if item.discount_percentage > 0 %} 
-						<p class="single-product-pricing"><span style="text-decoration: line-through;">BDT {{item.itemprice}}</span>  BDT {{item.discounted_price}}</p>
+						<p class="single-product-pricing"><span style="text-decoration: line-through;">BDT {{item.original_price}}</span>  BDT {{item.discounted_price}}</p>
 						{% else %}
 						<p class="single-product-pricing"><span>BDT {{item.itemprice}}</span></p>
 						{% endif %}

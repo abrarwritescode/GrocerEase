@@ -1,140 +1,204 @@
 {% extends 'customer/navbarcustomer.html' %}
 {% load static %}
-{% block content %} 
+{% block content %}
 
 <div style="height: 150vh; position: relative; top: 100px;">
-	<div class="section-title">
-		<h2>Checkout</h2>
-	</div>
-	
-		<div style="position: relative; top: 60px;" class="checkout-section mt-150 mb-150">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-8">
-						<div class="checkout-accordion-wrap">
-							<div class="accordion" id="accordionExample">
-							  <div class="card single-accordion">
-								<div class="card-header" id="headingOne">
-								  <h5 class="mb-0">
-									<button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-									  Shipping Information
-									</button>
-								  </h5>
-								</div>
-	
-								<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-								  <div class="card-body">
-									<div class="billing-address-form">
-										<form id="checkout-form" method="post" action="{% url 'checkout' customer_id=customer.id %}">
-											{% csrf_token %}
-											<p><input name="name" type="text" placeholder="Name"></p>
-											<p><input name="email" type="email" placeholder="Email"></p>
-											<p><input name="address" type="text" placeholder="Address"></p>
-											<p><input name="phone" type="tel" placeholder="Phone"></p>
-											<div id="card-element">
-											  </div>
-					  
-											  <div id="card-errors" role="alert"></div>
+    <div class="section-title">
+        <h2>Checkout</h2>
+    </div>
 
-											  <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-											  data-key="pk_test_51OBkLRBdZho5omzRXWqSB1WrOybt5hMdP8Tamwcnw3iDyLSzL4AdHmPthrPXiWBqeDCc2GqOUHaef4FwNVJWhs28001kB9WWzS"
-											  data-description="Payment"
-											  data-amount="{{amount_in_cents}}"
-											  data-currency="bdt"
-											  data-locale="auto">
-									  </script>
-										  </form>
-									</div>
-								  </div>
-								</div>
-							  </div>
-							 
-							  
-							</div>
-	
-						</div>
-					</div>
-	
-					<div class="col-lg-4">
-						<div class="order-details-wrap">
-							<table class="order-details">
-								<thead>
-									<tr>
-										<th>Your order Details</th>
-										<th>Quantity</th>
-										<th>Price</th>
-									</tr>
-								</thead>
-								<tbody class="order-details-body">
-									<tr>
-										<td>Product</td>
-										<td>Total Items</td>
-										<td>Total</td>
-									</tr>
-									{% for iitem in items %}
-									<tr>
-										<td>{{iitem.product.itemtitle}}</td>
-										<td>{{iitem.quantity}}</td>
-										<td>BDT {{iitem.get_total|floatformat:2}}</td>
-									</tr>
-									{% endfor %}
-								</tbody>
-								<tbody class="checkout-details">
-									
-									<tr>
-										<td>Total</td>
-										<td>{{order.get_cart_items}} Items</td>
-										<td>BDT {{order.get_cart_total|floatformat:2}}</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	
+    <div style="position: relative; top: 60px;" class="checkout-section mt-150 mb-150">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="checkout-accordion-wrap">
+                        <div class="accordion" id="accordionExample">
+                            <div class="card single-accordion">
+                                <div class="card-header" id="headingOne">
+                                    <h5 class="mb-0">
+                                        <button class="btn btn-link" type="button" data-toggle="collapse"
+                                            data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            Shipping Information
+                                        </button>
+                                    </h5>
+                                </div>
+
+                                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                                    data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <div class="billing-address-form">
+                                            <form id="checkout-form" method="post"
+                                                action="{% url 'checkout' customer_id=customer.id %}">
+                                                {% csrf_token %}
+                                                <p><input name="name" type="text" placeholder="Name"></p>
+                                                <p><input name="email" type="email" placeholder="Email"></p>
+                                                <p><input name="address" type="text" placeholder="Address"></p>
+                                                <p><input name="phone" type="tel" placeholder="Phone"></p>
+
+                                                <div id="card-element"></div>
+                                                <div id="card-errors" role="alert"></div>
+                                                <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                                    data-key="pk_test_51OBkLRBdZho5omzRXWqSB1WrOybt5hMdP8Tamwcnw3iDyLSzL4AdHmPthrPXiWBqeDCc2GqOUHaef4FwNVJWhs28001kB9WWzS"
+                                                    data-description="Payment"
+                                                    data-amount="{% if order.payment %}{{ updated_amount }}{% else %}{{ amount_in_cents }}{% endif %}"
+                                                    data-currency="bdt"
+                                                    data-locale="auto">
+                                                </script>
+                                                <input type="hidden" id="updated-payment-amount" name="updated_payment_amount"
+                                                    value="{{ updated_amount_in_cents }}">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="order-details-wrap">
+                        <table class="order-details">
+							<thead>
+                                <tr>
+                                    <th>Your order Details</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                </tr>
+                            </thead>
+                            <tbody class="order-details-body">
+                                <tr>
+                                    <td>Product</td>
+                                    <td>Total Items</td>
+                                    <td>Total</td>
+                                </tr>
+                                {% for iitem in items %}
+                                <tr>
+                                    <td>{{iitem.product.itemtitle}}</td>
+                                    <td>{{iitem.quantity}}</td>
+                                    <td>BDT {{iitem.get_total|floatformat:2}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tbody class="checkout-details">
+                                <tr>
+                                    <td>Total</td>
+                                    <td>{{order.get_cart_items}} Items</td>
+                                    <td id="total-amount">BDT {{order.get_cart_total|floatformat:2}}</td>
+                                </tr>
+                                <tr>
+								        
+                                    <td>Enter voucher:</td>
+                                    <td><input id="vouchercode" name="vouchercode" type="text" placeholder="Enter voucher code">
+                                    </td>
+                                    <td><button type="button" id="applyVoucherBtn">Apply Voucher</button></td>
+                                </tr>
+                            </tbody></form>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
-<script src="https://js.stripe.com/v3/"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 <script>
-  var stripe = Stripe('{{pk_test_51OBkLRBdZho5omzRXWqSB1WrOybt5hMdP8Tamwcnw3iDyLSzL4AdHmPthrPXiWBqeDCc2GqOUHaef4FwNVJWhs28001kB9WWzS}}');
-  var elements = stripe.elements();
+    $('#applyVoucherBtn').on('click', function () {
+        var voucherCode = $('#vouchercode').val();
+        $.ajax({
+            url: '{% url "check_voucher" %}',
+            data: { 'vouchercode': voucherCode },  // Include the vouchercode in the data
+            dataType: 'json',
+            success: function (data) {
+                if (data.valid) {
+                    var voucherPercentage = data.voucher_percentage;
+                    var total = parseFloat('{{order.get_cart_total}}');
+                    var discountedTotal = total - (total * (voucherPercentage / 100));
+                    var amountInCents = (discountedTotal * 100).toFixed(0);
+                    $('#total-amount').text('BDT ' + discountedTotal.toFixed(2));
+                    $('#updated-payment-amount').val(discountedTotal.toFixed(2));
 
-  var card = elements.create('card');
+                } else {
+                    var originalAmount = '{{amount_in_cents}}';
+                    $('#total-amount').text('BDT ' + parseFloat('{{order.get_cart_total}}').toFixed(2));
+                    $('#updated-payment-amount').val('{{order.get_cart_total|floatformat:2}}');
 
-  card.mount('#card-element');
-
-  card.addEventListener('change', function(event) {
-    var displayError = document.getElementById('card-errors');
-    if (event.error) {
-      displayError.textContent = event.error.message;
-    } else {
-      displayError.textContent = '';
-    }
-  });
-
-  var form = document.getElementById('checkout-form');
-  form.addEventListener('submit', function(event) {
-    event.preventDefault();
-
-    stripe.createToken(card).then(function(result) {
-      if (result.error) {
-        var errorElement = document.getElementById('card-errors');
-        errorElement.textContent = result.error.message;
-      } else {
-        var hiddenInput = document.createElement('input');
-        hiddenInput.setAttribute('type', 'hidden');
-        hiddenInput.setAttribute('name', 'stripeToken');
-        hiddenInput.setAttribute('value', result.token.id);
-        form.appendChild(hiddenInput);
-
-        form.submit();
-      }
+                }
+            }
+        });
     });
-  });
 </script>
 
+<script>
+   $('#applyVoucherBtn').on('click', function () {
+    var voucherCode = $('#vouchercode').val();
+
+    // Check if the voucher code is provided
+    if (voucherCode) {
+        $.ajax({
+            url: '{% url "check_voucher" %}',
+            data: { 'vouchercode': voucherCode },
+            dataType: 'json',
+            success: function (data) {
+                if (data.valid) {
+                    var voucherPercentage = data.voucher_percentage;
+                    var total = parseFloat('{{order.get_cart_total}}');
+                    var discountedTotal = total - (total * (voucherPercentage / 100));
+                    var amountInCents = (discountedTotal * 100).toFixed(0);
+                    $('#total-amount').text('BDT ' + discountedTotal.toFixed(2));
+                    $('#updated-payment-amount').val(discountedTotal.toFixed(2));
+
+                    // Save the updated price in the database
+                    saveUpdatedPriceToDatabase(discountedTotal.toFixed(2));
+                } else {
+                    // Handle the case where the voucher is not valid
+                    console.log('Invalid voucher. Payment not saved.');
+                }
+            }
+        });
+    } else {
+        // If voucher code is not provided, set the updated amount to zero
+        var amountInCents = '0';
+        $('#total-amount').text('BDT 0.00');
+        $('#updated-payment-amount').val('0.00');
+
+        // Save the updated price in the database with zero amount
+        saveUpdatedPriceToDatabase('0.00');
+    }
+});
+
+    function saveUpdatedPriceToDatabase(updatedPrice) {
+    var voucherCode = $('#vouchercode').val();
+
+    if (!voucherCode) {
+        updatedPrice = parseFloat('{{ order.get_cart_total }}').toFixed(2);
+    }
+
+    $.ajax({
+        url: '{% url "save_updated_price" %}',
+        method: 'POST',
+        data: {
+            'csrfmiddlewaretoken': '{{ csrf_token }}',
+            'order_id': '{{ order.id }}',
+            'updated_price': updatedPrice
+        },
+        dataType: 'json',
+        success: function (saveData) {
+            if (saveData.success) {
+                console.log('Updated price saved to the database:', saveData);
+            } else {
+                console.error('Failed to save updated price to the database:', saveData.error_message);
+            }
+        },
+        error: function (error) {
+            console.error('Error saving updated price to the database:', error);
+        }
+    });
+}
+
+</script>
 
 {% endblock content %}
-	

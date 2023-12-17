@@ -1,5 +1,6 @@
 from projects.imports import *
 from decimal import Decimal
+from django.http import JsonResponse
 
 def checkout(request, customer_id=None):
     if customer_id is None:
@@ -18,8 +19,16 @@ def checkout(request, customer_id=None):
         items = data['items']
 
         amount_in_smallest_unit = order.get_cart_total * 100
+        updated_amount = order.payment * 100
 
-    context = {'items': items, 'order': order, 'cartItems': cartItems, 'customer': customer, 'amount_in_cents': amount_in_smallest_unit}
+
+    context = {
+        'items': items,
+        'order': order,
+        'cartItems': cartItems,
+        'customer': customer,
+        'amount_in_cents': amount_in_smallest_unit,
+        'updated_amount': updated_amount }
 
     if request.method == 'POST':
         shipping_name = request.POST.get('name')
@@ -32,8 +41,6 @@ def checkout(request, customer_id=None):
         order.shipping_address = shipping_address
         order.shipping_phone = shipping_phone
         order.status = 'Processing'  
-        order.payment = Decimal(order.get_cart_total)
-
 
         try:
             token = request.POST['stripeToken']
@@ -63,4 +70,60 @@ def checkout(request, customer_id=None):
         except Exception as e:
             messages.error(request, str(e))
 
+    if 'HTTP_X_REQUESTED_WITH' in request.headers and request.headers['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest':
+        vouchercode = request.POST.get('vouchercode', '')
+        print(vouchercode)
+
+        if vouchercode:
+            try:
+                voucher = VoucherCode.objects.get(vouchercode=vouchercode)
+                updated_payment_amount = Decimal(order.get_cart_total * (1 - voucher.voucher_percentage / 100))
+                order.payment = updated_payment_amount
+                order.save()
+
+                return JsonResponse({
+                    'valid': True,
+                    'voucher_percentage': voucher.voucher_percentage,
+                    'final_amount': float(updated_payment_amount)
+                })
+
+            except VoucherCode.DoesNotExist:
+                return JsonResponse({'valid': False, 'error_message': 'Invalid voucher code.'})
+
     return render(request, 'customer/checkout.html', context)
+
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
+from django.views import View
+
+@method_decorator(csrf_exempt, name='dispatch')  
+class SaveUpdatedPriceView(View):
+    def post(self, request, *args, **kwargs):
+        order_id = request.POST.get('order_id')
+        updated_price = request.POST.get('updated_price')
+        
+        try:
+            order = Order.objects.get(id=order_id)
+
+            updated_price_decimal = Decimal(updated_price) if updated_price else Decimal('0.00')
+            print(updated_price_decimal)
+
+            if updated_price_decimal > order.payment:
+                order.payment = updated_price_decimal
+                order.save()
+                print(updated_price_decimal)
+                print(order.payment)
+            elif updated_price_decimal == order.payment:
+                order.payment = updated_price_decimal
+                order.save()
+                print(updated_price_decimal)
+                print(order.payment)
+            else:
+                order.payment = updated_price_decimal
+                order.save()
+                print(order.payment)
+                
+            return JsonResponse({'success': True})
+        except Order.DoesNotExist:
+            return JsonResponse({'success': False, 'error_message': 'Order not found'})

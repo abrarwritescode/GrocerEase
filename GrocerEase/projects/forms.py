@@ -102,12 +102,11 @@ class OTPVerificationSellerForm(forms.Form):
 class ItemForm(forms.ModelForm):
     class Meta:
         model = Item
-        fields = ['itemtitle', 'category', 'itemquantity', 'itemdescription', 'itemfeaturedimage', 'discount_name', 'original_price', 'discount_percentage', 'start_date', 'end_date']
+        fields = ['itemtitle', 'category', 'itemquantity', 'itemdescription', 'itemfeaturedimage', 'original_price', 'discount_percentage', 'start_date', 'end_date']
         widgets = {
             'itemtitle': forms.TextInput(attrs={'placeholder': 'Input item name here..', 'style': 'width: 478px;'}),
             'itemquantity': forms.TextInput(attrs={'placeholder': 'Quantity', 'style': 'width: 508px;'}),
             'itemdescription': forms.Textarea(attrs={'placeholder': 'Description', 'style': 'width: 530px; height: 30px;'}),
-            'discount_name': forms.Textarea(attrs={'placeholder': '', 'style': 'width: 525px; height:30px;'}),
             'original_price': forms.TextInput(attrs={'placeholder': 'Price', 'style': 'width: 478px;'}),
             'discount_percentage': forms.TextInput(attrs={'placeholder': 'Discount percentage', 'style': 'width: 480px;'}),
             'end_date': forms.DateInput(attrs={'type': 'date', 'style': 'width: 140px; position: relative; right: 320px; bottom:10px;'}),

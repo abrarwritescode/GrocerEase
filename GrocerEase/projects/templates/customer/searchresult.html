@@ -55,7 +55,11 @@
 												<h3><strong>{{item.itemtitle}}</strong></h3>
 												<div class="d-flex">
 													<div class="pricing">
-														<p class="price"><span class="price-sale">BDT {{item.itemprice}}</span></p>
+														{% if item.discount_percentage > 0 %} 
+									<p class="price"><span class="price-sale" style="text-decoration: line-through;">BDT {{item.original_price}}</span></p>
+									{% else %}
+									<p class="price"><span class="price-sale">BDT {{item.itemprice}}</span></p>
+									{% endif %} 
 													</div>
 												</div>
 												<div class="bottom-area d-flex px-3">

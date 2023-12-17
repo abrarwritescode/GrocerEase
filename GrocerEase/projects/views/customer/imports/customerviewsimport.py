@@ -21,3 +21,6 @@ from projects.views.customer.favorites.viewfavs import viewfavorites
 from projects.views.customer.profile.myprofile import change_customer_image
 from projects.views.customer.favorites.viewfavscount import getfavoritescount
 from projects.views.customer.favorites.togglefavs import togglefavorite
+from projects.views.customer.voucher.vouchercode import check_voucher
+from projects.views.customer.checkout.checkout import SaveUpdatedPriceView
+

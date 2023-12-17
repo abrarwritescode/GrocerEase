@@ -178,7 +178,11 @@
                 >
                     <div>
                         <strong>Order ID:</strong> {{ order.id }}<br />
+                        {% if order.payment > 0%}
+                        <strong>Total:</strong> Tk.{{ order.payment }}
+                        {% else %}
                         <strong>Total:</strong> Tk.{{ order.get_cart_total }}
+                        {% endif %}
                     </div>
                     <div style="color: #042405">
                         <strong>Date:</strong> {{ order.date_ordered|date:"F j, Y H:i" }} <br>
@@ -191,6 +195,9 @@
                             <tr>
                                 <th>Product</th>
                                 <th>Quantity</th>
+                                <th>Price</th>
+                                <th>Discount Percent</th>
+                                <th>After Discount</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -198,6 +205,17 @@
                                 <tr>
                                     <td>{{ order_item.product.itemtitle }}</td>
                                     <td>{{ order_item.quantity }}</td>
+                                    {% if order_item.product.discount_percentage > 0 %}
+                                    <td>{{ order_item.product.original_price }}</td>
+                                    <td>{{order_item.product.discount_percentage}}%</td>
+                                    <td>{{ order_item.product.itemprice }}</td>
+                                    {% else %}
+
+                                    <td>{{ order_item.product.original_price }}</td>
+                                    <td>{{order_item.product.discount_percentage}}%</td>
+                                    <td>{{ order_item.product.original_price }}</td>
+                                  
+                                    {% endif %}
                                 </tr>
                             {% endfor %}
                         </tbody>

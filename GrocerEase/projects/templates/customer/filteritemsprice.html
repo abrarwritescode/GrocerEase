@@ -69,7 +69,7 @@
                         <div class="d-flex">
                             <div class="pricing">
                                     {% if item.discount_percentage > 0 %} 
-									<p class="price"><span class="price-sale" style="text-decoration: line-through;">BDT {{item.itemprice}}</span></p>
+									<p class="price"><span class="price-sale" style="text-decoration: line-through;">BDT {{item.original_price}}</span></p>
 									{% else %}
 									<p class="price"><span class="price-sale">BDT {{item.itemprice}}</span></p>
 									{% endif %}

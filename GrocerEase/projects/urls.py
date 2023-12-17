@@ -30,7 +30,8 @@ urlpatterns = [
     path('myfavorites/<int:customer_id>/', viewfavorites, name='myfavorites'),
     path('getfavoritescount/<int:customer_id>/', getfavoritescount, name='getfavoritescount'), 
     path('togglefavorite/<str:pk>/<int:customer_id>/', togglefavorite, name='togglefavorite'),
-
+    path('check_voucher/', check_voucher, name='check_voucher'),
+    path('save_updated_price/', SaveUpdatedPriceView.as_view(), name='save_updated_price'),
 
     path('selleritems/<int:seller_id>/<int:customer_id>/', selleritems, name='selleritems'),
     
