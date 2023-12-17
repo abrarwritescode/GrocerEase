@@ -136,7 +136,6 @@
    $('#applyVoucherBtn').on('click', function () {
     var voucherCode = $('#vouchercode').val();
 
-    // Check if the voucher code is provided
     if (voucherCode) {
         $.ajax({
             url: '{% url "check_voucher" %}',
@@ -151,22 +150,19 @@
                     $('#total-amount').text('BDT ' + discountedTotal.toFixed(2));
                     $('#updated-payment-amount').val(discountedTotal.toFixed(2));
 
-                    // Save the updated price in the database
                     saveUpdatedPriceToDatabase(discountedTotal.toFixed(2));
                 } else {
-                    // Handle the case where the voucher is not valid
                     console.log('Invalid voucher. Payment not saved.');
                 }
             }
         });
     } else {
-        // If voucher code is not provided, set the updated amount to zero
         var amountInCents = '0';
         $('#total-amount').text('BDT 0.00');
         $('#updated-payment-amount').val('0.00');
 
-        // Save the updated price in the database with zero amount
         saveUpdatedPriceToDatabase('0.00');
+        location.reload();
     }
 });
 
