@@ -127,3 +127,17 @@ class ChangeCustomerImageForm(forms.ModelForm):
         widgets = {
             'customerimage': forms.FileInput(attrs={'clearable': False}),
         }
+
+
+class ReviewForm(forms.Form):
+    rating = forms.IntegerField(
+        label='Rating',
+        min_value=1,
+        max_value=5,
+        widget=forms.NumberInput(attrs={'class': 'star-rating-input', 'type': 'hidden'}),
+    )
+    comment = forms.CharField(
+        label='Comment',
+        required=False,
+        widget=forms.Textarea(attrs={'class': 'form-control'}),
+    )

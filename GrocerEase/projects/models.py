@@ -161,3 +161,18 @@ class Favorite(models.Model):
 
     def __str__(self):
         return f"Favorite {self.id}"
+    
+
+class Review(models.Model):
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    rating = models.IntegerField(default=0)
+    comment = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('customer', 'item')
+
+    def __str__(self):
+        return f"Review by {self.customer} for {self.item}"
+
