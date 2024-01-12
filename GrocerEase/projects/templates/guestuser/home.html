@@ -136,6 +136,22 @@
         </div>
     </section>
 
+    <div class="section-title"> 
+        <h2 class="mb-4">Our Sellers</h2>
+    </div>
+
+    <div class="row seller" style="position: relative; top: 10%; text-align: center;">
+        {% for seller in sellers %} 
+        <div class="col-md-3" style="text-align: center;">
+            <a href="{% url 'guestselleritems' seller_id=seller.id %}">
+            <img class="img-fluid sellerimage" src="{{ seller.sellerimage.url }}" alt="">           
+            </a>
+                <p style="text-transform: capitalize; font-weight: 600; color: rgb(63, 62, 62);" class="sellername">{{seller.storename}}</p>
+        </div>
+        {% endfor %}
+    </div>
+
+
     <div class="section-title">
         <h2 class="mb-4">Our Products</h2>
         <p style="font-size: 18px;">At Grocerease, we're committed to bringing you a wide selection of high-quality products at competitive prices.</p>

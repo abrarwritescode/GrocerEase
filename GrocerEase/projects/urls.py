@@ -8,6 +8,7 @@ from .views.guestuser.imports.guestuserimports import *
 
 urlpatterns = [
     path('', non_logged_in_home, name='home'),
+    path('guestselleritems/<int:seller_id>/', guestselleritems, name='guestselleritems'),
 
     path('signupcustomer/', registercustomer, name='signupcustomer'),
     path('verify_otpcustomer/', verifyotpcustomer, name='verify_otpcustomer'),
