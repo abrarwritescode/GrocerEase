@@ -55,5 +55,5 @@ urlpatterns = [
     path('marknotificationsasread/<int:seller_id>/', marknotificationsasread, name='marknotificationsasread'),
     path('customer/<int:customer_id>/change-image/',change_customer_image, name='change_customer_image'),
     path('clearsinglenotif/<int:notification_id>/<int:seller_id>/', clearsinglenotif, name='clearsinglenotif'),
-
+    path('orders/<int:seller_id>/', vieworders, name='vieworders'),
 ] 

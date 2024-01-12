@@ -90,14 +90,19 @@
                                     <td>Enter voucher:</td>
                                     <td><input id="vouchercode" name="vouchercode" type="text" placeholder="Enter voucher code">
                                     </td>
-                                    <td><button type="button" id="applyVoucherBtn">Apply Voucher</button></td>
+                                    <td><button class="voucherbtn" type="button" id="applyVoucherBtn">Apply Voucher</button></td>
                                 </tr>
                                 <tr>
                                     <td><b>Total</b></td>
                                     {% if order.payment == 0.00 %}
                                     <td><b>BDT {{ order.get_cart_total }}</b></td>
+                                    <td>No Voucher Applied</td>
+                                    {% elif order.payment == order.get_cart_total %}
+                                    <td><b>BDT {{ order.get_cart_total }}</b></td>
+                                    <td>No Voucher Applied</td>
                                     {% else %}
                                     <td><b>BDT {{ order.payment }}</b></td>
+                                    <td>Voucher Applied</td>
                                     {% endif %}
                                 </tr>
                             </tbody></form>
@@ -112,33 +117,6 @@
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-
-<script>
-    $('#applyVoucherBtn').on('click', function () {
-        var voucherCode = $('#vouchercode').val();
-        $.ajax({
-            url: '{% url "check_voucher" %}',
-            data: { 'vouchercode': voucherCode },  // Include the vouchercode in the data
-            dataType: 'json',
-            success: function (data) {
-                if (data.valid) {
-                    var voucherPercentage = data.voucher_percentage;
-                    var total = parseFloat('{{order.get_cart_total}}');
-                    var discountedTotal = total - (total * (voucherPercentage / 100));
-                    var amountInCents = (discountedTotal * 100).toFixed(0);
-                    $('#total-amount').text('BDT ' + discountedTotal.toFixed(2));
-                    $('#updated-payment-amount').val(discountedTotal.toFixed(2));
-
-                } else {
-                    var originalAmount = '{{amount_in_cents}}';
-                    $('#total-amount').text('BDT ' + parseFloat('{{order.get_cart_total}}').toFixed(2));
-                    $('#updated-payment-amount').val('{{order.get_cart_total|floatformat:2}}');
-
-                }
-            }
-        });
-    });
-</script>
 
 <script>
    $('#applyVoucherBtn').on('click', function () {
@@ -161,21 +139,28 @@
                     saveUpdatedPriceToDatabase(discountedTotal.toFixed(2));
                 } else {
                     console.log('Invalid voucher. Payment not saved.');
+                    handleInvalidVoucher();
                 }
             }
         });
-
     } else {
         var amountInCents = '0';
         $('#total-amount').text('BDT 0.00');
         $('#updated-payment-amount').val('0.00');
 
         saveUpdatedPriceToDatabase('0.00');
-        location.reload();
     }
 });
 
-    function saveUpdatedPriceToDatabase(updatedPrice) {
+function handleInvalidVoucher() {
+    var amountInCents = '0';
+    $('#total-amount').text('BDT 0.00');
+    $('#updated-payment-amount').val('0.00');
+
+    saveUpdatedPriceToDatabase('0.00');
+}
+
+function saveUpdatedPriceToDatabase(updatedPrice) {
     var voucherCode = $('#vouchercode').val();
 
     if (!voucherCode) {
@@ -203,6 +188,25 @@
             console.error('Error saving updated price to the database:', error);
         }
     });
+}
+
+$('.stripe-button').on('click', function () {
+    if (!checkShippingInfo()) {
+        alert('Please fill in all the required shipping information.');
+    } 
+});
+
+function checkShippingInfo() {
+    var name = $('[name="name"]').val();
+    var email = $('[name="email"]').val();
+    var address = $('[name="address"]').val();
+    var phone = $('[name="phone"]').val();
+
+    if (!name || !email || !address || !phone) {
+        return false;
+    }
+
+    return true;
 }
 
 </script>

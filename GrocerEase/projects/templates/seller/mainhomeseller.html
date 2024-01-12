@@ -89,10 +89,9 @@
         <div class="logo">
 			<a href="{% url 'homeseller' seller_id=request.session.seller_id %}">
 				<img class="logoimage" src="{% static 'pictures/logo.png' %}" alt="">	
-			</a>
+			</a>			
         </div>
 		<div class="icons">
-
 			<a style="color: #042405;" class="mobile-hide search-bar-icon icon" href="{% url 'searchseller' seller_id=request.session.seller_id  %}"><i class="fas fa-search"></i></a> 
 			<a href="#" id="view-notifications" class="notification-trigger">
 				<i class="fas fa-bell"></i>
@@ -106,6 +105,9 @@
         <div class="navbtn">
 			<a href="{% url 'uploaditem' seller_id=request.session.seller_id %}" class="btnn-login">Upload</a>
 			<a href="{% url 'logoutseller' %}" class="btnn-signup">Logout</a>
+		</div>
+		<div class="orders">
+			<a href="{% url 'vieworders' seller_id=request.session.seller_id %}" class="btnn-orders">My Orders</a>
 		</div>
     </header>
 

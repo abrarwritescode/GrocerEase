@@ -1,5 +1,5 @@
 <html>
-
+    {% load static %}
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,8 +16,7 @@
     </head>
 
 <style>
-    /* color variables */
-/* border radius */
+    
 *,
 *::before,
 *::after {
@@ -34,26 +33,22 @@ body {
     align-items: flex-start;
     color: #4f546c;
     font-size: 0.9rem;
-    background-color: rgb(50, 146, 184);
+    background-color: rgb(204, 207, 209);
     padding-top: 90px;
-    /* Increase the top padding to move the content lower */
 }
 
 table {
     border-collapse: collapse;
-    box-shadow: 0 5px 10px #e1e5ee;
     background-color: white;
     text-align: left;
     overflow: hidden;
     margin-top: 70px;
-    margin-right: 20px;
-    /* Increase the margin-top to move the table lower */
+    position: relative;
+    left: 10px;
 }
 
-/* Rest of the CSS code remains the same */
-
 table thead {
-    box-shadow: 0 5px 10px #e1e5ee;
+    box-shadow: 0 5px 10px #e8eaef;
 }
 
 table th {
@@ -63,9 +58,7 @@ table th {
     font-size: 1rem;
     font-weight: 700;
     font-family: Arial, sans-serif;
-    /* Change the font family to your preferred font */
     color: #333333;
-    /* Set the font color */
 }
 
 @media screen and (max-width: 768px) {
@@ -84,12 +77,6 @@ table td {
     border: 1px solid #dcdbdb;
 }
 
-table tr:hover {
-    background-color: #c9dde8;
-    color: #ffffff;
-
-}
-
 @media screen and (max-width: 768px) {
     table td {
         font-size: 0.8rem;
@@ -101,24 +88,20 @@ table .amount {
     text-align: right;
 }
 
-table tr:nth-child(even) {
-    background-color: #b3d1e3;
+table tr:last-child {
+    background-color: #dfe3e5;
 }
 
 h1 {
     font-size: 2rem;
-    color: #ffffff;
-    /* Set the heading color to white */
-    margin-top: 0;
+    color: #042405;
+    margin-top: 10px;
     text-align: center;
     text-transform: uppercase;
     font-weight: bold;
     padding: 10px;
-    background-color: rgb(9, 52, 69);
-    background-image: linear-gradient(rgb(50, 146, 184), rgb(9, 52, 69));
-    background-repeat: no-repeat;
-    background-position: center;
-    border-radius: 10px;
+    position: relative;
+    top: 50px;
 }
 
 @media screen and (max-width: 768px) {
@@ -138,15 +121,7 @@ h1 {
     transform: translateX(-50%);
     margin-top: 10px;
 }
-table tr {
-    transition: transform 0.4s ease;
-    /* Add transition effect */
-}
 
-table tr:hover {
-    transform: translateX(5px);
-    /* Move the row horizontally when hovered */
-}
 .action-buttons {
     display: flex;
     justify-content: space-between;
@@ -160,30 +135,28 @@ table tr:hover {
     cursor: pointer;
 }
 
-.action-buttons input[type="submit"].accept {
-    background-color: #81c784;
+.action-buttons input[type="submit"].markshipped {
+    background-color: #0ba6ff;
     color: #fff;
-    margin-right: 10px;
+    margin-left: 50px;
 }
 
-.action-buttons input[type="submit"].reject {
-    background-color: #e57373;
+.action-buttons input[type="submit"].shipped {
+    background-color: rgb(32, 213, 32);
     color: #fff;
+    margin-left: 50px;
+}
+
+.action-buttons input[type="submit"].delivered {
+    background-color: red;
+    color: #fff;
+    margin-left: 50px;
 }
 
 .action-buttons input[type="submit"]:hover {
     opacity: 0.8;
 }
 
-.action-buttons input[type="submit"].accept:hover {
-    background-color: #4caf50;
-}
-
-.action-buttons input[type="submit"].reject:hover {
-    background-color: #f44336;
-}
-
-/* Style the notification content */
 .notification-content {
     display: none;
     position: absolute;
@@ -245,77 +218,89 @@ table tr:hover {
 
   <div class="container">
    
-    <h1>My Requests</h1>
+    <h1 style="position: relative; top: 20px;">My Orders</h1>
+{% for orders in order reversed %}
     <table>
+        
       <thead>
+
         <tr>
-          <th>Patient name</th>
-          <th>Email</th>
-          <th>Appointment Date</th>
-          <th>Appointment Time</th>
-          <th>Actions</th>
+            <th>Order Number: {{ orders.id }}</th>
+            <th>Order Status: {{ orders.status }}</th>
+            <th></th>
+            <th></th>
+            <th>{{ orders.date_ordered }}</th>
+        </tr>
+        <tr>
+          <th>Items</th>
+          <th>Price</th>
+          <th>Quantity</th>
+          <th>Category</th>
+          <th>Image</th>
         </tr>
       </thead>
       <tbody>
+        {% for order_item in seller_orders %}
+        {% if order_item.order.id == orders.id %}
+            <tr>
+            <td>{{ order_item.product.itemtitle }}</td>
+                <td>{{ order_item.product.itemprice }}</td>
+                <td>{{ order_item.quantity }}</td>
+                <td>
+                    {% for category in order_item.product.category.all %}
+                        {{ category.categoryname }}{% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                </td>
+                <td class="product-image"><img src="{{ order_item.product.itemfeaturedimage.url }}" alt=""></td>
+            </tr> 
+        {% endif %}
+        {% endfor %}
+
           <tr>
+            <td><b>Customer's Address:</b> </td>
+            <td>{{ orders.shipping_address }}</td>
+            <td><b>Contact:</b> </td>
+            <td>{{ orders.shipping_phone }}</td>
+
+            {% if orders.status == 'Processing' %}
+
             <td>
-sc            </td>
-            <td>
-ff            </td>
-            <td>
-xx            </td>
-            <td>
-aa            </td>
-            <td>
-              <form action="processrequest.php?requestId=<?php echo $requestId; ?>" method="post" class="action-buttons">
-                <input type="submit" value="Accept" class="btn accept button" name="accept">
-                <input type="submit" value="Reject" class="btn reject button" name="reject">
-              </form>
+                <form action="{% url 'vieworders' seller_id=request.session.seller_id %}" method="post" class="action-buttons">
+                    {% csrf_token %}
+                    <input type="hidden" name="order_id" value="{{ orders.id }}">
+                    <input type="hidden" name="action" value="MARK_SHIPPED">  
+                    <input type="submit" value="MARK SHIPPED" class="btn markshipped button" name="accept">
+                </form>                
             </td>
+
+            {% elif orders.status == 'Shipped' %}
+
+            <td>
+                <form action="#" class="action-buttons">
+                    <input type="submit" value="SHIPPED" class="btn shipped button" name="accept1">
+                </form>                
+            </td>
+
+            {% elif orders.status == 'Delivered' %}
+
+            <td>
+                <form action="#" class="action-buttons">
+                    <input type="submit" value="DELIVERED" class="btn delivered button" name="accept">
+                </form>                
+            </td>
+
+            {% endif %}
+           
           </tr>
-         
+
+       
       </tbody>
     </table>
+{% endfor %}
+
   </div>
 
-  <div class="footer-area" id="about_us">
-    <div class="container"> 
-        <div class="row">
-            <div class="col-lg-3 col-md-6">
-                <div class="footer-box about-widget">
-                    <h2 class="widget-title">About us</h2>
-                    <p>Your one-stop online destination for all your grocery shopping needs. We understand the importance of convenience in today's fast-paced world, and that's why we're here to simplify your shopping experience and make it as effortless as possible.</p>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="footer-box get-in-touch">
-                    <h2 class="widget-title">Get in Touch</h2>
-                    <ul>
-                        <li>Dhaka, Bangladesh</li>
-                        <li>grocereasedp1@gmail.com</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-lg-3 col-md-6">
-                <div class="footer-box pages">
-                    <h2 class="widget-title">Pages</h2>
-                    <ul>
-                        <li><a href="{% url 'logincustomer' %}">Home</a></li>
-                        <li><a href="{% url 'logincustomer' %}">Shop</a></li> 
-                    </ul>
-                </div>
-            </div> 
-            <div class="col-lg-3 col-md-6">
-                <div class="footer-box subscribe">
-                    <h2 class="widget-title">Follow us</h2>
-                    <p>To get the latest updates.</p>
-                    
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
+  
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
@@ -410,5 +395,6 @@ $(document).ready(function () {
 </script>
 
 </body>
+
 
 </html>

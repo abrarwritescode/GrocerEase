@@ -29,3 +29,8 @@ from django.template.loader import render_to_string
 from django.template import loader
 from datetime import timedelta
 
+from django.utils.decorators import method_decorator
+from django.views import View
+
+
+

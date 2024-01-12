@@ -15,7 +15,7 @@ def clearsinglenotif(request, notification_id, seller_id):
         return JsonResponse({"message": "You are not authorized to clear this notification"}, status=403)
 
     
-    notification.delete()
+    notification.delete() 
  
 
     return redirect('homeseller', seller_id=seller_id)

@@ -66,6 +66,24 @@ body, html {
     font-size: 16px;
     padding-top: 2px;
 }
+
+.navbar .orders .btnn-orders {
+    margin: 10px;
+    height: 32px;
+    width: 81.2px;
+    border-radius: 10px;
+    border: 1px solid rgb(36, 33, 4);
+    text-decoration: none;
+    text-align: center;
+    font-size: 15px;
+    color: #042405;
+    padding-top: 1px;
+    padding: 5px;
+    margin-left: 170px;
+    position: relative;
+    bottom: 35px;
+}
+
 .aboutus{
     text-decoration: none;
     color: #042405;
@@ -127,6 +145,26 @@ body, html {
     border: 0px;
     margin-left: 20px;
     font-weight: 300;
+}
+
+.voucherarea{
+  position: absolute;
+  left: 85px;
+  background-color: #1cc7221f;
+  padding: 10px;
+  border: 1px solid rgba(8, 103, 28, 0.26);
+  border-radius: 15px;
+}
+
+.voucherarea .vouchertext{
+  height: 10px;
+}
+
+.voucherarea .vouchertext p{
+  text-align: center;
+  font-size: small; 
+  position: relative;
+  bottom: 5px;
 }
 
 .searchinput{

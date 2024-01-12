@@ -36,12 +36,15 @@ def checkout(request, customer_id=None):
         shipping_address = request.POST.get('address')
         shipping_phone = request.POST.get('phone')
 
+        if not shipping_name or not shipping_email or not shipping_address or not shipping_phone:
+            return JsonResponse({'error': 'Please fill in all the required shipping information.'})
+
         order.shipping_name = shipping_name
         order.shipping_email = shipping_email
         order.shipping_address = shipping_address
         order.shipping_phone = shipping_phone
         order.status = 'Processing'  
-
+ 
         try:
             token = request.POST['stripeToken']
 
@@ -92,10 +95,6 @@ def checkout(request, customer_id=None):
 
     return render(request, 'customer/checkout.html', context)
 
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
-from django.views import View
 
 @method_decorator(csrf_exempt, name='dispatch')  
 class SaveUpdatedPriceView(View):

@@ -158,10 +158,10 @@
     Order History
 </h2>
 <ul style="list-style: none; padding: 0; text-align: center">
-    {% for order in customer.order_set.all %}
+    {% for order in customer.order_set.all reversed %}
         {% if order.get_cart_total != 0 %}
             <li
-                style="
+                style=" 
                     background-color: #fff;
                     border: 1px solid #ddd;
                     border-radius: 5px;
