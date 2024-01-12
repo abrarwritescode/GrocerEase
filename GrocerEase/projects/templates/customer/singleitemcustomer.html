@@ -1,12 +1,11 @@
 {% extends 'customer/navbarcustomer.html' %}
-{% load static %}
-{% block content %}
+<!-- -->
+{% load static %} {% block content%}
 
-<div style="height: 130vh;">
-
-    <div style="position: relative; top: 90px;" class="section-title">
-        <h2>Item: {{ item.itemtitle }}</h2>
-    </div>
+<div style="height: 75vh">
+  <div style="position: relative; top: 60px" class="section-title">
+    <h2>Item: {{ item.itemtitle }}</h2>
+  </div>
 
     <div style="position: relative; top: 140px;" class="single-product mt-150 mb-150">
         <div class="container">
@@ -44,11 +43,6 @@
                             <p><strong>Categories: </strong>{{ category }}</p>
                             {% endfor %}
                         </div>
-                        <form method="post">
-                            {% csrf_token %}
-                            {{ form.as_p }}
-                            <button type="submit">Subscribe</button>
-                        </form>
                         <p>
                             Seller: <a href="{% url 'selleritems' seller_id=item.seller.pk customer_id=request.session.customer_id %}">{{ item.seller.storename }}</a>
                         </p>
@@ -58,6 +52,153 @@
         </div>
     </div>
 
+  <style>
+    .single-product .review-form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 50px;
+      padding: 20px;
+      border: 1px solid #ccc;
+    }
+
+    .single-product .reviews {
+      margin-top: 50px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .single-product .reviews h3 {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
+
+    .single-product .reviews .review-box {
+      padding: 20px;
+      border: 1px solid #eaeaea;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+      max-width: 80%;
+      text-align: center;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+  </style>
+
+  <div
+    style="position: relative; top: 140px"
+    class="single-product mt-150 mb-150"
+  >
+    <div class="container">
+      <div class="row">
+        <div class="col-md-5">
+          <div class="single-product-img">
+            <div class="product-image-container">
+              <a href="#" class="img-prod">
+                <img
+                  class="img-fluid"
+                  src="{{ item.itemfeaturedimage.url }}"
+                  alt=""
+                />
+                {% if item.itemquantity <= 0 %}
+                <span class="out-of-stock-label">Out of Stock</span>
+                {% endif %}
+              </a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-7">
+          <div class="single-product-content">
+            <h3>{{ item.itemtitle }}</h3>
+            <h3>Description: {{ item.itemdescription }}</h3>
+            <p class="single-product-pricing">
+              <span>Per Kg</span> BDT {{ item.itemprice }}
+            </p>
+            <div class="single-product-form">
+              <a
+                href="{% url 'cart' customer_id=request.session.customer_id %}"
+                data-product="{{ item.id }}"
+                data-action="add"
+                class="cart-btn update-cart add-to-cart"
+                ><i class="fas fa-shopping-cart"></i> Add to Cart</a
+              >
+              <div class="average-rating">
+                {% if average_rating %} Average Rating: {{ average_rating }}/5
+                {% else %} No reviews yet {% endif %}
+              </div>
+              {% for category in categorys %}
+              <p><strong>Categories: </strong>{{ category }}</p>
+              {% endfor %}
+            </div>
+            <p>
+              Seller:
+              <a
+                href="{% url 'selleritems' seller_id=item.seller.pk customer_id=request.session.customer_id %}"
+                >{{ item.seller.storename }}</a
+              >
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
+<div class="single-product mt-150 mb-150">
+  <div class="reviews">
+    <h3>Reviews</h3>
+    {% for review in reviews %}
+    <p>{{ review.customer }} rated it {{ review.rating }}/5</p>
+    <p>{{ review.comment }}</p>
+    <p>{{ review.created_at }}</p>
+    {% endfor %}
+  </div>
+
+  <!-- Review form -->
+  {% if not customer_has_reviewed %}
+  <div class="review-form">
+    <h3>Add a Review</h3>
+    <form method="post" action="{% url 'submit_review' item.id %}">
+      {% csrf_token %}
+      <label for="id_rating">Rating:</label>
+      <div class="star-rating">
+        <input type="hidden" name="rating" class="star-input" value="0" />
+        <label for="star5" title="5 stars" data-value="1">&#9733;</label>
+        <label for="star4" title="4 stars" data-value="2">&#9733;</label>
+        <label for="star3" title="3 stars" data-value="3">&#9733;</label>
+        <label for="star2" title="2 stars" data-value="4">&#9733;</label>
+        <label for="star1" title="1 star" data-value="5">&#9733;</label>
+      </div>
+      <!-- Comment input -->
+      {{ review_form.comment.label_tag }} {{ review_form.comment }}
+      <button type="submit" style="margin-top: 10px">Submit Review</button>
+    </form>
+  </div>
+  {% endif %}
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const starRating = document.querySelector('.star-rating');
+      const ratingInput = document.querySelector('.star-input');
+
+      starRating.addEventListener('click', function (event) {
+        if (event.target.tagName === 'LABEL') {
+          const ratingValue = event.target.dataset.value;
+          ratingInput.value = ratingValue;
+
+          starRating.querySelectorAll('label').forEach(function (label) {
+            label.style.color = '#ccc';
+          });
+
+          for (let i = 1; i <= ratingValue; i++) {
+            starRating.querySelector(`label[data-value="${i}"]`).style.color =
+              '#f8d64e';
+          }
+        }
+      });
+    });
+  </script>
+</div>
 {% endblock content %}
