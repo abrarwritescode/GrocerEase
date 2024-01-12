@@ -26,7 +26,6 @@
           var cookies = document.cookie.split(';');
           for (var i = 0; i < cookies.length; i++) {
               var cookie = cookies[i].trim();
-              // Does this cookie string begin with the name we want?
               if (cookie.substring(0, name.length + 1) === (name + '=')) {
                   cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
                   break;
@@ -159,7 +158,7 @@
 </h2>
 <ul style="list-style: none; padding: 0; text-align: center">
     {% for order in customer.order_set.all reversed %}
-        {% if order.get_cart_total != 0 %}
+        {% if order.status != 'Pending' %}
             <li
                 style=" 
                     background-color: #fff;

@@ -577,6 +577,17 @@ table.order-details tbody td {
   font-weight: 700;
 }
 
+.voucherbtn{
+  border: none;
+  background-color: white;
+  padding: 5px 10px;
+  cursor: pointer;
+  display: inline-block;
+  border-radius: 20px;
+  border: 2px solid #F28123;
+  font-size: 15px;
+}
+
 #searchInput::placeholder {
   color: #042405; 
   font-size: 25px;

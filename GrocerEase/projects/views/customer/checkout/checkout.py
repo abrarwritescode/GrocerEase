@@ -10,6 +10,7 @@ def checkout(request, customer_id=None):
     order = {}
     cartItems = 0
     customer = None
+    errors = {}  
 
     if customer_id is not None:
         customer = Customer.objects.get(pk=customer_id)
@@ -21,14 +22,15 @@ def checkout(request, customer_id=None):
         amount_in_smallest_unit = order.get_cart_total * 100
         updated_amount = order.payment * 100
 
-
     context = {
         'items': items,
         'order': order,
         'cartItems': cartItems,
         'customer': customer,
         'amount_in_cents': amount_in_smallest_unit,
-        'updated_amount': updated_amount }
+        'updated_amount': updated_amount,
+        'errors': errors  
+    }
 
     if request.method == 'POST':
         shipping_name = request.POST.get('name')
@@ -37,14 +39,16 @@ def checkout(request, customer_id=None):
         shipping_phone = request.POST.get('phone')
 
         if not shipping_name or not shipping_email or not shipping_address or not shipping_phone:
-            return JsonResponse({'error': 'Please fill in all the required shipping information.'})
-
-        order.shipping_name = shipping_name
+            errors['shipping'] = 'Please fill in all the required shipping information.'
+            messages.error(request, errors['shipping'])
+            return redirect('checkout', customer_id=customer_id)
+        
+        order.shipping_name = shipping_name 
         order.shipping_email = shipping_email
         order.shipping_address = shipping_address
         order.shipping_phone = shipping_phone
         order.status = 'Processing'  
- 
+
         try:
             token = request.POST['stripeToken']
 
@@ -71,6 +75,7 @@ def checkout(request, customer_id=None):
             return redirect('homecustomer', customer_id=customer_id)
 
         except Exception as e:
+            errors['stripe'] = str(e)
             messages.error(request, str(e))
 
     if 'HTTP_X_REQUESTED_WITH' in request.headers and request.headers['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest':
@@ -86,15 +91,15 @@ def checkout(request, customer_id=None):
 
                 return JsonResponse({
                     'valid': True,
-                    'voucher_percentage': voucher.voucher_percentage,
-                    'final_amount': float(updated_payment_amount)
+                    'voucher_percentage': voucher.voucher_percentage
                 })
 
-            except VoucherCode.DoesNotExist:
-                return JsonResponse({'valid': False, 'error_message': 'Invalid voucher code.'})
+            except VoucherCode.DoesNotExist:            
+                errors['voucher'] = 'Invalid voucher code.'
+                messages.error(request, errors['voucher'])
+                return JsonResponse({'valid': False, 'error_message': errors['voucher']})
 
     return render(request, 'customer/checkout.html', context)
-
 
 @method_decorator(csrf_exempt, name='dispatch')  
 class SaveUpdatedPriceView(View):

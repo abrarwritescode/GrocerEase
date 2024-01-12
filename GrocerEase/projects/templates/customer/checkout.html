@@ -2,6 +2,20 @@
 {% load static %}
 {% block content %}
 
+<style>
+    /* Add these styles to your CSS file or template */
+.messages {
+    padding: 10px;
+    margin: 20px 0;
+    border: 1px solid #ccc;
+    background-color: #f5f5f5;
+}
+
+.error-message {
+    color: #ff0000;
+}
+</style>
+
 <div style="height: 150vh; position: relative; top: 100px;">
     <div class="section-title">
         <h2>Checkout</h2>
@@ -30,10 +44,17 @@
                                             <form id="checkout-form" method="post"
                                                 action="{% url 'checkout' customer_id=customer.id %}">
                                                 {% csrf_token %}
+                                                {% if messages %}
+                                                <div class="messages">
+                                                    {% for message in messages %}
+                                                        <p {% if message.tags %} class="{{ message.tags }}-message"{% endif %}>{{ message }}</p>
+                                                    {% endfor %}
+                                                </div>
+                                                {% endif %}
                                                 <p><input name="name" type="text" placeholder="Name"></p>
                                                 <p><input name="email" type="email" placeholder="Email"></p>
                                                 <p><input name="address" type="text" placeholder="Address"></p>
-                                                <p><input name="phone" type="tel" placeholder="Phone"></p>
+                                                <p><input name="phone" type="tel" placeholder="Phone"></p>  
 
                                                 <div id="card-element"></div>
                                                 <div id="card-errors" role="alert"></div>
@@ -86,7 +107,6 @@
                                     <td id="total-amount">BDT {{order.get_cart_total|floatformat:2}}</td>
                                 </tr>
                                 <tr>
-								        
                                     <td>Enter voucher:</td>
                                     <td><input id="vouchercode" name="vouchercode" type="text" placeholder="Enter voucher code">
                                     </td>
@@ -119,8 +139,16 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 <script>
+
+   var voucherApplied = false;
+
    $('#applyVoucherBtn').on('click', function () {
     var voucherCode = $('#vouchercode').val();
+
+    if (voucherApplied) {
+            alert('This voucher has already been applied.');
+            return;
+        }
 
     if (voucherCode) {
         $.ajax({
@@ -137,6 +165,8 @@
                     $('#updated-payment-amount').val(discountedTotal.toFixed(2));
 
                     saveUpdatedPriceToDatabase(discountedTotal.toFixed(2));
+                    voucherApplied = true;
+
                 } else {
                     console.log('Invalid voucher. Payment not saved.');
                     handleInvalidVoucher();
@@ -156,6 +186,8 @@ function handleInvalidVoucher() {
     var amountInCents = '0';
     $('#total-amount').text('BDT 0.00');
     $('#updated-payment-amount').val('0.00');
+
+    alert('Please enter valid voucher.');
 
     saveUpdatedPriceToDatabase('0.00');
 }

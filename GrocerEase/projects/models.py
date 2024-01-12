@@ -110,7 +110,6 @@ class Order(models.Model):
 class VoucherCode(models.Model):
     vouchercode = models.CharField(max_length=200, unique=True)
     voucher_percentage = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, blank=True)
-    final_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, blank=True)
 
     def __str__(self):
         return self.vouchercode
