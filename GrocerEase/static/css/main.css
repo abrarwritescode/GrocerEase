@@ -1084,6 +1084,24 @@ a.mobile-show.search-bar-icon:hover {
     font-size: 14px;
 }
 
+.seller img{
+  width: 140px; 
+  height: 140px; 
+  border-radius: 50%;
+  overflow: hidden; 
+  border: 3px solid #f280236b;
+}
+
+.seller img:hover{
+  transform: scale(1.032);
+}
+
+.seller{
+  position: relative;
+  height: 45vh;
+  margin: 10px;
+}
+
   .footer-area1 {
     background-color: white;
     color: #042405;
