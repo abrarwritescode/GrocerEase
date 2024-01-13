@@ -126,6 +126,8 @@
                                 <span><i class="far fa-heart"></i>
                                 </span>
                             </a>
+
+                           
                             
                             
                             
@@ -138,7 +140,12 @@
         
         {% endfor %}
     </div>
-
+    <h2>Recently Viewed Items</h2>
+    <ul>
+      {% for item in recently_viewed_items %}
+        <li>{{ item.itemtitle }}</li>
+      {% endfor %}
+    </ul>
     <div class="cookimage">
         <div class="preparetext">
             <p>You prepare the food, we handle the rest</p>

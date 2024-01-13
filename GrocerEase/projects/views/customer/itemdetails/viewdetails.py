@@ -50,7 +50,10 @@ def item_details_with_reviews(request, pk, customer_id):
     
     average_rating = round(average_rating, 2)
 
-
+    recently_viewed = request.session.get('recently_viewed', [])
+    if pk not in recently_viewed:
+        recently_viewed.insert(0, pk)
+        request.session['recently_viewed'] = recently_viewed[:5]  # Limit the list to, say, the 5 most recent items
 
     recommended_items = itemObj.get_recommendations(customer)
     if request.method == 'POST':

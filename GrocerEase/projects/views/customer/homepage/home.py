@@ -19,12 +19,20 @@ def homecustomer(request, customer_id):
         categories = Category.objects.all()
         sellers = Seller.objects.all()
 
+        recently_viewed_item_ids = request.session.get('recently_viewed', [])
+        recently_viewed_items = Item.objects.filter(id__in=recently_viewed_item_ids)
+
+# Print the recently viewed items
+        for item in recently_viewed_items:
+            print(item.itemtitle)
+
         context = {
             'products': products,
             'cartItems': cartItems,
             'customer': customer_data ,
             'categories': categories ,
             'sellers': sellers,
+            'recently_viewed_items': recently_viewed_items,
         }
 
         return render(request, 'customer/homecustomer.html', context)
