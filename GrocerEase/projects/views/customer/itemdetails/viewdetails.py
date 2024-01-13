@@ -10,6 +10,7 @@ def submit_review(request, item_id):
         if form.is_valid():
             customer = Customer.objects.get(pk=request.session['customer_id'])
             item = Item.objects.get(pk=item_id)
+          
             
             existing_review = Review.objects.filter(customer=customer, item=item)
             if existing_review.exists():
@@ -19,7 +20,7 @@ def submit_review(request, item_id):
             rating = form.cleaned_data['rating']
             comment = form.cleaned_data['comment']
             Review.objects.create(item=item, customer=customer, rating=rating, comment=comment)
-    return redirect('singleitemcustomer', pk=item_id, customer_id=request.session['customer_id'])
+    return redirect('singleitemcustomer', pk=item_id,  customer_id=request.session['customer_id'])
 def item_details_with_reviews(request, pk, customer_id):
     if 'customer_id' in request.session:
         customer_id = request.session['customer_id']
@@ -49,7 +50,9 @@ def item_details_with_reviews(request, pk, customer_id):
     
     average_rating = round(average_rating, 2)
 
-    
+
+
+    recommended_items = itemObj.get_recommendations(customer)
     if request.method == 'POST':
         form = ReviewForm(request.POST)
         if form.is_valid():
@@ -72,4 +75,6 @@ def item_details_with_reviews(request, pk, customer_id):
         'review_form': form,
         'average_rating': average_rating,
         'customer_has_reviewed': customer_has_reviewed, 
+        'recommended_items': recommended_items,
+        
     })

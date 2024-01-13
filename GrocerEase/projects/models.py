@@ -52,6 +52,38 @@ class Item(models.Model):
             self.discount_percentage = 0
 
         super().save(*args, **kwargs)
+    
+    # def get_recommendations(self):
+    #      # Get orders containing the current item
+    #      orders_with_current_item = OrderItem.objects.filter(product=self, confirmed=True).values_list('order', flat=True)
+
+    #      # Get items from those orders excluding the current item
+    #      recommended_items = Item.objects.filter(orderitem__order__in=orders_with_current_item).exclude(id=self.id).distinct()
+
+    #      return recommended_items
+        
+    def get_recommendations(self, customer):
+        orders_with_current_item = OrderItem.objects.filter(
+            product=self, 
+            confirmed=True
+        ).values_list('order', flat=True)
+
+        # Get items from those orders excluding the current item
+        recommended_items = Item.objects.filter(
+            orderitem__order__in=orders_with_current_item
+        ).exclude(id=self.id).distinct()
+
+        # # Exclude items that the customer has already purchased
+        customer_purchased_items = Item.objects.filter(
+            orderitem__order__customer=customer, 
+             orderitem__confirmed=True
+         )
+        recommended_items = recommended_items.exclude(id__in=customer_purchased_items)
+
+        return recommended_items
+  
+    
+    
 
     def __str__(self):
         return self.itemtitle
