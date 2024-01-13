@@ -22,20 +22,36 @@ class Seller(models.Model):
     sellerimage = models.ImageField(null=True, blank=True, default="user-default.png")
 
     def __str__(self):
-        return f"{self.id} - {self.storename}"
+        return f"{self.storename}"
 
 
 class Item(models.Model):
     seller = models.ForeignKey(Seller, on_delete=models.SET_NULL, null=True, blank=True)
     itemtitle = models.CharField(max_length=200) # null by default is set as false. so it is must
     itemprice = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
-    category = models.ManyToManyField('Category', blank=True) # Tag model is below so used '', otherwise don't need
+    category = models.ManyToManyField('Category', blank=True) # Category model is below so used '', otherwise don't need
     itemquantity = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
     itemdescription = models.TextField(null=True, blank=True) # null is for database to know even if there's no description we can still create a record/row. blank is similar as that for django to know about it
     itemfeaturedimage = models.ImageField(null=True, blank=True, default="default_img.png")
     uploadedon = models.DateTimeField(auto_now_add=True)
     id = models.UUIDField(default=uuid.uuid4, unique=True, primary_key=True, editable=False) #uuid4 is for encoding
     favorite_count = models.IntegerField(default=0)
+
+    original_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
+    discount_percentage = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, blank=True)
+    discount_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, blank=True)
+    start_date = models.DateField(null=True, blank=True)
+    end_date = models.DateField(null=True, blank=True)
+    discounted_price = models.DecimalField(max_digits=10, decimal_places=2, default=0.0, blank=True)
+
+    def save(self, *args, **kwargs):
+        if not self.start_date:
+            self.start_date = timezone.now().date()
+        
+        if self.end_date and self.end_date < timezone.now().date():
+            self.discount_percentage = 0
+
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.itemtitle
@@ -45,7 +61,22 @@ class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
     date_ordered = models.DateTimeField(auto_now_add=True)
     is_cart = models.BooleanField(default=True)  # To indicate whether it's a cart or a confirmed order
-    transaction_id = models.CharField(max_length=100, null=True)
+
+    shipping_name = models.CharField(max_length=255, null=True, blank=True)
+    shipping_email = models.EmailField(null=True, blank=True)
+    shipping_address = models.TextField(null=True, blank=True)
+    shipping_phone = models.CharField(max_length=20, null=True, blank=True)
+    payment = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
+
+    STATUS_CHOICES = [
+        ('Pending', 'Pending'),
+        ('Processing', 'Processing'),
+        ('Shipped', 'Shipped'),
+        ('Delivered', 'Delivered'),
+        ('Cancelled', 'Cancelled'),
+    ]
+
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending')
 
     def __str__(self):
         return f"{self.id} - {self.customer}"
@@ -61,6 +92,27 @@ class Order(models.Model):
         orderitems = self.orderitem_set.all()
         total = sum([item.quantity for item in orderitems]) if orderitems else 0
         return total
+    
+    @property
+    def move_items_from_cart(self):
+        cart_items = OrderItem.objects.filter(order=self, confirmed=False)
+        
+        for cart_item in cart_items:
+            OrderItem.objects.create(
+                order=self,
+                product=cart_item.product,
+                quantity=cart_item.quantity,
+                confirmed=True 
+            )
+        
+        cart_items.delete()
+
+class VoucherCode(models.Model):
+    vouchercode = models.CharField(max_length=200, unique=True)
+    voucher_percentage = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, blank=True)
+
+    def __str__(self):
+        return self.vouchercode
 
 
 class OrderItem(models.Model):
@@ -108,3 +160,18 @@ class Favorite(models.Model):
 
     def __str__(self):
         return f"Favorite {self.id}"
+    
+
+class Review(models.Model):
+    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
+    rating = models.IntegerField(default=0)
+    comment = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('customer', 'item')
+
+    def __str__(self):
+        return f"Review by {self.customer} for {self.item}"
+

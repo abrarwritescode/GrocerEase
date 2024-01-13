@@ -2,6 +2,24 @@
 {% load static %}
 {% block content %}
 
+<style>
+    .discount-label {
+          display: block;
+          background-color: red;
+          color: white;
+          font-size: 14px;
+          padding: 4px 8px;
+          border-radius: 4px;
+          position: absolute;
+          top: 45px;
+          left: 10px;
+          z-index: 1; 
+          opacity: 0; 
+          animation: fade-in 0.5s ease-in-out forwards; 
+        }
+
+</style>
+
 <section style="position: relative; top: 15vh;" class="ftco-section">
     <div class="container">
         <div class="row justify-content-center mb-3 pb-3">
@@ -16,27 +34,34 @@
                 <div class="col-md-6 col-lg-3 ftco-animate">
                     <div class="product">
                         <a href="#" class="img-prod"><img class="img-fluid" src="{{ item.itemfeaturedimage.url }}" alt="">
-                            <div class="overlay"></div>
-                            {% if item.itemquantity <= 0 %}
-                        <span class="out-of-stock-label">Out of Stock</span>
-                        {% endif %}
+                            {% if item.discount_percentage > 0 %}
+                    		<span class="discount-label">BDT {{item.discounted_price}} on {{item.discount_percentage}}% sale</span>
+                		    {% endif %}
+						    <div class="overlay"></div>
+						    {% if item.itemquantity <= 0 %}
+						    <span class="out-of-stock-label">Out of Stock</span>
+						    {% endif %}						
                         </a>
                         <div class="text py-3 pb-4 px-3 text-center">
                             <h3><strong>{{ item.itemtitle }}</strong></h3>
                            
                             <div class="d-flex">
                                 <div class="pricing">
-                                    <p class="price"><span class="price-sale">BDT {{ item.itemprice }}</span></p>
-                                </div>
+                                    {% if item.discount_percentage > 0 %} 
+                                    <p class="price"><span class="price-sale" style="text-decoration: line-through;">BDT {{item.original_price}}</span></p>
+                                    {% else %}
+                                    <p class="price"><span class="price-sale">BDT {{item.itemprice}}</span></p>
+                                    {% endif %}
+                                </div>                         
                             </div>
                             <div class="bottom-area d-flex px-3">
                                 <div class="m-auto d-flex">
                                     <a href="{% url 'singleitemcustomer' pk=item.id customer_id=request.session.customer_id %}" class="add-to-cart d-flex justify-content-center align-items-center text-center">
-                                        <span><i class="ion-ios-menu"></i></span>
+                                        <span><i class="fas fa-bars"></i></span>
                                     </a>
                                     
                                     <a href="{% url 'cart' customer_id=request.session.customer_id %}" data-product="{{item.id}}" data-action="add" class="add-btn update-cart add-to-cart buy-now d-flex justify-content-center align-items-center mx-1 {% if item.itemquantity <= 0 %}out-of-stock{% endif %}">
-                                        <span><i class="ion-ios-cart"></i></span>
+                                        <span><i class="fas fa-shopping-cart"></i></span>
                                     </a>  
                                 </div>
                             </div>

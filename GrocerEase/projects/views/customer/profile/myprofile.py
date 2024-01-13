@@ -12,7 +12,7 @@ def customerprofile(request, customer_id):
             image_form.save()
             return redirect('customerprofile', customer_id=customer_id)
 
-    else:
+    else: 
         image_form = ChangeCustomerImageForm(instance=customer)
 
     context = {

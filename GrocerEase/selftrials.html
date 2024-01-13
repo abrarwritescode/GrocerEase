@@ -1,125 +1,58 @@
-<!DOCTYPE html>
-{% extends 'seller/mainhomeseller.html' %}
+{% extends 'customer/navbarcustomer.html' %}
 {% load static %}
 {% block content %}
 
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
+<div style="height: 130vh;">
 
-<style>
-    body{
-    margin-top:20px;
-    color: #1a202c;
-    text-align: left;
-    background-color: #e2e8f0;    
-}
-.main-body {
-    padding: 15px;
-}
-.card {
-    box-shadow: 0 1px 3px 0 rgba(0,0,0,.1), 0 1px 2px 0 rgba(0,0,0,.06);
-}
+    <div style="position: relative; top: 90px;" class="section-title">
+        <h2>Item: {{ item.itemtitle }}</h2>
+    </div>
 
-.card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    min-width: 0;
-    word-wrap: break-word;
-    background-color: #fff;
-    background-clip: border-box;
-    border: 0 solid rgba(0,0,0,.125);
-    border-radius: .25rem;
-}
-
-.card-body {
-    flex: 1 1 auto;
-    min-height: 1px;
-    padding: 1rem;
-}
-
-.gutters-sm {
-    margin-right: -8px;
-    margin-left: -8px;
-}
-
-.gutters-sm>.col, .gutters-sm>[class*=col-] {
-    padding-right: 8px;
-    padding-left: 8px;
-}
-.mb-3, .my-3 {
-    margin-bottom: 1rem!important;
-}
-
-.bg-gray-300 {
-    background-color: #e2e8f0;
-}
-.h-100 {
-    height: 100%!important;
-}
-.shadow-none {
-    box-shadow: none!important;
-}
-</style>
-<body>
-    <div class="container">
-        <div class="main-body">
-            {% if seller %}
-              <div class="row gutters-sm">
-                <div class="col-md-4 mb-3">
-                  <div class="card">
-                    <div class="card-body">
-                      <div class="d-flex flex-column align-items-center text-center">
-                        <img src="{{ seller.sellerimage }}" alt="Admin" class="rounded-circle" width="150">
-                        <div class="mt-3">
-                          <h4>{{ seller.storename }}</h4>
-                          <p class="text-secondary mb-1">{{ seller.selleremail }}</p>
-                          <p class="text-secondary mb-1">GrocerEase Seller</p>
+    <div style="position: relative; top: 140px;" class="single-product mt-150 mb-150">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="single-product-img">
+                        <div class="product-image-container">
+                            <a href="#" class="img-prod">
+                                <img class="img-fluid" src="{{ item.itemfeaturedimage.url }}" alt="">
+								{% if item.discount_percentage > 0 %}
+                    		<span class="discount-label">BDT {{item.discounted_price}} on {{item.discount_percentage}}% sale</span>
+                			{% endif %}
+						
+							{% if item.itemquantity <= 0 %}
+							<span class="out-of-stock-label">Out of Stock</span>
+							{% endif %}
+                            </a>
                         </div>
-                      </div>
                     </div>
-                  </div>
-                  
-                <div class="col-md-8">
-                  <div class="card mb-3">
-                    <div class="card-body">
-                      <div class="row">
-                        <div class="col-sm-3">
-                          <h6 class="mb-0">Full Name</h6>
-                        </div>
-                        <div class="col-sm-9 text-secondary">
-                            {{ seller.storename }}
-                        </div>
-                      </div>
-                      <hr>
-                      <div class="row">
-                        <div class="col-sm-3">
-                          <h6 class="mb-0">Email</h6>
-                        </div>
-                        <div class="col-sm-9 text-secondary">
-                            {{ seller.selleremail }}
-                        </div>
-                      </div>
-                      <hr>
-                      <hr>
-                    <div class="row">
-                        <div class="col-sm-12">
-                          <a class="btn btn-info " target="__blank" href="https://www.bootdey.com/snippets/view/profile-edit-data-and-skills">Edit</a>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                {% endif %}
-
-    
                 </div>
-              </div>
-    
+                <div class="col-md-7">
+                    <div class="single-product-content">
+						
+
+                        <h3>{{ item.itemtitle }}</h3>
+                        <h3>Description: {{ item.itemdescription }}</h3> 
+                        {% if item.discount_percentage > 0 %} 
+						<p class="single-product-pricing"><span style="text-decoration: line-through;">BDT {{item.original_price}}</span>  BDT {{item.discounted_price}}</p>
+						{% else %}
+						<p class="single-product-pricing"><span>BDT {{item.itemprice}}</span></p>
+						{% endif %}					
+                        <div class="single-product-form">
+                            <a href="{% url 'cart' customer_id=request.session.customer_id %}" data-product="{{ item.id }}" data-action="add" class="cart-btn update-cart add-to-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+                            {% for category in categorys %}
+                            <p><strong>Categories: </strong>{{ category }}</p>
+                            {% endfor %}
+                        </div>
+                        <p>
+                            Seller: <a href="{% url 'selleritems' seller_id=item.seller.pk customer_id=request.session.customer_id %}">{{ item.seller.storename }}</a>
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
+    </div>
+
+</div>
+
 {% endblock content %}
-</body>
-</html>

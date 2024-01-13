@@ -1,148 +1,145 @@
-<!DOCTYPE html>
 {% extends 'customer/navbarcustomer.html' %}
-{% load static %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8"> 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Item info</title>
-    <link rel="shortcut icon" type="image/png" href="{% static 'assets/assets1/img/favicon.png' %}">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
-   
-   <link rel="stylesheet" href="{% static 'assets/assets1/css/main.css' %}">
-	<link rel="stylesheet" href="{% static 'assets/assets1/css/all.min.css' %}">
-	<link rel="stylesheet" href="{% static 'assets/assets1/css/owl.carousel.css' %}">
+<!-- -->
+{% load static %} {% block content%}
 
-    <link rel="stylesheet" href="{% static 'assets/assets2/css/animate.css' %}">
-	<link rel="stylesheet" href="{% static 'assets/assets2/css/style.css' %}">
-	<link rel="stylesheet" href="{% static 'assets/assets2/css/ionicons.min.css' %}">
-	<link rel="stylesheet" href="{% static 'assets/assets2/css/flaticon.css' %}">
-	<link rel="stylesheet" href="{% static 'assets/assets2/css/icomoon.css' %}">
+<div style="height: 75vh">
+  <div style="position: relative; top: 90px;" class="section-title">
+    <h2>Item: {{ item.itemtitle }}</h2>
+</div>
 
-	<link rel="stylesheet" href="{% static 'assets/assets3/css/style.css' %}">
+  <style>
+    .single-product .review-form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 50px;
+      padding: 20px;
+      border: 1px solid #ccc;
+    }
 
+    .single-product .reviews {
+      margin-top: 50px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
 
-	
-    
-</head>
-<body>
-{% block content %}
+    .single-product .reviews h3 {
+      font-size: 24px;
+      margin-bottom: 20px;
+    }
 
-    <div style="position: relative; top: 50px;" class="section-title">
-        <h2>Item: {{ item.itemtitle }}</h2>
-    </div>
+    .single-product .reviews .review-box {
+      padding: 20px;
+      border: 1px solid #eaeaea;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+      max-width: 80%;
+      text-align: center;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+  </style>
 
-    <!-- single product -->
-    <div class="single-product mt-150 mb-150">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-5">
-                    <div class="single-product-img">
-                        <div class="product-image-container">
-                            <a href="#" class="img-prod">
-                                <img class="img-fluid" src="{{ item.itemfeaturedimage.url }}" alt="">
-								{% if item.itemquantity <= 0 %}
-                                <span class="out-of-stock-label">Out of Stock</span>
-                                {% endif %}
-                                
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-7">
-                    <div class="single-product-content">
-						
+<div style="position: relative; top: 140px;" class="single-product mt-150 mb-150">
+  <div class="container">
+      <div class="row">
+          <div class="col-md-5">
+              <div class="single-product-img">
+                  <div class="product-image-container">
+                      <a href="#" class="img-prod">
+                          <img class="img-fluid" src="{{ item.itemfeaturedimage.url }}" alt="">
+          {% if item.discount_percentage > 0 %}
+                  <span class="discount-label">BDT {{item.discounted_price}} on {{item.discount_percentage}}% sale</span>
+                {% endif %}
+      
+        {% if item.itemquantity <= 0 %}
+        <span class="out-of-stock-label">Out of Stock</span>
+        {% endif %}
+                      </a>
+                  </div>
+              </div>
+          </div>
+          <div class="col-md-7">
+              <div class="single-product-content">
+      
 
-                        <h3>{{ item.itemtitle }}</h3>
-                        <h3>Description: {{ item.itemdescription }}</h3>
-                        <p class="single-product-pricing"><span>Per Kg</span> BDT {{ item.itemprice }}</p>
-                        <div class="single-product-form">
-                            <a href="{% url 'cart' customer_id=request.session.customer_id %}" data-product="{{ item.id }}" data-action="add" class="cart-btn update-cart add-to-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
-                            {% for category in categorys %}
-                            <p><strong>Categories: </strong>{{ category }}</p>
-                            {% endfor %}
-                        </div>
-                        <p>
-                            Seller: <a href="{% url 'selleritems' seller_id=item.seller.pk customer_id=request.session.customer_id %}">{{ item.seller.storename }}</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                  <h3>{{ item.itemtitle }}</h3>
+                  <h3>Description: {{ item.itemdescription }}</h3> 
+                  {% if item.discount_percentage > 0 %} 
+      <p class="single-product-pricing"><span style="text-decoration: line-through;">BDT {{item.original_price}}</span>  BDT {{item.discounted_price}}</p>
+      {% else %}
+      <p class="single-product-pricing"><span>BDT {{item.itemprice}}</span></p>
+      {% endif %}					
+                  <div class="single-product-form">
+                      <a href="{% url 'cart' customer_id=request.session.customer_id %}" data-product="{{ item.id }}" data-action="add" class="cart-btn update-cart add-to-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+                      {% for category in categorys %}
+                      <p><strong>Categories: </strong>{{ category }}</p>
+                      {% endfor %}
+                  </div>
+                  <p>
+                      Seller: <a href="{% url 'selleritems' seller_id=item.seller.pk customer_id=request.session.customer_id %}">{{ item.seller.storename }}</a>
+                  </p>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+</div>
 
-	<!-- end single product -->
+<div class="single-product mt-150 mb-150">
+  <div class="reviews">
+    <h3>Reviews</h3>
+    {% for review in reviews %}
+    <p>{{ review.customer }} rated it {{ review.rating }}/5</p>
+    <p>{{ review.comment }}</p>
+    <p>{{ review.created_at }}</p>
+    {% endfor %}
+  </div>
 
-    <!-- footer -->
-	<div class="footer-area">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-3 col-md-6">
-					<div class="footer-box about-widget">
-						<h2 class="widget-title">About us</h2>
-                        <p>Your one-stop online destination for all your grocery shopping needs. We understand the importance of convenience in today's fast-paced world, and that's why we're here to simplify your shopping experience and make it as effortless as possible.</p>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-6">
-					<div class="footer-box get-in-touch">
-						<h2 class="widget-title">Get in Touch</h2>
-						<ul>
-							<li>Dhaka, Bangladesh</li>
-							<li>grocereasedp1@gmail.com</li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-6">
-					<div class="footer-box pages">
-						<h2 class="widget-title">Pages</h2>
-						<ul>
-							<li><a href="{% url 'homecustomer' customer_id=request.session.customer_id %}">Home</a></li>
-							<li><a href="{% url 'shop' customer_id=request.session.customer_id %}">Shop</a></li> 
-						</ul>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-6">
-					<div class="footer-box subscribe">
-						<h2 class="widget-title">Follow us</h2>
-						<p>To get the latest updates.</p>
-						
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- end footer -->
+  <!-- Review form -->
+  {% if not customer_has_reviewed %}
+  <div class="review-form">
+    <h3>Add a Review</h3>
+    <form method="post" action="{% url 'submit_review' item.id %}">
+      {% csrf_token %}
+      <label for="id_rating">Rating:</label>
+      <div class="star-rating">
+        <input type="hidden" name="rating" class="star-input" value="0" />
+        <label for="star5" title="5 stars" data-value="1">&#9733;</label>
+        <label for="star4" title="4 stars" data-value="2">&#9733;</label>
+        <label for="star3" title="3 stars" data-value="3">&#9733;</label>
+        <label for="star2" title="2 stars" data-value="4">&#9733;</label>
+        <label for="star1" title="1 star" data-value="5">&#9733;</label>
+      </div>
+      <!-- Comment input -->
+      {{ review_form.comment.label_tag }} {{ review_form.comment }}
+      <button type="submit" style="margin-top: 10px">Submit Review</button>
+    </form>
+  </div>
+  {% endif %}
 
-	<script src="{% static 'assets/assets1/js/jquery-1.11.3.min.js' %}"></script>
-	<script src="{% static 'assets/assets1/bootstrap/js/bootstrap.min.js' %}"></script>
-	<script src="{% static 'assets/assets1/js/jquery.countdown.js' %}"></script>
-	<script src="{% static 'assets/assets1/js/jquery.isotope-3.0.6.min.js' %}"></script>
-	<script src="{% static 'assets/assets1/js/waypoints.js' %}"></script>
-	<script src="{% static 'assets/assets1/js/owl.carousel.min.js' %}"></script>
-	<script src="{% static 'assets/assets1/js/jquery.magnific-popup.min.js' %}"></script>
-    <script src="{% static 'assets/assets1/js/jquery.meanmenu.min.js' %}"></script>
-	<script src="{% static 'assets/assets1/js/sticker.js' %}"></script>
-	<script src="{% static 'assets/assets1/js/main.js' %}"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const starRating = document.querySelector('.star-rating');
+      const ratingInput = document.querySelector('.star-input');
 
-    <script src="{% static 'assets/assets2/js/jquery.min.js' %}"></script>
-    <script src="{% static 'assets/assets2/js/jquery-migrate-3.0.1.min.js' %}"></script>
-    <script src="{% static 'assets/assets2/js/jquery.easing.1.3.js' %}"></script>
-    <script src="{% static 'assets/assets2/js/jquery.waypoints.min.js' %}"></script>
-    <script src="{% static 'assets/assets2/js/jquery.stellar.min.js' %}"></script>
-    <script src="{% static 'assets/assets2/js/owl.carousel.min.js' %}"></script>
-    <script src="{% static 'assets/assets2/js/jquery.magnific-popup.min.js' %}"></script>
-    <script src="{% static 'assets/assets2/js/aos.js' %}"></script>
-    <script src="{% static 'assets/assets2/js/scrollax.min.js' %}"></script>
-	<script src="{% static 'assets/assets2/js/main.js' %}"></script>
+      starRating.addEventListener('click', function (event) {
+        if (event.target.tagName === 'LABEL') {
+          const ratingValue = event.target.dataset.value;
+          ratingInput.value = ratingValue;
 
+          starRating.querySelectorAll('label').forEach(function (label) {
+            label.style.color = '#ccc';
+          });
 
-    <script src="{% static 'assets/assets3/js/jquery.slicknav.js' %}"></script>
-    <script src="{% static 'assets/assets3/js/owl.carousel.min.js' %}"></script>
-    <script src="{% static 'assets/assets3/js/main.js' %}"></script>
-
-   
-
+          for (let i = 1; i <= ratingValue; i++) {
+            starRating.querySelector(`label[data-value="${i}"]`).style.color =
+              '#f8d64e';
+          }
+        }
+      });
+    });
+  </script>
 {% endblock content %}
-</body>
-</html>

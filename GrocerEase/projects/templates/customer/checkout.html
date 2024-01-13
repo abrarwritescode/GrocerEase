@@ -1,86 +1,246 @@
 {% extends 'customer/navbarcustomer.html' %}
 {% load static %}
-{% block content %} 
+{% block content %}
 
-<div style="position: relative; top: 30%;" class="section-title">
-	<h2>Checkout</h2>
+<style>
+    /* Add these styles to your CSS file or template */
+.messages {
+    padding: 10px;
+    margin: 20px 0;
+    border: 1px solid #ccc;
+    background-color: #f5f5f5;
+}
+
+.error-message {
+    color: #ff0000;
+}
+</style>
+
+<div style="height: 150vh; position: relative; top: 100px;">
+    <div class="section-title">
+        <h2>Checkout</h2>
+    </div>
+
+    <div style="position: relative; top: 60px;" class="checkout-section mt-150 mb-150">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="checkout-accordion-wrap">
+                        <div class="accordion" id="accordionExample">
+                            <div class="card single-accordion">
+                                <div class="card-header" id="headingOne">
+                                    <h5 class="mb-0">
+                                        <button class="btn btn-link" type="button" data-toggle="collapse"
+                                            data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            Shipping Information
+                                        </button>
+                                    </h5>
+                                </div>
+
+                                <div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+                                    data-parent="#accordionExample">
+                                    <div class="card-body">
+                                        <div class="billing-address-form">
+                                            <form id="checkout-form" method="post"
+                                                action="{% url 'checkout' customer_id=customer.id %}">
+                                                {% csrf_token %}
+                                                {% if messages %}
+                                                <div class="messages">
+                                                    {% for message in messages %}
+                                                        <p {% if message.tags %} class="{{ message.tags }}-message"{% endif %}>{{ message }}</p>
+                                                    {% endfor %}
+                                                </div>
+                                                {% endif %}
+                                                <p><input name="name" type="text" placeholder="Name"></p>
+                                                <p><input name="email" type="email" placeholder="Email"></p>
+                                                <p><input name="address" type="text" placeholder="Address"></p>
+                                                <p><input name="phone" type="tel" placeholder="Phone"></p>  
+
+                                                <div id="card-element"></div>
+                                                <div id="card-errors" role="alert"></div>
+                                                <script src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                                    data-key="pk_test_51OBkLRBdZho5omzRXWqSB1WrOybt5hMdP8Tamwcnw3iDyLSzL4AdHmPthrPXiWBqeDCc2GqOUHaef4FwNVJWhs28001kB9WWzS"
+                                                    data-description="Payment"
+                                                    data-amount="{% if order.payment %}{{ updated_amount }}{% else %}{{ amount_in_cents }}{% endif %}"
+                                                    data-currency="bdt"
+                                                    data-locale="auto">
+                                                </script>
+                                                <input type="hidden" id="updated-payment-amount" name="updated_payment_amount"
+                                                    value="{{ updated_amount_in_cents }}">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4">
+                    <div class="order-details-wrap">
+                        <table class="order-details">
+							<thead>
+                                <tr>
+                                    <th>Order Details</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                </tr>
+                            </thead>
+                            <tbody class="order-details-body">
+                                <tr>
+                                    <td>Product</td>
+                                    <td>Total Items</td>
+                                    <td>Total</td>
+                                </tr>
+                                {% for iitem in items %}
+                                <tr>
+                                    <td>{{iitem.product.itemtitle}}</td>
+                                    <td>{{iitem.quantity}}</td>
+                                    <td>BDT {{iitem.get_total|floatformat:2}}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            <tbody class="checkout-details">
+                                <tr>
+                                    <td>Subtotal</td>
+                                    <td>{{order.get_cart_items}} Items</td>
+                                    <td id="total-amount">BDT {{order.get_cart_total|floatformat:2}}</td>
+                                </tr>
+                                <tr>
+                                    <td>Enter voucher:</td>
+                                    <td><input id="vouchercode" name="vouchercode" type="text" placeholder="Enter voucher code">
+                                    </td>
+                                    <td><button class="voucherbtn" type="button" id="applyVoucherBtn">Apply Voucher</button></td>
+                                </tr>
+                                <tr>
+                                    <td><b>Total</b></td>
+                                    {% if order.payment == 0.00 %}
+                                    <td><b>BDT {{ order.get_cart_total }}</b></td>
+                                    <td>No Voucher Applied</td>
+                                    {% elif order.payment == order.get_cart_total %}
+                                    <td><b>BDT {{ order.get_cart_total }}</b></td>
+                                    <td>No Voucher Applied</td>
+                                    {% else %}
+                                    <td><b>BDT {{ order.payment }}</b></td>
+                                    <td>Voucher Applied</td>
+                                    {% endif %}
+                                </tr>
+                            </tbody></form>
+
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </div>
 
-	<!-- check out section -->
-	<div style="position: relative; top: 70px;" class="checkout-section mt-150 mb-150">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-8">
-					<div class="checkout-accordion-wrap">
-						<div class="accordion" id="accordionExample">
-						  <div class="card single-accordion">
-						    <div class="card-header" id="headingOne">
-						      <h5 class="mb-0">
-						        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-						          Billing Address
-						        </button>
-						      </h5>
-						    </div>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
-						    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
-						      <div class="card-body">
-						        <div class="billing-address-form">
-						        	<form action="index.html">
-						        		<p><input type="text" placeholder="Name"></p>
-						        		<p><input type="email" placeholder="Email"></p>
-						        		<p><input type="text" placeholder="Address"></p>
-						        		<p><input type="tel" placeholder="Phone"></p>
-						        	</form>
-						        </div>
-						      </div>
-						    </div>
-						  </div>
-						 
-						  
-						</div>
+<script>
 
-					</div>
-				</div>
+   var voucherApplied = false;
 
-				<div class="col-lg-4">
-					<div class="order-details-wrap">
-						<table class="order-details">
-							<thead>
-								<tr>
-									<th>Your order Details</th>
-									<th>Quantity</th>
-									<th>Price</th>
-								</tr>
-							</thead>
-							<tbody class="order-details-body">
-								<tr>
-									<td>Product</td>
-									<td>Total Items</td>
-									<td>Total</td>
-								</tr>
-                                {% for iitem in items %}
-								<tr>
-									<td>{{iitem.product.itemtitle}}</td>
-									<td>{{iitem.quantity}}</td>
-									<td>BDT {{iitem.get_total|floatformat:2}}</td>
-								</tr>
-								{% endfor %}
-							</tbody>
-							<tbody class="checkout-details">
-								
-								<tr>
-									<td>Total</td>
-									<td>{{order.get_cart_items}} Items</td>
-									<td>BDT {{order.get_cart_total|floatformat:2}}</td>
-								</tr>
-							</tbody>
-						</table>
-						<a href="#" class="boxed-btn">Place Order</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- end check out section --> 
+   $('#applyVoucherBtn').on('click', function () {
+    var voucherCode = $('#vouchercode').val();
+
+    if (voucherApplied) {
+            alert('This voucher has already been applied.');
+            return;
+        }
+
+    if (voucherCode) {
+        $.ajax({
+            url: '{% url "check_voucher" %}',
+            data: { 'vouchercode': voucherCode },
+            dataType: 'json',
+            success: function (data) {
+                if (data.valid) {
+                    var voucherPercentage = data.voucher_percentage;
+                    var total = parseFloat('{{order.get_cart_total}}');
+                    var discountedTotal = total - (total * (voucherPercentage / 100));
+                    var amountInCents = (discountedTotal * 100).toFixed(0);
+                    $('#total-amount').text('BDT ' + discountedTotal.toFixed(2));
+                    $('#updated-payment-amount').val(discountedTotal.toFixed(2));
+
+                    saveUpdatedPriceToDatabase(discountedTotal.toFixed(2));
+                    voucherApplied = true;
+
+                } else {
+                    console.log('Invalid voucher. Payment not saved.');
+                    handleInvalidVoucher();
+                }
+            }
+        });
+    } else {
+        var amountInCents = '0';
+        $('#total-amount').text('BDT 0.00');
+        $('#updated-payment-amount').val('0.00');
+
+        saveUpdatedPriceToDatabase('0.00');
+    }
+});
+
+function handleInvalidVoucher() {
+    var amountInCents = '0';
+    $('#total-amount').text('BDT 0.00');
+    $('#updated-payment-amount').val('0.00');
+
+    alert('Please enter valid voucher.');
+
+    saveUpdatedPriceToDatabase('0.00');
+}
+
+function saveUpdatedPriceToDatabase(updatedPrice) {
+    var voucherCode = $('#vouchercode').val();
+
+    if (!voucherCode) {
+        updatedPrice = parseFloat('{{ order.get_cart_total }}').toFixed(2);
+    }
+
+    $.ajax({
+        url: '{% url "save_updated_price" %}',
+        method: 'POST',
+        data: {
+            'csrfmiddlewaretoken': '{{ csrf_token }}',
+            'order_id': '{{ order.id }}',
+            'updated_price': updatedPrice
+        },
+        dataType: 'json',
+        success: function (saveData) {
+            if (saveData.success) {
+                console.log('Updated price saved to the database:', saveData);
+                location.reload();
+            } else {
+                console.error('Failed to save updated price to the database:', saveData.error_message);
+            } 
+        },
+        error: function (error) {
+            console.error('Error saving updated price to the database:', error);
+        }
+    });
+}
+
+$('.stripe-button').on('click', function () {
+    if (!checkShippingInfo()) {
+        alert('Please fill in all the required shipping information.');
+    } 
+});
+
+function checkShippingInfo() {
+    var name = $('[name="name"]').val();
+    var email = $('[name="email"]').val();
+    var address = $('[name="address"]').val();
+    var phone = $('[name="phone"]').val();
+
+    if (!name || !email || !address || !phone) {
+        return false;
+    }
+
+    return true;
+}
+
+</script>
+
 {% endblock content %}
-	

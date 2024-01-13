@@ -36,10 +36,8 @@ function updateUserOrder(productId, action) {
 
 function confirmDelete(itemId) {
     if (confirm('Are you sure you want to delete this item from your cart?')) {
-        // The user clicked OK, so proceed with item deletion
         deleteCartItem(itemId);
     } else {
-        // The user clicked Cancel, so do nothing
         return false;
     }
 }
@@ -50,17 +48,17 @@ function deleteCartItem(itemId) {
     var url = '/deletecart/' + itemId + '/';
 
     fetch(url, {
-        method: 'POST', // You can use 'DELETE' if your Django view handles DELETE requests
+        method: 'POST', 
         headers: {
-            'X-CSRFToken': csrftoken, // Make sure to include your CSRF token
+            'X-CSRFToken': csrftoken, 
         },
     })
     .then((response) => {
         if (response.status === 200) {
-            // Deletion was successful
-            location.reload(); // Refresh the cart or update it as needed
+            
+            location.reload(); 
         } else {
-            // Handle the case where deletion failed
+            
             console.error('Deletion failed');
         }
     });

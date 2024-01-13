@@ -1,26 +1,19 @@
 <!DOCTYPE html>
 {% load static %}
 <html lang="en">
-<head>
+<head> 
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="shortcut icon" type="image/png" href="{% static 'pictures/faviconcart.png' %}">
     <title>GrocerEase | Home</title>
-    <link rel="shortcut icon" type="image/png" href="{% static 'assets/assets1/img/favicon.png' %}">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
-    <link rel="stylesheet" href="{% static 'assets/assets1/css/main.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/assets1/css/all.min.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/assets1/css/owl.carousel.css' %}">
-
-    <link rel="stylesheet" href="{% static 'assets/assets2/css/animate.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/assets2/css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/assets2/css/ionicons.min.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/assets2/css/flaticon.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/assets2/css/icomoon.css' %}">
-
-    <link rel="stylesheet" href="{% static 'assets/assets3/css/style.css' %}">
 
     <script type="text/javascript">
         var user = '{{customer|safe}}'
@@ -65,21 +58,7 @@
 </head>
 
 <style>
-    #cart-total {
-        display: block;
-        text-align: center;
-        color: #fff;
-        background-color: red;
-        width: 21.5px;
-        height: 23px;
-        border-radius: 50%;
-        font-size: 12.5px;
-        position: relative;
-        left: 15%;
-        bottom: 22px;
-        justify-content: center;
-        align-items: center;
-    }
+    
     #searchResultsContainer {
         display: none;
     }
@@ -153,87 +132,36 @@
   height: 40px;
         }
 
-        .favorite-count {
-            background-color: red; /* Red background color for the circle */
-            color: white; /* White text color */
-            border-radius: 50%; /* Make it a circle by setting border-radius to 50% */
-            padding: 3px 11px; /* Adjust padding for size and positioning */
-            right: 92px;
-            position: absolute; /* Set the position to relative */
-            top: 35px; 
-            font-size: 13.5px;
-            width: 21.5px;
-            height: 23px;
-            justify-content: center;
-            align-items: center;
-            display: flex;
-        
-        
-        }
-
-
-
   </style>
 <body>
-     <!-- header -->
-    <div class="top-header-area" id="sticker">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 col-sm-12 text-center">
-                    <div class="main-menu-wrap">
-                        <!-- menu start -->
-                        <nav class="main-menu">
-                            <ul>
-                                <li>
-                                    <a href="{% url 'homecustomer' customer_id=request.session.customer_id %}">Home</a>
-                                </li>
-                                <li>
-                                    <a href="{% url 'shop' customer_id=request.session.customer_id %}">Shop</a>
-                                </li>
-                                 <li>
-                                    <a href="#">Best Deals</a>
-                                </li>
-                                <li>
-                                    <a href="#">About Us</a>
-                                </li>
-                                <li>
-                                </li>
-                                <li>
-                                    <div class="header-icons">
-                                        <a class="shopping-cart" href="{% url 'cart' customer_id=request.session.customer_id %}">
-                                            <i id="cart-icon" class="fas fa-shopping-cart"></i>
-                                        </a>
-                                        <a href="{% url 'myfavorites' customer_id=request.session.customer_id  %}">
-											<span>
-												<i class="ion-ios-heart"></i>
-												<span id="favorite-count"class="favorite-count"></span>
-											</span>
-										</a>
-                                        
-                                        <a href="{% url 'logoutcustomer' %}">
-                                            <i class="fas fa-sign-out-alt"></i>
-                                        </a>
-                                        <a href="{% url 'customerprofile' customer_id=request.session.customer_id %}">
-                                            <i class="fas fa-user"></i>
-                                        </a>
-                                    </div>
-                                    <p id="cart-total">{{cartItems}}</p>
-                                </li>
-                            </ul>
-                            <a class="mobile-show search-bar-icon" href="{% url 'search' customer_id=request.session.customer_id %}">
-                                <i class="fas fa-search"></i>
-                            </a>
-                            <div class="mobile-menu"></div>
-                        </nav>
-                        <!-- menu end -->
-                    </div>
-                </div>
-            </div>
+    <header style="position: fixed; top: 0px; z-index: 1000;" class="navbar">
+        <div class="logo">
+			<a href="{% url 'homecustomer' customer_id=request.session.customer_id %}">
+				<img class="logoimage" src="{% static 'pictures/logo.png' %}" alt="">	
+			</a>
         </div>
-    </div>
- <!-- end header -->
+		<div class="icons">
 
-    <div class="footer-area">
+			<a style="color: #042405;" class="shopping-cart icon" href="{% url 'cart' customer_id=request.session.customer_id %}"><i  id="cart-icon" class="fas fa-shopping-cart"></i></a>
+			<a style="color: #042405;" class="icon" href="{% url 'myfavorites' customer_id=request.session.customer_id  %}">
+				<span>
+					<i class="ion-ios-heart"></i> 
+					<span id="favorite-count"class="favorite-count"></span>
+				</span>
+			</a>
+			<a style="color: #042405;" class="mobile-hide search-bar-icon icon" href="{% url 'search' customer_id=request.session.customer_id  %}"><i class="fas fa-search"></i></a> 
+		   
+			<a style="color: #042405;" href="{% url 'customerprofile' customer_id=request.session.customer_id %}" class="aboutus icon"><i class="fas fa-user"></i></a>
+			
+		</div>											
+
+        <div class="navbtn">
+			<a href="{% url 'logoutcustomer' %}" class="btnn-signup">Logout</a>
+		</div>
+		<p id="cart-total">{{cartItems}}</p>
+    </header>
+
+    <div class="footer-area1"> 
         <div class="container">
             <div class="container">
                 <div class="row">
@@ -251,14 +179,10 @@
                             </div>
                         </div>
                     </div>
-                    <a class="searchanchor" 
-                    href="{% url 'filteritemsbycategory'  category_name='Vegetables'  customer_id=request.session.customer_id %}">Vegetables</a>
-                    <a class="searchanchor"
-                    href="{% url 'filteritemsbycategory' category_name='Fruits'  customer_id=request.session.customer_id %}">Fruits</a>
-    
+                    
                     <div id="category-items">
                     </div>
-                    <form class="pricefilterform" style="position: relative; left: 230px; bottom: 35px;" id="filterForm" method="get">
+                    <form class="pricefilterform" style="position: relative; left: 370px; bottom: 35px;" id="filterForm" method="get">
                         
                         <label for="min_price">Min Price:</label>
                         <input class="filerinput" type="text" id="min_price" name="min_price">
@@ -282,11 +206,9 @@
                  
                     
                     
-    <!-- Container for live search results -->
     <div id="searchResultsContainer"></div>
 
 
-    <!-- footer -->
     <div class="footer-area">
         <div class="container">
             <div class="row" style="position: relative;">
@@ -326,40 +248,13 @@
         </div>
     </div>
     </div>
-    <!-- end footer -->
-    <script src="{% static 'assets/assets1/js/jquery-1.11.3.min.js' %}"></script>
-    <script src="{% static 'assets/assets1/bootstrap/js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'assets/assets1/js/jquery.countdown.js' %}"></script>
-    <script src="{% static 'assets/assets1/js/jquery.isotope-3.0.6.min.js' %}"></script>
-    <script src="{% static 'assets/assets1/js/waypoints.js' %}"></script>
-    <script src="{% static 'assets/assets1/js/owl.carousel.min.js' %}"></script>
-    <script src="{% static 'assets/assets1/js/jquery.magnific-popup.min.js' %}"></script>
-    <script src="{% static 'assets/assets1/js/jquery.meanmenu.min.js' %}"></script>
-    <script src="{% static 'assets/assets1/js/sticker.js' %}"></script>
-    <script src="{% static 'assets/assets1/js/main.js' %}"></script>
-
-    <script src="{% static 'assets/assets2/js/jquery.min.js' %}"></script>
-    <script src="{% static 'assets/assets2/js/jquery-migrate-3.0.1.min.js' %}"></script>
-    <script src="{% static 'assets/assets2/js/jquery.easing.1.3.js' %}"></script>
-    <script src="{% static 'assets/assets2/js/jquery.waypoints.min.js' %}"></script>
-    <script src="{% static 'assets/assets2/js/jquery.stellar.min.js' %}"></script>
-    <script src="{% static 'assets/assets2/js/owl.carousel.min.js' %}"></script>
-    <script src="{% static 'assets/assets2/js/jquery.magnific-popup.min.js' %}"></script>
-    <script src="{% static 'assets/assets2/js/aos.js' %}"></script>
-    <script src="{% static 'assets/assets2/js/scrollax.min.js' %}"></script>
-    <script src="{% static 'assets/assets2/js/main.js' %}"></script>
-
-    <script src="{% static 'assets/assets3/js/jquery.slicknav.js' %}"></script>
-    <script src="{% static 'assets/assets3/js/owl.carousel.min.js' %}"></script>
-    <script src="{% static 'assets/assets3/js/main.js' %}"></script>
-
+    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
         $(document).ready(function () {
-            // Initially hide the search results container
             $('#searchResultsContainer').hide();
 
             $('#searchInput').on('input', function () {
@@ -454,9 +349,9 @@
 			  function updateIcon(link, isFavorite) {
 				  const icon = link.find('i');
 				  if (isFavorite) {
-					  icon.removeClass('ion-ios-heart-empty').addClass('ion-ios-heart');
+					  icon.removeClass('far fa-heart').addClass('fas fa-heart');
 				  } else {
-					  icon.removeClass('ion-ios-heart').addClass('ion-ios-heart-empty');
+					  icon.removeClass('fas fa-heart').addClass('far fa-heart');
 				  }
 			  }
 			  

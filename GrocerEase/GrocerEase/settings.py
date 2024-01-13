@@ -39,7 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'django_cron',
     'projects.apps.ProjectsConfig',
+]
+
+CRON_CLASSES = [
+    'projects.cron.ProcessSubscriptions',
 ]
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
@@ -55,6 +60,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware', 
      
 ]
+
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
 
 ROOT_URLCONF = 'GrocerEase.urls'
 

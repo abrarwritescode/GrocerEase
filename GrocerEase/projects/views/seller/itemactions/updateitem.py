@@ -10,7 +10,19 @@ def updateitem(request, pk):
             seller_id = request.session['seller_id']
             seller = Seller.objects.get(pk=seller_id)
             if form.is_valid():
-                form.save()
+                item = form.save(commit=False)
+                
+                if item.discount_percentage > 0:
+                    discount_amount = (item.discount_percentage / 100) * item.original_price
+                    item.itemprice = item.original_price
+                    item.discounted_price = item.itemprice - discount_amount
+                    item.itemprice=item.discounted_price
+                else:
+                    item.discounted_price = item.original_price
+                    item.itemprice = item.original_price
+                
+                item.save()
+
                 return redirect('homeseller', seller_id=seller_id)
 
     context = {'form': form, 'item': item}

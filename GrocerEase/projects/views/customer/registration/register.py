@@ -48,7 +48,7 @@ def registercustomer(request):
                 request.session['otp'] = otp
 
                 send_mail(
-                    'GrocerEase OTP Verification',
+                    'GrocerEase OTP Verification', 
                      f'Dear valued customer,\n\n'
                      f'Welcome to GrocerEase! To complete your account setup, '
                      'we require you to verify your email address.\n\n'

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head> 
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
+    <link rel="shortcut icon" type="image/png" href="{% static 'pictures/faviconcart.png' %}">
+    <title>GrocerEase | Home</title>
+    
+</head>
+
+
+<style>
+
+#js-rotating {
+    display: inline-block;
+    color: #042405; 
+	font-weight: 700;
+	font-size: 40px;
+	margin-top: 40px;
+}
+
+.fade-away {
+    animation: fadeAway 3s infinite;
+}
+
+@keyframes fadeAway {
+    0% {
+        opacity: 0.25;
+    }
+    50% {
+        opacity: 0.75;
+    }
+	100%{
+		opacity: 1;
+	}
+}
+    
+</style>
+    
+<body> 
+    <header style="position: fixed; top: 0px; z-index: 1000;" class="navbar">
+        <div class="logo">
+            <a href="{% url 'home'  %}">
+                <img class="logoimage" src="{% static 'pictures/logo.png' %}" alt="">
+            </a>
+        </div>
+        <div class="navbtn">
+            <a href="{% url 'logincustomer' %}" class="btnn-login">Customer</a>
+            <a href="{% url 'loginseller' %}" class="btnn-signup">Seller</a>
+        </div>
+        <a href="#about_us" class="aboutus">About us</a>
+        </div>
+    </header>
+
+
+<section style="position: relative; top: 15vh;" class="ftco-section">
+    <div class="container">
+        <div class="row justify-content-center mb-3 pb-3">
+            <div class="col-md-12 heading-section text-center ftco-animate">
+                <h2 class="mb-4">Items of {{ seller.storename }}</h2>
+            </div>
+        </div>
+    </div>
+    
+        <div style="justify-content: center; align-items: center;" class="row">
+            {% for item in items %}
+                <div class="col-md-6 col-lg-3 ftco-animate">
+                    <div class="product">
+                        <a href="#" class="img-prod"><img class="img-fluid" src="{{ item.itemfeaturedimage.url }}" alt="">
+                            {% if item.discount_percentage > 0 %}
+                    		<span class="discount-label">BDT {{item.discounted_price}} on {{item.discount_percentage}}% sale</span>
+                		    {% endif %}
+						    <div class="overlay"></div>
+						    {% if item.itemquantity <= 0 %}
+						    <span class="out-of-stock-label">Out of Stock</span>
+						    {% endif %}						
+                        </a>
+                        <div class="text py-3 pb-4 px-3 text-center">
+                            <h3><strong>{{ item.itemtitle }}</strong></h3>
+                           
+                            <div class="d-flex">
+                                <div class="pricing">
+                                    {% if item.discount_percentage > 0 %} 
+                                    <p class="price"><span class="price-sale" style="text-decoration: line-through;">BDT {{item.original_price}}</span></p>
+                                    {% else %}
+                                    <p class="price"><span class="price-sale">BDT {{item.itemprice}}</span></p>
+                                    {% endif %}
+                                </div>                         
+                            </div>
+                            <div class="bottom-area d-flex px-3">
+                                <div class="m-auto d-flex">
+                                    <a href="{% url 'logincustomer' %}" class=" add-to-cart buy-now d-flex justify-content-center align-items-center mx-1">
+                                        <span><i class="ion-ios-cart"></i></span>
+                                    </a>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        
+    </div>
+</section>
+
+<div class="footer-area" id="about_us">
+    <div class="container"> 
+        <div class="row">
+            <div class="col-lg-3 col-md-6">
+                <div class="footer-box about-widget">
+                    <h2 class="widget-title">About us</h2>
+                    <p>Your one-stop online destination for all your grocery shopping needs. We understand the importance of convenience in today's fast-paced world, and that's why we're here to simplify your shopping experience and make it as effortless as possible.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="footer-box get-in-touch">
+                    <h2 class="widget-title">Get in Touch</h2>
+                    <ul>
+                        <li>Dhaka, Bangladesh</li>
+                        <li>grocereasedp1@gmail.com</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="footer-box pages">
+                    <h2 class="widget-title">Pages</h2>
+                    <ul>
+                        <li><a href="{% url 'logincustomer' %}">Home</a></li>
+                        <li><a href="{% url 'logincustomer' %}">Shop</a></li> 
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="footer-box subscribe">
+                    <h2 class="widget-title">Follow us</h2>
+                    <p>To get the latest updates.</p>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+

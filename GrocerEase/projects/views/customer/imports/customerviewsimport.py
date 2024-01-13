@@ -5,7 +5,7 @@ from projects.views.customer.homepage.home import homecustomer
 from projects.views.customer.profile.myprofile import customerprofile
 from projects.views.customer.logout.logout import logoutcustomer
 from projects.views.customer.cart.viewcart import cart
-from projects.views.customer.itemdetails.viewdetails import itemdetails
+from projects.views.customer.itemdetails.viewdetails import item_details_with_reviews,submit_review
 from projects.views.customer.cart.updatecart import updatecart
 from projects.views.customer.cart.deletecartitems import delete_cart_item
 from projects.views.customer.checkout.checkout import checkout
@@ -21,3 +21,6 @@ from projects.views.customer.favorites.viewfavs import viewfavorites
 from projects.views.customer.profile.myprofile import change_customer_image
 from projects.views.customer.favorites.viewfavscount import getfavoritescount
 from projects.views.customer.favorites.togglefavs import togglefavorite
+from projects.views.customer.voucher.vouchercode import check_voucher
+from projects.views.customer.checkout.checkout import SaveUpdatedPriceView
+

@@ -17,12 +17,14 @@ def homecustomer(request, customer_id):
 
         products = Item.objects.all()
         categories = Category.objects.all()
+        sellers = Seller.objects.all()
 
         context = {
             'products': products,
             'cartItems': cartItems,
             'customer': customer_data ,
-            'categories': categories 
+            'categories': categories ,
+            'sellers': sellers,
         }
 
         return render(request, 'customer/homecustomer.html', context)

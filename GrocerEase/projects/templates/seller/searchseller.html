@@ -1,25 +1,19 @@
 <!DOCTYPE html>
 {% load static %}
-<html lang="en">
+<html lang="en"> 
 <head> 
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GrocerEase | Home </title>
-    <link rel="shortcut icon" type="image/png" href="{% static 'assets/assets1/img/favicon.png' %}">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
-	<link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
-   
-   <link rel="stylesheet" href="{% static 'assets/assets1/css/main.css' %}">
-	<link rel="stylesheet" href="{% static 'assets/assets1/css/all.min.css' %}">
-	<link rel="stylesheet" href="{% static 'assets/assets1/css/owl.carousel.css' %}">
-
-	<link rel="stylesheet" href="{% static 'assets/assets2/css/animate.css' %}">
-	<link rel="stylesheet" href="{% static 'assets/assets2/css/style.css' %}">
-	<link rel="stylesheet" href="{% static 'assets/assets2/css/ionicons.min.css' %}">
-	<link rel="stylesheet" href="{% static 'assets/assets2/css/flaticon.css' %}">
-	<link rel="stylesheet" href="{% static 'assets/assets2/css/icomoon.css' %}">
-
-	<link rel="stylesheet" href="{% static 'assets/assets3/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="shortcut icon" type="image/png" href="{% static 'pictures/faviconcart.png' %}">
+    <title>GrocerEase | Home</title>
 
     <style>
         #sellerSearchResultsContainer {
@@ -69,69 +63,47 @@
             top: 30px; /* Adjust this value to control the vertical position */
             font-size: 12px;
         }
+        #sellerSearchInput::placeholder {
+  color: #042405; 
+  font-size: 25px;
+  font-weight: 700;
+}
+
 
     </style>
 
     
 <body>
 
-    <!-- loader -->
     <form id="myForm">
         {% csrf_token %}
     </form>
     
-   <!-- header -->
-	<div class="top-header-area" id="sticker">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-12 col-sm-12 text-center">
-					<div class="main-menu-wrap">
-						
-						<!-- menu start -->
-						<nav class="main-menu">
-							<ul>
-								<li>
-                                    <a href="{% url 'homeseller' seller_id=request.session.seller_id %}">Home</span></a>
-								</li>
+    <header style="position: fixed; top: 0px; z-index: 1000;" class="navbar">
+        <div class="logo">
+			<a href="{% url 'homeseller' seller_id=request.session.seller_id %}">
+				<img class="logoimage" src="{% static 'pictures/logo.png' %}" alt="">	
+			</a>
+        </div>
+		<div class="icons">
 
-                                <li>
-                                    <a href="{% url 'uploaditem' seller_id=request.session.seller_id %}">Upload Item</span></a>
-								</li>
+			<a style="color: #042405;" class="mobile-hide search-bar-icon icon" href="{% url 'searchseller' seller_id=request.session.seller_id  %}"><i class="fas fa-search"></i></a> 
+			<a href="#" id="view-notifications" class="notification-trigger">
+				<i class="fas fa-bell"></i>
+				<span id="notification-count"></span>
+			</a><div id="notifications" class="notification-content"></div>
+		   
+			<a style="color: #042405;" href="{% url 'sellerprofile' seller_id=request.session.seller_id %}" class="aboutus icon"><i class="fas fa-user"></i></a>
+			
+		</div>											
 
-                                <li>
-                                </li>
-
-								<li>
-									<div class="header-icons">
-                                        <a href="#" id="view-notifications" class="notification-trigger">
-											<i class="fas fa-bell"></i>
-											<span id="notification-count"></span>
-										</a>
-                                        <a href="{% url 'logoutseller' %}"><i class="fas fa-sign-out-alt"></i></a>
-                                        <a href="{% url 'sellerprofile' seller_id=request.session.seller_id %}"><i class="fas fa-user"></i></a>									
-
-								</li>
-							</ul>
-                            
-						
-						
-						<div class="mobile-menu"></div>
-                    </nav>
-                        
-                    <div id="notifications" class="notification-content">
-						<!-- Notifications will be displayed here -->
-						
-					</div>
-						<!-- menu end -->
-					</div>
-				</div>
-			</div>
+        <div class="navbtn">
+			<a href="{% url 'uploaditem' seller_id=request.session.seller_id %}" class="btnn-login">Upload</a>
+			<a href="{% url 'logoutseller' %}" class="btnn-signup">Logout</a>
 		</div>
-	</div>
-	<!-- end header -->
+    </header>
 
-
-<div class="footer-area">
+<div class="footer-area1">
     <div class="container">
        
             <div class="container">
@@ -153,13 +125,11 @@
                     </div>
                 </div>
               
-       <!-- Container for live search results -->
     <div id="sellerSearchResultsContainer"></div>
 
     </div>
 </div>
 
-<!-- footer -->
 <div class="footer-area">
     <div class="container">
         <div class="row">
@@ -196,34 +166,12 @@
         </div>
     </div>
 </div>
-<!-- end footer -->
 
-<script src="{% static 'assets/assets1/js/jquery-1.11.3.min.js' %}"></script>
-<script src="{% static 'assets/assets1/bootstrap/js/bootstrap.min.js' %}"></script>
-<script src="{% static 'assets/assets1/js/jquery.countdown.js' %}"></script>
-<script src="{% static 'assets/assets1/js/jquery.isotope-3.0.6.min.js' %}"></script>
-<script src="{% static 'assets/assets1/js/waypoints.js' %}"></script>
-<script src="{% static 'assets/assets1/js/owl.carousel.min.js' %}"></script>
-<script src="{% static 'assets/assets1/js/jquery.magnific-popup.min.js' %}"></script>
-<script src="{% static 'assets/assets1/js/jquery.meanmenu.min.js' %}"></script>
-<script src="{% static 'assets/assets1/js/sticker.js' %}"></script>
-<script src="{% static 'assets/assets1/js/main.js' %}"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<script src="{% static 'js/main.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
 
-<script src="{% static 'assets/assets2/js/jquery.min.js' %}"></script>
-<script src="{% static 'assets/assets2/js/jquery-migrate-3.0.1.min.js' %}"></script>
-<script src="{% static 'assets/assets2/js/jquery.easing.1.3.js' %}"></script>
-<script src="{% static 'assets/assets2/js/jquery.waypoints.min.js' %}"></script>
-<script src="{% static 'assets/assets2/js/jquery.stellar.min.js' %}"></script>
-<script src="{% static 'assets/assets2/js/owl.carousel.min.js' %}"></script>
-<script src="{% static 'assets/assets2/js/jquery.magnific-popup.min.js' %}"></script>
-<script src="{% static 'assets/assets2/js/aos.js' %}"></script>
-<script src="{% static 'assets/assets2/js/scrollax.min.js' %}"></script>
-<script src="{% static 'assets/assets2/js/main.js' %}"></script>
-
-
-<script src="{% static 'assets/assets3/js/jquery.slicknav.js' %}"></script>
-<script src="{% static 'assets/assets3/js/owl.carousel.min.js' %}"></script>
-<script src="{% static 'assets/assets3/js/main.js' %}"></script>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -253,7 +201,6 @@
 
 <script>
 	
-    // Function to get a specific cookie value by name
     function getCookie(name) {
         let cookieValue = null;
         if (document.cookie && document.cookie !== '') {

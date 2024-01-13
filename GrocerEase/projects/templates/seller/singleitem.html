@@ -1,20 +1,42 @@
 {% extends 'seller/navbarseller.html' %}
-    <div style="position: relative; top: 50px;" class="section-title">
+{% block content %}
+
+<style>
+	.discount-label {
+          display: block; 
+          background-color: red;
+          color: white;
+          font-size: 14px;
+          padding: 4px 8px;
+          border-radius: 4px;
+          position: absolute;
+          top: 45px;
+          left: 10px;
+          z-index: 1; 
+          opacity: 0; 
+          animation: fade-in 0.5s ease-in-out forwards; 
+        }
+
+</style>
+
+<div style="height: 110vh;">
+	<div style="position: relative; top: 90px;" class="section-title">
         <h2>Item: {{item.itemtitle}}</h2> 
     </div>
-{% block content %}
-	<!-- single product -->
-	<div class="single-product mt-150 mb-150">
+	<div style="position: relative; top: 130px;" class="single-product mt-150 mb-150">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-5">
 					<div class="product-image-container">
 						<a href="#" class="img-prod">
 							<img class="img-fluid" src="{{ item.itemfeaturedimage.url }}" alt="">
+							{% if item.discount_percentage > 0 %}
+                    		<span class="discount-label">BDT {{item.discounted_price}} on {{item.discount_percentage}}% sale</span>
+                			{% endif %}
+						
 							{% if item.itemquantity <= 0 %}
 							<span class="out-of-stock-label">Out of Stock</span>
-							{% endif %}
-							
+							{% endif %}							
 						</a>
 					</div>
 				</div>
@@ -26,13 +48,19 @@
 						{% for category in categorys %}
     					<p>{{category}}</p>
     					{% endfor %}   
-						<p class="single-product-pricing"><span>Per Kg</span>BDT {{item.itemprice}}</p>
-						<a href="{% url 'homeseller' seller_id=request.session.seller_id %}">Go Back</a>
+
+						{% if item.discount_percentage > 0 %} 
+						<p class="single-product-pricing"><span style="text-decoration: line-through;">BDT {{item.original_price}}</span>  BDT {{item.discounted_price}}</p>
+						{% else %}
+						<p class="single-product-pricing"><span>BDT {{item.itemprice}}</span></p>
+						{% endif %}
+						<a style="text-decoration: none; color: #042405;" href="{% url 'homeseller' seller_id=request.session.seller_id %}">Go Back</a>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-	<!-- end single product -->
+	
+</div>
 
 {% endblock content %}

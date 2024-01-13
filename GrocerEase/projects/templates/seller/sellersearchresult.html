@@ -3,25 +3,19 @@
 <html lang="en">
 <head> 
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
+	  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="shortcut icon" type="image/png" href="{% static 'pictures/faviconcart.png' %}">
     <title>GrocerEase | Home</title>
-    <link rel="shortcut icon" type="image/png" href="{% static 'assets/assets1/img/favicon.png' %}">
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
 
-    <link rel="stylesheet" href="{% static 'assets/assets1/css/main.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/assets1/css/all.min.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/assets1/css/owl.carousel.css' %}">
-
-    <link rel="stylesheet" href="{% static 'assets/assets2/css/animate.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/assets2/css/style.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/assets2/css/ionicons.min.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/assets2/css/flaticon.css' %}">
-    <link rel="stylesheet" href="{% static 'assets/assets2/css/icomoon.css' %}">
-
-    <link rel="stylesheet" href="{% static 'assets/assets3/css/style.css' %}">
     <style>
-      /* Add styles for out-of-stock items */
       .out-of-stock {
           filter: blur(1px); /* Apply a blur effect to the item */
           opacity: 0.5; /* Reduce opacity to indicate it's out of stock */
@@ -52,43 +46,66 @@
     
     }
       
-      
+    .discount-label {
+          display: block;
+          background-color: red;
+          color: white;
+          font-size: 14px;
+          padding: 4px 8px;
+          border-radius: 4px;
+          position: absolute;
+          top: 45px;
+          left: 10px;
+          z-index: 1; 
+          opacity: 0; 
+          animation: fade-in 0.5s ease-in-out forwards; 
+        }
       
       </style>
    <body>
-    <div class="search-body-area-result footer-area">
+    <div class="search-body-area-result footer-area1">
             
       <di style="justify-content: center; align-items: center; position: relative; bottom: 120px;" class="row">
         {% for item in items %} 
-          <div class="col-md-6 col-lg-3 ftco-animate">
-            <div class="product">
-              <a href="#" class="img-prod"><img class="img-fluid" src="{{ item.itemfeaturedimage.url }}" alt="">
-                <div class="overlay"></div>
-                        {% if item.itemquantity <= 0 %}
-                        <span class="out-of-stock-label">Out of Stock</span>
-                        {% endif %}
-              </a>
-              <div class="text py-3 pb-4 px-3 text-center">
-                <h3><strong>{{item.itemtitle}}</strong></h3>
-                <div class="d-flex">
-                  <div class="pricing">
-                    <p class="price"><span class="price-sale">BDT {{item.itemprice}}</span></p>
-                  </div>
-                </div>
-                <div class="bottom-area d-flex px-3">
-                  <div class="m-auto d-flex">
-                    <a href="{% url 'singleitem' pk=item.id seller_id=request.session.seller_id %}" class="add-to-cart d-flex justify-content-center align-items-center text-center">
-                      <span><i class="ion-ios-menu"></i></span>
-                    </a> 
-                           
-      
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        {% endfor %}
-        </div>
+			<div style="position: relative; top: 30px;" class="col-md-6 col-lg-3 ftco-animate">
+				<div class="product">
+					<a href="#" class="img-prod"><img class="img-fluid" src="{{ item.itemfeaturedimage.url }}" alt="">
+						{% if item.discount_percentage > 0 %}
+                    		<span class="discount-label">BDT {{item.discounted_price}} on {{item.discount_percentage}}% sale</span>
+                		{% endif %}
+						<div class="overlay"></div>
+						{% if item.itemquantity <= 0 %}
+						<span class="out-of-stock-label">Out of Stock</span>
+						{% endif %}
+						
+					</a>
+					<div class="text py-3 pb-4 px-3 text-center">
+						<h3><strong>{{item.itemtitle}}</strong></h3>
+						<a class="edit" style="text-decoration: none; color: #042405;" href="{% url 'updateitem' item.id %}">Edit</a>
+						<a class="delete" style="text-decoration: none; color: #042405;" href="{% url 'deleteitem' item.id %}">Delete</a>
+						<div class="d-flex">
+							<div class="pricing">
+								{% if item.discount_percentage > 0 %} 
+								<p class="price"><span class="price-sale" style="text-decoration: line-through;">BDT {{item.original_price}}</span></p>
+								{% else %}
+								<p class="price"><span class="price-sale">BDT {{item.itemprice}}</span></p>
+								{% endif %}
+							</div>
+							
+						</div>
+						<div class="bottom-area d-flex px-3">
+							<div class="m-auto d-flex">
+								<a href="{% url 'singleitem' pk=item.id seller_id=request.session.seller_id %}" class="add-to-cart d-flex justify-content-center align-items-center text-center">
+									<span><i class="fas fa-bars"></i></span>
+								</a>
+								
+							</div>
+						</div> 
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+</div>
       
 </div>
     <script src="{% static 'assets/assets1/js/jquery-1.11.3.min.js' %}"></script>

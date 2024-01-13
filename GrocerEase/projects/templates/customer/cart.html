@@ -1,117 +1,85 @@
 {% extends 'customer/navbarcustomer.html' %}
 {% load static %}
-{% block content %}
+{% block content %} 
 
-<style>
-    .quantity {
-        display: inline-block;
-        font-weight: 700;
-        padding-right: 10px;
-        position: relative; 
-    }
-
-	.exceeds-stock {
-        display: block;
-        background-color: red;
-        color: white;
-        font-size: 12px;
-        padding: 2px 3px;
-        border-radius: 2px;
-        z-index: 1;
-        backface-visibility: hidden;
-        position: absolute;
-        top: 11px; 
-        right: 414px; 
-        transform: translateY(-100%); /* Move it upward */
-        white-space: nowrap;
-    } 
-
-    .chg-quantity {
-        width: 12px;
-        cursor: pointer;
-        display: block;
-        margin-top: 5px;
-        transition: 0.1s;
-    }
-
-    .chg-quantity:hover {
-        opacity: 0.6;
-    }
-</style>
-
-<div style="position: relative; top: 30%;" class="section-title">
-    <h2>Cart</h2>
-</div>
-<div style="position: relative; top: 70px;" class="cart-section mt-150 mb-150">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-md-12">
-                <div class="cart-table-wrap">
-                    <table class="cart-table">
-                        <thead class="cart-table-head">
-                            <tr class="table-head-row">
-                                <th class="product-remove"></th>
-                                <th class="product-image">Product Image</th>
-                                <th class="product-name">Name</th>
-                                <th class="product-price">Price</th>
-                                <th class="product-quantity">Quantity</th>
-                                <th class="product-total">Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for item in items %}
-                            <tr class="table-body-row">
-                                <td class="product-remove">
-                                    <button onclick="confirmDelete('{{ item.id }}')">
-                                        <i class="far fa-window-close"></i>
-                                    </button>
-                                </td>
-                                <td class="product-image"><img src="{{ item.product.itemfeaturedimage.url }}" alt=""></td>
-                                <td class="product-name">{{ item.product.itemtitle }}</td>
-                                <td class="product-price">BDT {{ item.product.itemprice|floatformat:2 }}</td>
-                                <td class="product-quantity">
-                                    <div class="quantity">
-                                        {% if item.product.itemquantity > 0 %}
-                                            <img data-product="{{ item.product.id }}" data-action="add" class="chg-quantity update-cart" src="{% static 'images/arrow-up.png' %}">
-                                        {% else %}
-                                            <span class="exceeds-stock">Max Reached</span>
-                                           
-                                        {% endif %}
-                                        <p>{{ item.quantity }}</p>
-										<img data-product="{{ item.product.id }}" data-action="remove" class="chg-quantity update-cart out-of-stock-img" src="{% static 'images/arrow-down.png' %}">
-                                    </div>
-                                </td>
-                                <td class="product-total">BDT {{ item.get_total|floatformat:2 }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="total-section">
-                    <table class="total-table">
-                        <thead class="total-table-head">
-                            <tr class="table-total-row">
-                                <th>Total Items</th>
-                                <th>Price</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="total-data">
-                                <td><strong>Total: {{ order.get_cart_items }} </strong></td>
-                                <td>BDT {{ order.get_cart_total|floatformat:2 }}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div class="cart-buttons">
-                        <a href="{% url 'homecustomer' customer_id=customer.id %}" class="boxed-btn">Continue Shopping</a>
-                        <a href="{% url 'checkout' customer_id=customer.id %}" class="boxed-btn black">Check Out</a>
+<div style="height: 130vh; position: relative; top: 100px;">
+    <div  class="section-title">
+        <h2>Cart</h2>
+    </div>
+    <div style="position: relative; top: 80px;" class="cart-section mt-150 mb-150">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-12">
+                    <div class="cart-table-wrap">
+                        <table class="cart-table">
+                            <thead class="cart-table-head">
+                                <tr class="table-head-row">
+                                    <th class="product-remove"></th>
+                                    <th class="product-image">Product Image</th>
+                                    <th class="product-seller">Seller</th>
+                                    <th class="product-name">Name</th>
+                                    <th class="product-price">Price</th>
+                                    <th class="product-quantity">Quantity</th>
+                                    <th class="product-total">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in items %}
+                                <tr class="table-body-row">
+                                    <td class="product-remove">
+                                        <button onclick="confirmDelete('{{ item.id }}')">
+                                            <i class="far fa-window-close"></i>
+                                        </button>
+                                    </td>
+                                    <td class="product-image"><img src="{{ item.product.itemfeaturedimage.url }}" alt=""></td>
+                                    <td class="product-seller">{{ item.product.seller }}</td>
+                                    <td class="product-name">{{ item.product.itemtitle }}</td>
+                                    <td class="product-price">BDT {{ item.product.itemprice|floatformat:2 }}</td>
+                                    <td class="product-quantity">
+                                        <div class="quantity">
+                                            {% if item.product.itemquantity > 0 %}
+                                                <img data-product="{{ item.product.id }}" data-action="add" class="chg-quantity update-cart" src="{% static 'images/arrow-up.png' %}">
+                                            {% else %}
+                                                <span class="exceeds-stock">Max Reached</span>
+                                               
+                                            {% endif %}
+                                            <p>{{ item.quantity }}</p>
+                                            <img data-product="{{ item.product.id }}" data-action="remove" class="chg-quantity update-cart out-of-stock-img" src="{% static 'images/arrow-down.png' %}">
+                                        </div>
+                                    </td>
+                                    <td class="product-total">BDT {{ item.get_total|floatformat:2 }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
                     </div>
                 </div>
-
+                <div class="col-lg-4">
+                    <div class="total-section">
+                        <table class="total-table">
+                            <thead class="total-table-head">
+                                <tr class="table-total-row">
+                                    <th>Total Items</th>
+                                    <th>Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="total-data">
+                                    <td><strong>Total: {{ order.get_cart_items }} </strong></td>
+                                    <td>BDT {{ order.get_cart_total|floatformat:2 }}</td>
+                                </tr>
+                            </tbody> 
+                        </table>
+                        <div class="cart-buttons">
+                            <a href="{% url 'homecustomer' customer_id=customer.id %}" class="boxed-btn">Continue Shopping</a>
+                            <a href="{% url 'checkout' customer_id=customer.id %}" class="boxed-btn black">Check Out</a>
+                        </div>
+                    </div>
+    
+                </div>
             </div>
         </div>
     </div>
+    
 </div>
 {% endblock content %}
