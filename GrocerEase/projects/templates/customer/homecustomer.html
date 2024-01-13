@@ -146,6 +146,21 @@
         <li>{{ item.itemtitle }}</li>
       {% endfor %}
     </ul>
+
+    <h2>Based on Recently Viewed Items</h2>
+<ul>
+    {% for item in similar_items %}
+        <li>{{ item.itemtitle }}</li>
+    {% endfor %}
+</ul>
+
+    <h2>New Arrivals</h2>
+<ul>
+    {% for item in recently_added_items %}
+        <li>{{ item.itemtitle }}</li>
+    {% endfor %}
+</ul>
+
     <div class="cookimage">
         <div class="preparetext">
             <p>You prepare the food, we handle the rest</p>
