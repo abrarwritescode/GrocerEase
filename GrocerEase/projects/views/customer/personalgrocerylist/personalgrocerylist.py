@@ -17,6 +17,22 @@ def personalgrocerylist(request, customer_id):
             'name': customer.customername,
         }
 
+        all_items = list(Item.objects.all())
+        customer_favorites = list(Favorite.objects.filter(customer=customer))
+
+        customer_item_features = generate_item_features(all_items)
+        customer_similarity_matrix = calculate_similarity(customer_item_features)
+
+        fav_recommendations_list = []
+
+        for favorite_item in customer_favorites:
+            # index of the favorite item within the list of items
+            item_index = all_items.index(favorite_item.item)
+
+            recommendations = get_recommendations(item_index, all_items, customer_similarity_matrix)
+
+            fav_recommendations_list.extend(recommendations)
+
         products = Item.objects.all()
         categories = Category.objects.all()
         sellers = Seller.objects.all() 

@@ -11,13 +11,6 @@ def delete_cart_item(request, item_id):
             product.itemquantity += quantity
             product.save()
 
-            customer = order_item.order.customer
-            seller = product.seller
-            added_datetime = timezone.now()
-            current_datetime = added_datetime + timedelta(hours=6)
-            message = f"Your item '{product.itemtitle}' was entirely removed from customer: {customer.customername}'s cart at {current_datetime}. Current Quantity of {product.itemtitle}: {product.itemquantity}."
-            Notification.objects.create(sender=customer, recipient=seller, item=product, message=message)
-
             order_item.delete()
 
             

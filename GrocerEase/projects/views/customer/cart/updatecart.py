@@ -28,19 +28,19 @@ def updatecart(request):
                 if current_quantity == 1.00:
                         # Handle the case where the stock becomes 0
                     product.itemquantity = 0
-                    restock_message = " It needs to be restocked."
+                    # restock_message = " It needs to be restocked."
                 else:
                         # Decrease the quantity by 1
                     product.itemquantity = current_quantity - 1
-                    restock_message = ""
+                    # restock_message = ""
 
             product.save()
             orderItem.quantity = (orderItem.quantity + 1)
 
             added_datetime = timezone.now()  # Get the current date and time
             current_datetime = added_datetime + timedelta(hours=6)
-            message = f"Your item '{product.itemtitle}' was added to customer: {customer.customername}'s cart at {current_datetime}. Current Quantity of {product.itemtitle}: {product.itemquantity}. {restock_message}"
-            Notification.objects.create(sender=customer, recipient=seller, item=product, message=message)
+            # message = f"Your item '{product.itemtitle}' was added to customer: {customer.customername}'s cart at {current_datetime}. Current Quantity of {product.itemtitle}: {product.itemquantity}. {restock_message}"
+            # Notification.objects.create(sender=customer, recipient=seller, item=product, message=message)
             #     else:
             #         
             # else:
@@ -62,8 +62,8 @@ def updatecart(request):
             product.save()
             added_datetime = timezone.now()
             current_datetime = added_datetime + timedelta(hours=6)
-            message = f"Your item '{product.itemtitle}' was removed from customer: {customer.customername}'s cart at {current_datetime}. Current Quantity of {product.itemtitle}: {product.itemquantity}."
-            Notification.objects.create(sender=customer, recipient=seller, item=product, message=message)
+            # message = f"Your item '{product.itemtitle}' was removed from customer: {customer.customername}'s cart at {current_datetime}. Current Quantity of {product.itemtitle}: {product.itemquantity}."
+            # Notification.objects.create(sender=customer, recipient=seller, item=product, message=message)
 
         orderItem.save()
 
