@@ -6,7 +6,7 @@ def deleteitem(request, pk):
     if request.method == 'POST':
             if 'seller_id' in request.session:
                 seller_id = request.session['seller_id']
-                item.delete()
+                item.soft_delete()
                 return redirect('homeseller', seller_id=seller_id)
 
     context = {'object': item}

@@ -1,6 +1,27 @@
 from django.db import models
+from django.db.models.query import QuerySet
 from django.utils import timezone
 import uuid
+
+class NonDeleted(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(is_deleted = False)
+
+class SoftDelete(models.Model):
+    is_deleted = models.BooleanField(default=False)
+    everything = models.Manager()
+    objects = NonDeleted()
+
+    def soft_delete(self):
+        self.is_deleted = True
+        self.save()
+
+    def restore(self):
+        self.is_deleted = False
+        self.save()
+
+    class Meta:
+        abstract = True
 
 class Customer(models.Model):
     customername = models.CharField(max_length=150)
@@ -25,7 +46,7 @@ class Seller(models.Model):
         return f"{self.storename}"
 
 
-class Item(models.Model):
+class Item(SoftDelete):
     seller = models.ForeignKey(Seller, on_delete=models.SET_NULL, null=True, blank=True)
     itemtitle = models.CharField(max_length=200) # null by default is set as false. so it is must
     itemprice = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
@@ -182,7 +203,7 @@ class Category(models.Model):
     def __str__(self):
         return self.categoryname
     
-class Notification(models.Model):
+class Notification(SoftDelete):
     sender = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)
     recipient = models.ForeignKey(Seller, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
@@ -194,7 +215,7 @@ class Notification(models.Model):
     def __str__(self):
         return f"Notification {self.id}"
 
-class Favorite(models.Model):
+class Favorite(SoftDelete):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     created_at = models.DateTimeField(default=timezone.now)
