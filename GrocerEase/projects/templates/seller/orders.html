@@ -136,7 +136,7 @@ h1 {
 }
 
 .action-buttons input[type="submit"].markshipped {
-    background-color: #0ba6ff;
+    background-color: rgb(252, 108, 56);
     color: #fff;
     margin-left: 50px;
 }
@@ -148,7 +148,7 @@ h1 {
 }
 
 .action-buttons input[type="submit"].delivered {
-    background-color: red;
+    background-color: #0ba6ff;
     color: #fff;
     margin-left: 50px;
 }
@@ -216,91 +216,76 @@ h1 {
 		</div>
     </header>
 
-  <div class="container">
-   
-    <h1 style="position: relative; top: 20px;">My Orders</h1>
-{% for orders in order reversed %}
-    <table>
-        
-      <thead>
-
-        <tr>
-            <th>Order Number: {{ orders.id }}</th>
-            <th>Order Status: {{ orders.status }}</th>
-            <th></th>
-            <th></th>
-            <th>{{ orders.date_ordered }}</th>
-        </tr>
-        <tr>
-          <th>Items</th>
-          <th>Price</th>
-          <th>Quantity</th>
-          <th>Category</th>
-          <th>Image</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for order_item in seller_orders %}
-        {% if order_item.order.id == orders.id %}
-            <tr>
-            <td>{{ order_item.product.itemtitle }}</td>
-                <td>{{ order_item.product.itemprice }}</td>
-                <td>{{ order_item.quantity }}</td>
-                <td>
-                    {% for category in order_item.product.category.all %}
-                        {{ category.categoryname }}{% if not forloop.last %}, {% endif %}
+    <div class="container">
+        <h1 style="position: relative; top: 20px;">My Orders</h1>
+        {% for order_info in orders_info reversed %}
+            <table>
+                <thead>
+                    <tr>
+                        <th>Order Number: {{ order_info.order.id }}</th>
+                        <th>Order Status: {{ order_info.order.status }}</th>
+                        <th></th>
+                        <th></th>
+                        <th>{{ order_info.order.date_ordered }}</th>
+                    </tr>
+                    <tr>
+                        <th>Items</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Category</th>
+                        <th>Image</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order_item in order_info.items %}
+                        <tr>
+                            <td>{{ order_item.product.itemtitle }}</td>
+                            <td>{{ order_item.product.itemprice }}</td>
+                            <td>{{ order_item.quantity }}</td>
+                            <td>
+                                {% for category in order_item.product.category.all %}
+                                    {{ category.categoryname }}{% if not forloop.last %}, {% endif %}
+                                {% endfor %}
+                            </td>
+                            <td class="product-image">
+                                <img src="{{ order_item.product.itemfeaturedimage.url }}" alt="">
+                            </td>
+                        </tr> 
                     {% endfor %}
-                </td>
-                <td class="product-image"><img src="{{ order_item.product.itemfeaturedimage.url }}" alt=""></td>
-            </tr> 
-        {% endif %}
+
+                    <tr>
+                        <td><b>Customer's Address:</b> </td>
+                        <td>{{ order_info.order.shipping_address }}</td>
+                        <td><b>Contact:</b> </td>
+                        <td>{{ order_info.order.shipping_phone }}</td>
+
+                        {% if order_info.order.status == 'Processing' %}
+                            <td>
+                                <form action="{% url 'vieworders' seller_id=request.session.seller_id %}" method="post" class="action-buttons">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="order_id" value="{{ order_info.order.id }}">
+                                    <input type="hidden" name="action" value="MARK_SHIPPED">  
+                                    <input type="submit" value="MARK SHIPPED" class="btn markshipped button" name="accept">
+                                </form>                
+                            </td>
+                        {% elif order_info.order.status == 'Shipped' %}
+                            <td>
+                                <form action="#" class="action-buttons">
+                                    <input type="submit" value="SHIPPED" class="btn shipped button" name="accept1">
+                                </form>                
+                            </td>
+                        {% elif order_info.order.status == 'Delivered' %}
+                            <td>
+                                <form action="#" class="action-buttons">
+                                    <input type="submit" value="DELIVERED" class="btn delivered button" name="accept">
+                                </form>                
+                            </td>
+                        {% endif %}
+                    </tr>
+                </tbody>
+            </table>
         {% endfor %}
-
-          <tr>
-            <td><b>Customer's Address:</b> </td>
-            <td>{{ orders.shipping_address }}</td>
-            <td><b>Contact:</b> </td>
-            <td>{{ orders.shipping_phone }}</td>
-
-            {% if orders.status == 'Processing' %}
-
-            <td>
-                <form action="{% url 'vieworders' seller_id=request.session.seller_id %}" method="post" class="action-buttons">
-                    {% csrf_token %}
-                    <input type="hidden" name="order_id" value="{{ orders.id }}">
-                    <input type="hidden" name="action" value="MARK_SHIPPED">  
-                    <input type="submit" value="MARK SHIPPED" class="btn markshipped button" name="accept">
-                </form>                
-            </td>
-
-            {% elif orders.status == 'Shipped' %}
-
-            <td>
-                <form action="#" class="action-buttons">
-                    <input type="submit" value="SHIPPED" class="btn shipped button" name="accept1">
-                </form>                
-            </td>
-
-            {% elif orders.status == 'Delivered' %}
-
-            <td>
-                <form action="#" class="action-buttons">
-                    <input type="submit" value="DELIVERED" class="btn delivered button" name="accept">
-                </form>                
-            </td>
-
-            {% endif %}
-           
-          </tr>
-
-       
-      </tbody>
-    </table>
-{% endfor %}
-
-  </div>
-
-  
+    </div>
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>

@@ -1,5 +1,5 @@
 from projects.imports import *
-from django.shortcuts import redirect
+from django.shortcuts import render, redirect
 
 def vieworders(request, seller_id):
     if request.method == 'POST':
@@ -13,17 +13,23 @@ def vieworders(request, seller_id):
                 order.status = 'Shipped'
                 order.save()
 
-
     seller_orders = OrderItem.objects.filter(
-    product__seller_id=seller_id,
-    order__status__in=['Processing', 'Shipped', 'Delivered']
+        product__seller_id=seller_id,
+        order__status__in=['Processing', 'Shipped', 'Delivered']
     ).select_related('product', 'order__customer')
- 
-    order = [order.order for order in seller_orders]
+
+    order_data = {}
+    for order_item in seller_orders:
+        order_id = order_item.order.id
+        if order_id not in order_data:
+            order_data[order_id] = {'order': order_item.order, 'items': []}
+
+        order_data[order_id]['items'].append(order_item)
+
+    orders_info = list(order_data.values())
 
     context = {
-        'seller_orders': seller_orders,
-        'order': order,
+        'orders_info': orders_info,
     }
 
     return render(request, 'seller/orders.html', context)
