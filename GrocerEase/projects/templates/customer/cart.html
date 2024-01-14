@@ -2,7 +2,20 @@
 {% load static %}
 {% block content %} 
 
-<div style="height: 130vh; position: relative; top: 100px;">
+<style>
+    .body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .main {
+            flex-grow: 1;
+        }
+</style>
+
+<div class="body" style="min-height: 190vh; position: relative; top: 100px;">
     <div  class="section-title">
         <h2>Cart</h2>
     </div>
@@ -74,24 +87,7 @@
                             <a href="{% url 'homecustomer' customer_id=customer.id %}" class="boxed-btn">Continue Shopping</a>
                             <a href="{% url 'checkout' customer_id=customer.id %}" class="boxed-btn black">Check Out</a>
                         </div>
-                        <ul>
-                            {% for recommended_item in recommended_items %}
-                                <li>
-                                    {{ recommended_item.itemtitle }} - Price: {{ recommended_item.itemprice }}
-                                    <a href="{% url 'cart' customer_id=request.session.customer_id %}?item_id={{ recommended_item.id }}" data-product="{{ recommended_item.id }}" data-action="add" class="add-btn update-cart buy-now add-to-cart d-flex justify-content-center align-items-center mx-1 {% if recommended_item.itemquantity <= 0 %}out-of-stock{% endif %}">
-                                        <span><i class="fas fa-shopping-cart"></i></span>
-                                    </a>
-                                </li>
-                            {% endfor %}
-                        </ul>
-                        
-                        
-                  
-                        
-                        
-                        
-                       
-                    
+
                     </div>
     
                 </div>
@@ -99,5 +95,62 @@
         </div>
     </div>
     
+    <div style="position: relative; top: 100px;" class="section-title"> 
+        <h2 class="mb-4">Frequently Bought Together Items</h2>
+    </div>
+
+    <div style="justify-content: center; align-items: center;" class="row main">
+        {% for item in recommended_items %}
+        <div class="col-md-6 col-lg-3 ftco-animate">
+            <div class="product">
+                <a href="#" class="img-prod"><img class="img-fluid" src="{{ item.itemfeaturedimage.url }}" alt=""></a>
+                            <div class="overlay"></div>
+                            {% if item.itemquantity <= 0 %}
+                            <span class="out-of-stock-label">Out of Stock</span>
+                            {% endif %}
+                            {% if item.discount_percentage > 0 %}
+                            <span class="discount-label">BDT {{item.discounted_price}} on {{item.discount_percentage}}% sale</span>
+                            {% endif %}	
+                            <div class="text py-3 pb-4 px-3 text-center">
+                    <h3><strong>{{item.itemtitle}}</strong></h3>
+                    
+                    <div class="d-flex">
+                        <div class="pricing">
+                            {% if item.discount_percentage > 0 %} 
+                                    <p class="price"><span class="price-sale" style="text-decoration: line-through;">BDT {{item.original_price}}</span></p>
+                                    {% else %}
+                                    <p class="price"><span class="price-sale">BDT {{item.itemprice}}</span></p>
+                                    {% endif %}                            
+                        </div>
+                    </div> 
+                    <div class="bottom-area d-flex px-3">
+                        <div class="m-auto d-flex">
+                            <a href="{% url 'singleitemcustomer' pk=item.id customer_id=request.session.customer_id %}" class="add-to-cart d-flex justify-content-center align-items-center text-center">
+                                <span><i class="fas fa-bars"></i>
+                                </span>
+                            </a>
+                            <a href="{% url 'cart' customer_id=request.session.customer_id %}" data-product="{{item.id}}" data-action="add" class="add-btn update-cart buy-now add-to-cart d-flex justify-content-center align-items-center mx-1 {% if item.itemquantity <= 0 %}out-of-stock{% endif %}">
+                                <span><i class="fas fa-shopping-cart"></i>
+                                </span>
+                            </a>
+                            <a href="{% url 'togglefavorite' pk=item.id customer_id=request.session.customer_id %}" class="toggle-favorite d-flex justify-content-center align-items-center text-center" data-item-id="{{ item.id }}" data-user-id="{{ request.session.customer_id }}">
+                                <span><i class="far fa-heart"></i>
+                                </span>
+                            </a>
+
+                           
+                            
+                            
+                            
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        {% endfor %}
+    </div>                       
+
 </div>
 {% endblock content %}

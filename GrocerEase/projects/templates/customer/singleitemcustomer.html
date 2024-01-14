@@ -62,11 +62,8 @@
               </div>
           </div>
           <div class="col-md-7">
-              <div class="single-product-content">
-      
-
-                  <h3>{{ item.itemtitle }}</h3>
-                  <h3>Description: {{ item.itemdescription }}</h3> 
+              <div style="position: relative; top: 25px;" class="single-product-content">
+                        <h3>Description: {{ item.itemdescription }}</h3> 
                   {% if item.discount_percentage > 0 %} 
       <p class="single-product-pricing"><span style="text-decoration: line-through;">BDT {{item.original_price}}</span>  BDT {{item.discounted_price}}</p>
       {% else %}
@@ -121,29 +118,61 @@
   </div>
   {% endif %}
 
-  <h2>Complementary Items</h2>
-  {% if complementary_items %}
-      <ul>
-          {% for category, items in complementary_items.items %}
-              <p>Category: {{ category }}</p>
-              <ul>
-                  {% for item in items %}
-                      <li>
-                          <p>Item Title: {{ item.itemtitle }}</p>
-                          <p>Price: ${{ item.itemprice }}</p>
-                          <a href="{% url 'cart' customer_id=request.session.customer_id %}?item_id={{ item.id }}" data-product="{{ item.id }}" data-action="add" class="add-btn update-cart buy-now add-to-cart d-flex justify-content-center align-items-center mx-1 {% if item.itemquantity <= 0 %}out-of-stock{% endif %}">
-                              <span><i class="fas fa-shopping-cart"></i></span>
-                          </a>
-                      </li>
-                  {% endfor %}
-              </ul>
-          {% endfor %}
-      </ul>
-  {% else %}
-      <p>No complementary items found.</p>
-  {% endif %}
-  
+{% if complementary_items %}
+<div style="position: relative;" class="section-title"> 
+    <h2 class="mb-4">Frequently Bought Together Items</h2>
+</div>
 
+<div style="justify-content: center; align-items: center;" class="row main">
+  {% for category, items in complementary_items.items %}
+  {% for item in items %}
+  <div class="col-md-6 col-lg-3 ftco-animate">
+        <div class="product">
+            <a href="#" class="img-prod"><img class="img-fluid" src="{{ item.itemfeaturedimage.url }}" alt=""></a>
+                        <div class="overlay"></div>
+                        {% if item.itemquantity <= 0 %}
+                        <span class="out-of-stock-label">Out of Stock</span>
+                        {% endif %}
+                        {% if item.discount_percentage > 0 %}
+                        <span class="discount-label">BDT {{item.discounted_price}} on {{item.discount_percentage}}% sale</span>
+                        {% endif %}	
+                        <div class="text py-3 pb-4 px-3 text-center">
+                <h3><strong>{{item.itemtitle}}</strong></h3>
+                
+                <div class="d-flex">
+                    <div class="pricing">
+                        {% if item.discount_percentage > 0 %} 
+                                <p class="price"><span class="price-sale" style="text-decoration: line-through;">BDT {{item.original_price}}</span></p>
+                                {% else %}
+                                <p class="price"><span class="price-sale">BDT {{item.itemprice}}</span></p>
+                                {% endif %}                            
+                    </div>
+                </div> 
+                <div class="bottom-area d-flex px-3">
+                    <div class="m-auto d-flex">
+                        <a href="{% url 'singleitemcustomer' pk=item.id customer_id=request.session.customer_id %}" class="add-to-cart d-flex justify-content-center align-items-center text-center">
+                            <span><i class="fas fa-bars"></i>
+                            </span>
+                        </a>
+                        <a href="{% url 'cart' customer_id=request.session.customer_id %}" data-product="{{item.id}}" data-action="add" class="add-btn update-cart buy-now add-to-cart d-flex justify-content-center align-items-center mx-1 {% if item.itemquantity <= 0 %}out-of-stock{% endif %}">
+                            <span><i class="fas fa-shopping-cart"></i>
+                            </span>
+                        </a>
+                        <a href="{% url 'togglefavorite' pk=item.id customer_id=request.session.customer_id %}" class="toggle-favorite d-flex justify-content-center align-items-center text-center" data-item-id="{{ item.id }}" data-user-id="{{ request.session.customer_id }}">
+                            <span><i class="far fa-heart"></i>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+    {% endfor %}
+    {% endfor %}
+</div>                       
+{% endif %}
+
+ 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const starRating = document.querySelector('.star-rating');

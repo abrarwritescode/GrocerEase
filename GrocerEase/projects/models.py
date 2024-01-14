@@ -78,7 +78,7 @@ class Item(SoftDelete):
     def get_recommendations(self, customer):
         orders_with_current_item = OrderItem.objects.filter(
             product=self, 
-            confirmed=True
+            
         ).values_list('order', flat=True)
 
         recommended_items = Item.objects.filter(
@@ -87,7 +87,7 @@ class Item(SoftDelete):
 
         customer_purchased_items = Item.objects.filter(
             orderitem__order__customer=customer, 
-             orderitem__confirmed=True
+             orderitem__order__status='Processing'
          )
         recommended_items = recommended_items.exclude(id__in=customer_purchased_items)
 
