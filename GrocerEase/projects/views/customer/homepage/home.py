@@ -10,7 +10,7 @@ def homecustomer(request, customer_id):
 
         cartItems = data['cartItems']
         order = data['order']
-        items = data['items']
+        items = data['items'] 
 
         customer_data = {
             'id': customer_id,

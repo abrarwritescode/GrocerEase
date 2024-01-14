@@ -139,16 +139,35 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
 <script>
+    $('#applyVoucherBtn').on('click', function () {
+        var voucherCode = $('#vouchercode').val();
+        $.ajax({
+            url: '{% url "check_voucher" %}',
+            data: { 'vouchercode': voucherCode },  // Include the vouchercode in the data
+            dataType: 'json',
+            success: function (data) {
+                if (data.valid) {
+                    var voucherPercentage = data.voucher_percentage;
+                    var total = parseFloat('{{order.get_cart_total}}');
+                    var discountedTotal = total - (total * (voucherPercentage / 100));
+                    var amountInCents = (discountedTotal * 100).toFixed(0);
+                    $('#total-amount').text('BDT ' + discountedTotal.toFixed(2));
+                    $('#updated-payment-amount').val(discountedTotal.toFixed(2));
 
-   var voucherApplied = false;
+                } else {
+                    var originalAmount = '{{amount_in_cents}}';
+                    $('#total-amount').text('BDT ' + parseFloat('{{order.get_cart_total}}').toFixed(2));
+                    $('#updated-payment-amount').val('{{order.get_cart_total|floatformat:2}}');
 
+                }
+            }
+        });
+    });
+</script>
+
+<script>
    $('#applyVoucherBtn').on('click', function () {
     var voucherCode = $('#vouchercode').val();
-
-    if (voucherApplied) {
-            alert('This voucher has already been applied.');
-            return;
-        }
 
     if (voucherCode) {
         $.ajax({
@@ -165,34 +184,23 @@
                     $('#updated-payment-amount').val(discountedTotal.toFixed(2));
 
                     saveUpdatedPriceToDatabase(discountedTotal.toFixed(2));
-                    voucherApplied = true;
-
                 } else {
                     console.log('Invalid voucher. Payment not saved.');
-                    handleInvalidVoucher();
                 }
             }
         });
-    } else {
-        var amountInCents = '0';
-        $('#total-amount').text('BDT 0.00');
-        $('#updated-payment-amount').val('0.00');
 
-        saveUpdatedPriceToDatabase('0.00');
+    } else {
+        var originalAmount = parseFloat('{{order.get_cart_total}}').toFixed(2);
+        $('#total-amount').text('BDT ' + originalAmount);
+        $('#updated-payment-amount').val(originalAmount);
+
+        saveUpdatedPriceToDatabase(originalAmount);
+        location.reload();
     }
 });
 
-function handleInvalidVoucher() {
-    var amountInCents = '0';
-    $('#total-amount').text('BDT 0.00');
-    $('#updated-payment-amount').val('0.00');
-
-    alert('Please enter valid voucher.');
-
-    saveUpdatedPriceToDatabase('0.00');
-}
-
-function saveUpdatedPriceToDatabase(updatedPrice) {
+    function saveUpdatedPriceToDatabase(updatedPrice) {
     var voucherCode = $('#vouchercode').val();
 
     if (!voucherCode) {
@@ -222,25 +230,6 @@ function saveUpdatedPriceToDatabase(updatedPrice) {
     });
 }
 
-$('.stripe-button').on('click', function () {
-    if (!checkShippingInfo()) {
-        alert('Please fill in all the required shipping information.');
-    } 
-});
-
-function checkShippingInfo() {
-    var name = $('[name="name"]').val();
-    var email = $('[name="email"]').val();
-    var address = $('[name="address"]').val();
-    var phone = $('[name="phone"]').val();
-
-    if (!name || !email || !address || !phone) {
-        return false;
-    }
-
-    return true;
-}
-
 </script>
-
+   
 {% endblock content %}

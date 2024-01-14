@@ -31,7 +31,7 @@ def checkout(request, customer_id=None):
         'updated_amount': updated_amount,
         'errors': errors  
     }
-
+ 
     if request.method == 'POST':
         shipping_name = request.POST.get('name')
         shipping_email = request.POST.get('email')
@@ -55,6 +55,13 @@ def checkout(request, customer_id=None):
             print(f"Order object: {order}")
             if order:
                 order.is_cart = False
+
+                if order.payment:
+                    order.payment = updated_amount / 100
+
+                else:
+                    order.payment = order.get_cart_total
+                    
                 order.save()
 
                 send_mail(
