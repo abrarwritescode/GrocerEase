@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Items Recommendation</title>
+</head>
+<body>
+    <h1>Recommendations for {{ customer.customername }}</h1>
+
+    <ul>
+        {% for recommended_item in recommendations_list %}
+            <li>{{ recommended_item.itemtitle }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
