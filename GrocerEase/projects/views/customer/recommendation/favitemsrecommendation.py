@@ -1,36 +1,35 @@
 from projects.imports import *
-
-
 from projects.recommendation_utils import generate_item_features, calculate_similarity, get_recommendations
 
-
-
 def itemsrecommendation(request, customer_id):
-    customer = get_object_or_404(Customer, id=customer_id)
-    all_items = list(Item.objects.all())
-    customer_favorites = list(Favorite.objects.filter(customer=customer))
+    if 'customer_id' in request.session:
+        customer_id = request.session['customer_id'] 
+        customer = Customer.objects.get(pk=customer_id)
 
-    customer_item_features = generate_item_features(all_items)
-    customer_similarity_matrix = calculate_similarity(customer_item_features)
+        all_items = list(Item.objects.all())
+        customer_favorites = list(Favorite.objects.filter(customer=customer))
 
-    recommendations_list = []
+        customer_item_features = generate_item_features(all_items)
+        customer_similarity_matrix = calculate_similarity(customer_item_features)
 
-    for favorite_item in customer_favorites:
-        # index of the favorite item within the list of items
-        item_index = all_items.index(favorite_item.item)
+        recommendations_list = []
 
-        recommendations = get_recommendations(item_index, all_items, customer_similarity_matrix)
+        for favorite_item in customer_favorites:
+            # index of the favorite item within the list of items
+            item_index = all_items.index(favorite_item.item)
 
-        recommendations_list.extend(recommendations)
+            recommendations = get_recommendations(item_index, all_items, customer_similarity_matrix)
 
-    context = {
-        'customer': customer,
-        'recommendations_list': recommendations_list,
-    }
+            recommendations_list.extend(recommendations)
 
-    return render(request, 'customer/itemsrecommendation.html', context)
+            request.session['recommendations_list'] = recommendations_list
 
+        context = {
+            'customer': customer,
+            'recommendations_list': recommendations_list,
+        }
 
-
-
-
+        return render(request, 'customer/itemsrecommendation.html', context)
+    else:
+        
+        return redirect('logincustomer')
