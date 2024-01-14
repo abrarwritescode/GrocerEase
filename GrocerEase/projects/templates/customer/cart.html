@@ -74,26 +74,23 @@
                             <a href="{% url 'homecustomer' customer_id=customer.id %}" class="boxed-btn">Continue Shopping</a>
                             <a href="{% url 'checkout' customer_id=customer.id %}" class="boxed-btn black">Check Out</a>
                         </div>
-                        <h2>Complementary Items</h2>
-                        {% if complementary_items %}
                         <ul>
-                            {% for category, items in complementary_items.items %}
-                                {% for item in items %}
-                                    <li>
-                                        <p>Category: {{ category }}</p>
-                                        <p>Item Title: {{ item.itemtitle }}</p>
-                                        <p>Price: ${{ item.itemprice }}</p>
-                                    </li>
-                                    <a href="{% url 'cart' customer_id=request.session.customer_id %}" data-product="{{item.id}}" data-action="add" class="add-btn update-cart buy-now add-to-cart d-flex justify-content-center align-items-center mx-1 {% if item.itemquantity <= 0 %}out-of-stock{% endif %}">
-                                        <span><i class="fas fa-shopping-cart"></i>
-                                        </span>
+                            {% for recommended_item in recommended_items %}
+                                <li>
+                                    {{ recommended_item.itemtitle }} - Price: {{ recommended_item.itemprice }}
+                                    <a href="{% url 'cart' customer_id=request.session.customer_id %}?item_id={{ recommended_item.id }}" data-product="{{ recommended_item.id }}" data-action="add" class="add-btn update-cart buy-now add-to-cart d-flex justify-content-center align-items-center mx-1 {% if recommended_item.itemquantity <= 0 %}out-of-stock{% endif %}">
+                                        <span><i class="fas fa-shopping-cart"></i></span>
                                     </a>
-                                {% endfor %}
+                                </li>
                             {% endfor %}
                         </ul>
-                    {% else %}
-                        <p>No complementary items found.</p>
-                    {% endif %}
+                        
+                        
+                  
+                        
+                        
+                        
+                       
                     
                     </div>
     
