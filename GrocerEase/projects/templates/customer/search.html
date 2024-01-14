@@ -158,6 +158,10 @@
         <div class="navbtn">
 			<a href="{% url 'logoutcustomer' %}" class="btnn-signup">Logout</a>
 		</div>
+        <div class="orders">
+			<a href="{% url 'personalgrocerylist' customer_id=request.session.customer_id %}" class="btnn-mylist"><i class="fas fa-shopping-bag"></i> My Grocery List</a>
+		</div>
+		
 		<p id="cart-total">{{cartItems}}</p>
     </header>
 

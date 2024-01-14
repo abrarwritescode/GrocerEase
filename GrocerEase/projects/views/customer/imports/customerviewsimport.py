@@ -24,5 +24,7 @@ from projects.views.customer.favorites.togglefavs import togglefavorite
 from projects.views.customer.voucher.vouchercode import check_voucher
 from projects.views.customer.checkout.checkout import SaveUpdatedPriceView
 from projects.views.customer.recommendation.favitemsrecommendation import itemsrecommendation
+from projects.views.customer.personalgrocerylist.personalgrocerylist import personalgrocerylist
+
 
 

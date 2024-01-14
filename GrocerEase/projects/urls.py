@@ -34,6 +34,7 @@ urlpatterns = [
     path('check_voucher/', check_voucher, name='check_voucher'),
     path('save_updated_price/', SaveUpdatedPriceView.as_view(), name='save_updated_price'),
     path('itemsrecommendation/<int:customer_id>/', itemsrecommendation, name='itemsrecommendation'),
+    path('personalgrocerylist/<int:customer_id>/', personalgrocerylist, name='personalgrocerylist'),
 
     path('selleritems/<int:seller_id>/<int:customer_id>/', selleritems, name='selleritems'),
     
