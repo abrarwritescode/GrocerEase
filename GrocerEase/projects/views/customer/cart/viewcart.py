@@ -10,8 +10,9 @@ def cart(request, customer_id=None):
         cartItems = data['cartItems']
         order = data['order']
         items = data['items']
-        context = {'items': items, 'order': order, 'cartItems': cartItems, 'customer': customer}
+        complementary_items = order.get_complementary_items()
+        context = {'items': items, 'order': order, 'cartItems': cartItems, 'customer': customer, 'complementary_items': complementary_items}
     else:
-        context = {'items': [], 'order': {}, 'cartItems': 0, 'customer': None}
+        context = {'items': [], 'order': {}, 'cartItems': 0, 'customer': None, 'complementary_items': []}
 
     return render(request, 'customer/cart.html', context)

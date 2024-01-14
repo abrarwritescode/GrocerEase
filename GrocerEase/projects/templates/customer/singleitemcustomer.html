@@ -81,6 +81,12 @@
                   <p>
                       Seller: <a href="{% url 'selleritems' seller_id=item.seller.pk customer_id=request.session.customer_id %}">{{ item.seller.storename }}</a>
                   </p>
+                  <p>Recommended Items</p>
+<ul>
+    {% for recommended_item in recommended_items %}
+        <li>{{ recommended_item.itemtitle }} - Price: {{ recommended_item.itemprice }}</li>
+    {% endfor %}
+</ul>
               </div>
           </div>
       </div>
