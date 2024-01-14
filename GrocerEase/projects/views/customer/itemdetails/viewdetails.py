@@ -51,7 +51,7 @@ def item_details_with_reviews(request, pk, customer_id):
         recently_viewed.insert(0, pk)
         request.session['recently_viewed'] = recently_viewed[:5] 
 
-    complementary_items = itemObj.get_recommendations(customer)
+    complementary_items = itemObj.get_complementary_items()
     if request.method == 'POST':
         form = ReviewForm(request.POST)
         if form.is_valid():
