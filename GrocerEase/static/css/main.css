@@ -1029,7 +1029,6 @@ a.mobile-show.search-bar-icon:hover {
 .latest-product__slider.owl-carousel .owl-nav {
 	position: absolute;
 	right: 20px;
-	top: -75px;
 }
 
 .latest-product__slider.owl-carousel .owl-nav button {
@@ -1053,7 +1052,6 @@ a.mobile-show.search-bar-icon:hover {
 }
 
 .latest-product__item {
-	margin-bottom: 20px;
 	overflow: hidden;
 	display: block;
 }
@@ -1087,9 +1085,11 @@ a.mobile-show.search-bar-icon:hover {
 
 .spad {
 	padding-top: 100px;
-	padding-bottom: 100px;
 }
-        
+    
+.cookimage{
+  height: 130vh;
+}
 .cookimage .fireimage{
     background-size: contain;
     height: 652px;
@@ -1108,8 +1108,8 @@ a.mobile-show.search-bar-icon:hover {
     -4px 0 4px rgba(175, 173, 173, 0.2); /* Left */
     border: 0px;
     position: relative;
-    bottom: 600px;
     background-color: white;
+    bottom: 600px;
 }
 
 .bannertext{
@@ -1117,11 +1117,11 @@ a.mobile-show.search-bar-icon:hover {
     flex-direction: column;
     margin: 25px;
     justify-content: space-evenly;
-
 }
 
 .bannertext .text{
     margin: 5px;
+    margin-top: 15px;
 }
 
 .bannerarea .btn-start{
