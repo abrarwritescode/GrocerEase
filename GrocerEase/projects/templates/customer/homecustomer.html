@@ -140,12 +140,6 @@
         
         {% endfor %}
     </div>
-    <h2>Recently Viewed Items</h2>
-    <ul>
-      {% for item in recently_viewed_items %}
-        <li>{{ item.itemtitle }}</li>
-      {% endfor %}
-    </ul>
 
     <h2>Based on Recently Viewed Items</h2>
 <ul>
@@ -154,12 +148,72 @@
     {% endfor %}
 </ul>
 
-    <h2>New Arrivals</h2>
-<ul>
-    {% for item in recently_added_items %}
-        <li>{{ item.itemtitle }}</li>
-    {% endfor %}
-</ul>
+<section class="latest-product spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-6">
+                <div class="latest-product__text">
+                    <h4>Latest Products</h4>
+                    <div class="latest-product__slider owl-carousel">
+                        {% for item in recently_added_items %}
+                        <div class="latest-prdouct__slider__item">
+                            <a href="{% url 'singleitemcustomer' pk=item.id customer_id=request.session.customer_id %}" class="latest-product__item">
+                                <div class="latest-product__item__pic">
+                                    <img src="{{ item.itemfeaturedimage.url }}" alt="">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>{{ item.itemtitle }}</h6>
+                                    <span>BDT {{ item.itemprice }}</span>
+                                </div>
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="latest-product__text">
+                    <h4>Recently Viewed Products</h4>
+                    <div class="latest-product__slider owl-carousel">
+                        {% for item in recently_viewed_items %}
+                        <div class="latest-prdouct__slider__item">
+                            <a href="{% url 'singleitemcustomer' pk=item.id customer_id=request.session.customer_id %}" class="latest-product__item"" class="latest-product__item">
+                                <div class="latest-product__item__pic">
+                                    <img src="{{ item.itemfeaturedimage.url }}" alt="">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>{{ item.itemtitle }}</h6>
+                                    <span>BDT {{ item.itemprice }}</span>
+                                </div>
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="latest-product__text">
+                    <h4>Top Rated Products</h4>
+                    <div class="latest-product__slider owl-carousel">
+                        {% for item in top_rated_items %}
+                        <div class="latest-prdouct__slider__item">
+                            <a href="{% url 'singleitemcustomer' pk=item.id customer_id=request.session.customer_id %}" class="latest-product__item"" class="latest-product__item">
+                                <div class="latest-product__item__pic">
+                                    <img src="{{ item.itemfeaturedimage.url }}" alt="">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>{{ item.itemtitle }}</h6>
+                                    <span>BDT {{ item.itemprice }}</span>
+                                </div>
+                            </a>
+                        </div>
+                        {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 
     <div class="cookimage">
         <div class="preparetext">

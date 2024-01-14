@@ -52,15 +52,6 @@ class Item(models.Model):
             self.discount_percentage = 0
 
         super().save(*args, **kwargs)
-    
-    # def get_recommendations(self):
-    #      # Get orders containing the current item
-    #      orders_with_current_item = OrderItem.objects.filter(product=self, confirmed=True).values_list('order', flat=True)
-
-    #      # Get items from those orders excluding the current item
-    #      recommended_items = Item.objects.filter(orderitem__order__in=orders_with_current_item).exclude(id=self.id).distinct()
-
-    #      return recommended_items
         
     def get_recommendations(self, customer):
         orders_with_current_item = OrderItem.objects.filter(
@@ -68,12 +59,10 @@ class Item(models.Model):
             confirmed=True
         ).values_list('order', flat=True)
 
-        # Get items from those orders excluding the current item
         recommended_items = Item.objects.filter(
             orderitem__order__in=orders_with_current_item
         ).exclude(id=self.id).distinct()
 
-        # # Exclude items that the customer has already purchased
         customer_purchased_items = Item.objects.filter(
             orderitem__order__customer=customer, 
              orderitem__confirmed=True
@@ -82,65 +71,10 @@ class Item(models.Model):
 
         return recommended_items
   
-    
-    
-
     def __str__(self):
         return self.itemtitle
 
-
-# class Order(models.Model):
-#     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
-#     date_ordered = models.DateTimeField(auto_now_add=True)
-#     is_cart = models.BooleanField(default=True)  # To indicate whether it's a cart or a confirmed order
-
-#     shipping_name = models.CharField(max_length=255, null=True, blank=True)
-#     shipping_email = models.EmailField(null=True, blank=True)
-#     shipping_address = models.TextField(null=True, blank=True)
-#     shipping_phone = models.CharField(max_length=20, null=True, blank=True)
-#     payment = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
-
-#     STATUS_CHOICES = [
-#         ('Pending', 'Pending'),
-#         ('Processing', 'Processing'),
-#         ('Shipped', 'Shipped'),
-#         ('Delivered', 'Delivered'),
-#         ('Cancelled', 'Cancelled'),
-#     ]
-
-#     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending')
-
-#     def __str__(self):
-#         return f"{self.id} - {self.customer}"
-        
-#     @property
-#     def get_cart_total(self):
-#         orderitems = self.orderitem_set.all()
-#         total = sum([item.get_total for item in orderitems]) if orderitems else 0
-#         return total
-
-#     @property
-#     def get_cart_items(self):
-#         orderitems = self.orderitem_set.all()
-#         total = sum([item.quantity for item in orderitems]) if orderitems else 0
-#         return total
-    
-#     @property
-#     def move_items_from_cart(self):
-#         cart_items = OrderItem.objects.filter(order=self, confirmed=False)
-        
-#         for cart_item in cart_items:
-#             OrderItem.objects.create(
-#                 order=self,
-#                 product=cart_item.product,
-#                 quantity=cart_item.quantity,
-#                 confirmed=True 
-#             )
-        
-#         cart_items.delete()
-
 class Order(models.Model):
-    # ... (existing fields and methods)
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
     date_ordered = models.DateTimeField(auto_now_add=True)
     is_cart = models.BooleanField(default=True)  # To indicate whether it's a cart or a confirmed order
@@ -192,7 +126,6 @@ class Order(models.Model):
         cart_items.delete()
 
     def get_complementary_items(self):
-        # Get items in the current cart
         cart_items = self.orderitem_set.filter(confirmed=False).select_related('product')
 
         complementary_items_dict = {}
@@ -200,13 +133,11 @@ class Order(models.Model):
         for cart_item in cart_items:
             accessories = Item.objects.filter(category__in=cart_item.product.category.all()).exclude(id=cart_item.product.id)
 
-            # Group complementary items by category
             for accessory in accessories:
                 for category in accessory.category.all():
                     if category not in complementary_items_dict:
                         complementary_items_dict[category] = []
 
-                    # Ensure the complementary item is not already in the cart
                     if accessory.id not in cart_items.values_list('product_id', flat=True):
                         complementary_items_dict[category].append(accessory)
 

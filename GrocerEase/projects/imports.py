@@ -31,6 +31,13 @@ from datetime import timedelta
 
 from django.utils.decorators import method_decorator
 from django.views import View
+from django.db.models import Avg
+from django.db.models.functions import Coalesce
+from django.db.models import Avg, ExpressionWrapper, F, fields
+
+
+
+
 
 
 
