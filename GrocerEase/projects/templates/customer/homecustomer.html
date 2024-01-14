@@ -89,7 +89,7 @@
     </div>
 
     <div style="justify-content: center; align-items: center;" class="row">
-        {% for item in products %} 
+        {% for item in combined_items %} 
         <div class="col-md-6 col-lg-3 ftco-animate">
             <div class="product">
                 <a href="#" class="img-prod"><img class="img-fluid" src="{{ item.itemfeaturedimage.url }}" alt=""></a>
@@ -140,44 +140,93 @@
         
         {% endfor %}
     </div>
-    <h2>Recently Viewed Items</h2>
-    <ul>
-      {% for item in recently_viewed_items %}
-        <li>{{ item.itemtitle }}</li>
-      {% endfor %}
-    </ul>
 
-    <h2>Based on Recently Viewed Items</h2>
-<ul>
-    {% for item in similar_items %}
-        <li>{{ item.itemtitle }}</li>
-    {% endfor %}
-</ul>
+    
+<section class="latest-product spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-md-6">
+                <div class="latest-product__text">
+                    <h4>Latest Products</h4>
+                    <div class="latest-product__slider owl-carousel">
+                        {% for item in recently_added_items %}
+                        <div class="latest-prdouct__slider__item">
+                            <a href="{% url 'singleitemcustomer' pk=item.id customer_id=request.session.customer_id %}" class="latest-product__item">
+                                <div class="latest-product__item__pic">
+                                    <img src="{{ item.itemfeaturedimage.url }}" alt="">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>{{ item.itemtitle }}</h6>
+                                    <span>BDT {{ item.itemprice }}</span>
+                                </div>
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="latest-product__text">
+                    <h4>Recently Viewed Products</h4>
+                    <div class="latest-product__slider owl-carousel">
+                        {% for item in recently_viewed_items %}
+                        <div class="latest-prdouct__slider__item">
+                            <a href="{% url 'singleitemcustomer' pk=item.id customer_id=request.session.customer_id %}" class="latest-product__item"" class="latest-product__item">
+                                <div class="latest-product__item__pic">
+                                    <img src="{{ item.itemfeaturedimage.url }}" alt="">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>{{ item.itemtitle }}</h6>
+                                    <span>BDT {{ item.itemprice }}</span>
+                                </div>
+                            </a>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="latest-product__text">
+                    <h4>Top Rated Products</h4>
+                    <div class="latest-product__slider owl-carousel">
+                        {% for item in top_rated_items %}
+                        <div class="latest-prdouct__slider__item">
+                            <a href="{% url 'singleitemcustomer' pk=item.id customer_id=request.session.customer_id %}" class="latest-product__item"" class="latest-product__item">
+                                <div class="latest-product__item__pic">
+                                    <img src="{{ item.itemfeaturedimage.url }}" alt="">
+                                </div>
+                                <div class="latest-product__item__text">
+                                    <h6>{{ item.itemtitle }}</h6>
+                                    <span>BDT {{ item.itemprice }}</span>
+                                </div>
+                            </a>
+                        </div>
+                        {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
-    <h2>New Arrivals</h2>
-<ul>
-    {% for item in recently_added_items %}
-        <li>{{ item.itemtitle }}</li>
-    {% endfor %}
-</ul>
 
     <div class="cookimage">
         <div class="preparetext">
             <p>You prepare the food, we handle the rest</p>
         </div>
         <img class="fireimage" src="{% static 'pictures/bg_3.jpg' %}" alt="">
-    </div>
-
-    <div class="bannerarea">
-        <div class="bannertext">
-            <div style="font-size: 25px;" class="text">Let's start shopping on GrocerEase!</div>
-            <div class="text">We are committed to providing enjoyable shopping experience for our valued customers.</div>
-            <div class="text">Whether you're a busy professional, a homemaker, or someone who simply loves convenience, GrocerEase is here to make your grocery shopping hassle-free.</div>
-            <div class="text">Interested? Let's start today!</div>
+        <div class="bannerarea">
+            <div class="bannertext">
+                <div style="font-size: 25px;" class="text">Let's start shopping on GrocerEase!</div>
+                <div class="text">We are committed to providing enjoyable shopping experience for our valued customers.</div>
+                <div class="text">Whether you're a busy professional, a homemaker, or someone who simply loves convenience, GrocerEase is here to make your grocery shopping hassle-free.</div>
+                <div class="text">Interested? Let's start today!</div>
+            </div>
+            <button class="btn-start">Get started</button>
         </div>
-        <button class="btn-start">Get started</button>
+    
     </div>
 
+    
 {% endblock content %}
    
   

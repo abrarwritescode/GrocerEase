@@ -146,7 +146,7 @@
     
 	<div class="searcharea">
 		<div class="herotext">
-				<span class="fade-away" id="js-rotating">Get varieties of collection, At you doorstep, GrocerEase</span></h1>
+				<span class="fade-away" id="js-rotating">Get varieties of collection, At your doorstep, GrocerEase</span></h1>
 		</div>
 	</div>
 	
@@ -156,7 +156,7 @@
     {% endblock content %}
     
   
-    <div class="footer-area" id="about_us">
+    <div style="margin-top: 0;" class="footer-area" id="about_us">
 		<div class="container"> 
 			<div class="row">
 				<div class="col-lg-3 col-md-6">
@@ -178,8 +178,8 @@
 					<div class="footer-box pages">
 						<h2 class="widget-title">Pages</h2>
 						<ul>
-							<li><a href="{% url 'logincustomer' %}">Home</a></li>
-						    <li><a href="{% url 'logincustomer' %}">Shop</a></li> 
+							<li><a style="color: white; text-decoration: none;" href="{% url 'logincustomer' %}">Home</a></li>
+						    <li><a style="color: white; text-decoration: none;" href="{% url 'logincustomer' %}">Shop</a></li> 
 						</ul>
 					</div>
 				</div> 
@@ -194,7 +194,6 @@
 		</div>
 	</div>
 	
-    
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 <script src="{% static 'js/main.js' %}"></script>
@@ -279,7 +278,7 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const rotatingElement = document.getElementById("js-rotating");
-        const phrases = ["Get varieties of collection", "At you doorstep", "GrocerEase"]; // Add more phrases as needed
+        const phrases = ["Get varieties of collection", "At your doorstep", "GrocerEase"]; // Add more phrases as needed
         let index = 0;
 
         function rotateText() {

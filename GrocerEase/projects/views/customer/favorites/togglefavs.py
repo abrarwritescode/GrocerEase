@@ -9,7 +9,7 @@ def togglefavorite(request, pk, customer_id):
 
         try:
             favorite = Favorite.objects.get(customer=customer, item=item)
-            favorite.delete()
+            favorite.soft_delete()
             is_favorite = False
         except Favorite.DoesNotExist:
             Favorite.objects.create(customer=customer, item=item)

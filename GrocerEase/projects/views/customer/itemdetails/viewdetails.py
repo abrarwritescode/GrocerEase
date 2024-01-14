@@ -21,13 +21,12 @@ def submit_review(request, item_id):
             comment = form.cleaned_data['comment']
             Review.objects.create(item=item, customer=customer, rating=rating, comment=comment)
     return redirect('singleitemcustomer', pk=item_id,  customer_id=request.session['customer_id'])
+
 def item_details_with_reviews(request, pk, customer_id):
     if 'customer_id' in request.session:
         customer_id = request.session['customer_id']
         customer = Customer.objects.get(pk=customer_id)
         data = cartData(request, customer_id)
-
-
 
         cartItems = data['cartItems']
         order = data['order']
@@ -38,22 +37,19 @@ def item_details_with_reviews(request, pk, customer_id):
 
     itemObj = Item.objects.get(id=pk)
     categorys = itemObj.category.all()
-
     
     reviews = Review.objects.filter(item=itemObj)
 
     customer_has_reviewed = Review.objects.filter(item=itemObj, customer=customer).exists()
-
     
     average_rating = reviews.aggregate(Avg('rating'))['rating__avg'] or 0
-
     
     average_rating = round(average_rating, 2)
 
     recently_viewed = request.session.get('recently_viewed', [])
     if pk not in recently_viewed:
         recently_viewed.insert(0, pk)
-        request.session['recently_viewed'] = recently_viewed[:5]  # Limit the list to, say, the 5 most recent items
+        request.session['recently_viewed'] = recently_viewed[:5] 
 
     complementary_items = itemObj.get_recommendations(customer)
     if request.method == 'POST':

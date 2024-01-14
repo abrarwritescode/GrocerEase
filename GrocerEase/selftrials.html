@@ -1,58 +1,6 @@
-{% extends 'customer/navbarcustomer.html' %}
-{% load static %}
-{% block content %}
-
-<div style="height: 130vh;">
-
-    <div style="position: relative; top: 90px;" class="section-title">
-        <h2>Item: {{ item.itemtitle }}</h2>
-    </div>
-
-    <div style="position: relative; top: 140px;" class="single-product mt-150 mb-150">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-5">
-                    <div class="single-product-img">
-                        <div class="product-image-container">
-                            <a href="#" class="img-prod">
-                                <img class="img-fluid" src="{{ item.itemfeaturedimage.url }}" alt="">
-								{% if item.discount_percentage > 0 %}
-                    		<span class="discount-label">BDT {{item.discounted_price}} on {{item.discount_percentage}}% sale</span>
-                			{% endif %}
-						
-							{% if item.itemquantity <= 0 %}
-							<span class="out-of-stock-label">Out of Stock</span>
-							{% endif %}
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-7">
-                    <div class="single-product-content">
-						
-
-                        <h3>{{ item.itemtitle }}</h3>
-                        <h3>Description: {{ item.itemdescription }}</h3> 
-                        {% if item.discount_percentage > 0 %} 
-						<p class="single-product-pricing"><span style="text-decoration: line-through;">BDT {{item.original_price}}</span>  BDT {{item.discounted_price}}</p>
-						{% else %}
-						<p class="single-product-pricing"><span>BDT {{item.itemprice}}</span></p>
-						{% endif %}					
-                        <div class="single-product-form">
-                            <a href="{% url 'cart' customer_id=request.session.customer_id %}" data-product="{{ item.id }}" data-action="add" class="cart-btn update-cart add-to-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
-                            {% for category in categorys %}
-                            <p><strong>Categories: </strong>{{ category }}</p>
-                            {% endfor %}
-                        </div>
-                        <p>
-                            Seller: <a href="{% url 'selleritems' seller_id=item.seller.pk customer_id=request.session.customer_id %}">{{ item.seller.storename }}</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-</div>
-
-{% endblock content %}
+<h2>Based on Recently Viewed Items</h2>
+<ul>
+    {% for item in similar_items %}
+        <li>{{ item.itemtitle }}</li>
+    {% endfor %}
+</ul>

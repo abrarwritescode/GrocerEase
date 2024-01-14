@@ -1,6 +1,27 @@
 from django.db import models
+from django.db.models.query import QuerySet
 from django.utils import timezone
 import uuid
+
+class NonDeleted(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(is_deleted = False)
+
+class SoftDelete(models.Model):
+    is_deleted = models.BooleanField(default=False)
+    everything = models.Manager()
+    objects = NonDeleted()
+
+    def soft_delete(self):
+        self.is_deleted = True
+        self.save()
+
+    def restore(self):
+        self.is_deleted = False
+        self.save()
+
+    class Meta:
+        abstract = True
 
 class Customer(models.Model):
     customername = models.CharField(max_length=150)
@@ -25,7 +46,7 @@ class Seller(models.Model):
         return f"{self.storename}"
 
 
-class Item(models.Model):
+class Item(SoftDelete):
     seller = models.ForeignKey(Seller, on_delete=models.SET_NULL, null=True, blank=True)
     itemtitle = models.CharField(max_length=200) # null by default is set as false. so it is must
     itemprice = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
@@ -53,6 +74,14 @@ class Item(models.Model):
 
         super().save(*args, **kwargs)
     
+    # def get_recommendations(self):
+    #      # Get orders containing the current item
+    #      orders_with_current_item = OrderItem.objects.filter(product=self, confirmed=True).values_list('order', flat=True)
+
+    #      # Get items from those orders excluding the current item
+    #      recommended_items = Item.objects.filter(orderitem__order__in=orders_with_current_item).exclude(id=self.id).distinct()
+
+    #      return recommended_items
         
     def get_recommendations(self, customer):
         orders_with_current_item = OrderItem.objects.filter(
@@ -60,12 +89,10 @@ class Item(models.Model):
             confirmed=True
         ).values_list('order', flat=True)
 
-        # Get items from those orders excluding the current item
         recommended_items = Item.objects.filter(
             orderitem__order__in=orders_with_current_item
         ).exclude(id=self.id).distinct()
 
-        # # Exclude items that the customer has already purchased
         customer_purchased_items = Item.objects.filter(
             orderitem__order__customer=customer, 
              orderitem__confirmed=True
@@ -73,29 +100,6 @@ class Item(models.Model):
         recommended_items = recommended_items.exclude(id__in=customer_purchased_items)
 
         return recommended_items
-    
-    def get_complementary_items(self):
-        # Get items in the current cart
-        cart_items = self.orderitem_set.filter(confirmed=False).select_related('product')
-
-        complementary_items_dict = {}
-
-        for cart_item in cart_items:
-            accessories = Item.objects.filter(category__in=cart_item.product.category.all()).exclude(id=cart_item.product.id)
-
-            # Group complementary items by category
-            for accessory in accessories:
-                for category in accessory.category.all():
-                    if category not in complementary_items_dict:
-                        complementary_items_dict[category] = []
-
-                    # Ensure the complementary item is not already in the cart
-                    if accessory.id not in cart_items.values_list('product_id', flat=True):
-                        complementary_items_dict[category].append(accessory)
-
-        complementary_items = {category: items[:1] for category, items in complementary_items_dict.items()}
-
-        return complementary_items
   
     
     
@@ -104,10 +108,58 @@ class Item(models.Model):
         return self.itemtitle
 
 
+# class Order(models.Model):
+#     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
+#     date_ordered = models.DateTimeField(auto_now_add=True)
+#     is_cart = models.BooleanField(default=True)  # To indicate whether it's a cart or a confirmed order
 
+#     shipping_name = models.CharField(max_length=255, null=True, blank=True)
+#     shipping_email = models.EmailField(null=True, blank=True)
+#     shipping_address = models.TextField(null=True, blank=True)
+#     shipping_phone = models.CharField(max_length=20, null=True, blank=True)
+#     payment = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
+
+#     STATUS_CHOICES = [
+#         ('Pending', 'Pending'),
+#         ('Processing', 'Processing'),
+#         ('Shipped', 'Shipped'),
+#         ('Delivered', 'Delivered'),
+#         ('Cancelled', 'Cancelled'),
+#     ]
+
+#     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending')
+
+#     def __str__(self):
+#         return f"{self.id} - {self.customer}"
+        
+#     @property
+#     def get_cart_total(self):
+#         orderitems = self.orderitem_set.all()
+#         total = sum([item.get_total for item in orderitems]) if orderitems else 0
+#         return total
+
+#     @property
+#     def get_cart_items(self):
+#         orderitems = self.orderitem_set.all()
+#         total = sum([item.quantity for item in orderitems]) if orderitems else 0
+#         return total
+    
+#     @property
+#     def move_items_from_cart(self):
+#         cart_items = OrderItem.objects.filter(order=self, confirmed=False)
+        
+#         for cart_item in cart_items:
+#             OrderItem.objects.create(
+#                 order=self,
+#                 product=cart_item.product,
+#                 quantity=cart_item.quantity,
+#                 confirmed=True 
+#             )
+        
+#         cart_items.delete()
 
 class Order(models.Model):
-   
+    # ... (existing fields and methods)
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
     date_ordered = models.DateTimeField(auto_now_add=True)
     is_cart = models.BooleanField(default=True)  # To indicate whether it's a cart or a confirmed order
@@ -158,7 +210,28 @@ class Order(models.Model):
         
         cart_items.delete()
 
-   
+    def get_complementary_items(self):
+        # Get items in the current cart
+        cart_items = self.orderitem_set.filter(confirmed=False).select_related('product')
+
+        complementary_items_dict = {}
+
+        for cart_item in cart_items:
+            accessories = Item.objects.filter(category__in=cart_item.product.category.all()).exclude(id=cart_item.product.id)
+
+            # Group complementary items by category
+            for accessory in accessories:
+                for category in accessory.category.all():
+                    if category not in complementary_items_dict:
+                        complementary_items_dict[category] = []
+
+                    # Ensure the complementary item is not already in the cart
+                    if accessory.id not in cart_items.values_list('product_id', flat=True):
+                        complementary_items_dict[category].append(accessory)
+
+        complementary_items = {category: items[:1] for category, items in complementary_items_dict.items()}
+
+        return complementary_items
 
 
 
@@ -197,7 +270,7 @@ class Category(models.Model):
     def __str__(self):
         return self.categoryname
     
-class Notification(models.Model):
+class Notification(SoftDelete):
     sender = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)
     recipient = models.ForeignKey(Seller, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
@@ -209,7 +282,7 @@ class Notification(models.Model):
     def __str__(self):
         return f"Notification {self.id}"
 
-class Favorite(models.Model):
+class Favorite(SoftDelete):
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
     item = models.ForeignKey(Item, on_delete=models.CASCADE)
     created_at = models.DateTimeField(default=timezone.now)
