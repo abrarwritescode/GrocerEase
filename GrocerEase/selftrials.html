@@ -1,58 +1,75 @@
-{% extends 'customer/navbarcustomer.html' %}
-{% load static %}
-{% block content %}
+<table>
+    <thead>
+        <tr>
+            <th>Order Number: {{ orders.id }}</th>
+            <th>Order Status: {{ orders.status }}</th>
+            <th></th>
+            <th></th>
+            <th>{{ orders.date_ordered }}</th>
+        </tr>
+        <tr>
+            <th>Items</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Category</th>
+            <th>Image</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for orders in order reversed %}
+            <tr>
+                <td>{{ orders.id }}</td>
+                <td>{{ orders.status }}</td>
+                <td></td>
+                <td></td>
+                <td>{{ orders.date_ordered }}</td>
+            </tr>
 
-<div style="height: 130vh;">
-
-    <div style="position: relative; top: 90px;" class="section-title">
-        <h2>Item: {{ item.itemtitle }}</h2>
-    </div>
-
-    <div style="position: relative; top: 140px;" class="single-product mt-150 mb-150">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-5">
-                    <div class="single-product-img">
-                        <div class="product-image-container">
-                            <a href="#" class="img-prod">
-                                <img class="img-fluid" src="{{ item.itemfeaturedimage.url }}" alt="">
-								{% if item.discount_percentage > 0 %}
-                    		<span class="discount-label">BDT {{item.discounted_price}} on {{item.discount_percentage}}% sale</span>
-                			{% endif %}
-						
-							{% if item.itemquantity <= 0 %}
-							<span class="out-of-stock-label">Out of Stock</span>
-							{% endif %}
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-7">
-                    <div class="single-product-content">
-						
-
-                        <h3>{{ item.itemtitle }}</h3>
-                        <h3>Description: {{ item.itemdescription }}</h3> 
-                        {% if item.discount_percentage > 0 %} 
-						<p class="single-product-pricing"><span style="text-decoration: line-through;">BDT {{item.original_price}}</span>  BDT {{item.discounted_price}}</p>
-						{% else %}
-						<p class="single-product-pricing"><span>BDT {{item.itemprice}}</span></p>
-						{% endif %}					
-                        <div class="single-product-form">
-                            <a href="{% url 'cart' customer_id=request.session.customer_id %}" data-product="{{ item.id }}" data-action="add" class="cart-btn update-cart add-to-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
-                            {% for category in categorys %}
-                            <p><strong>Categories: </strong>{{ category }}</p>
+            {% for order_item in seller_orders %}
+                {% if order_item.order.id == orders.id %}
+                    <tr>
+                        <td>{{ order_item.product.itemtitle }}</td>
+                        <td>{{ order_item.product.itemprice }}</td>
+                        <td>{{ order_item.quantity }}</td>
+                        <td>
+                            {% for category in order_item.product.category.all %}
+                                {{ category.categoryname }}{% if not forloop.last %}, {% endif %}
                             {% endfor %}
-                        </div>
-                        <p>
-                            Seller: <a href="{% url 'selleritems' seller_id=item.seller.pk customer_id=request.session.customer_id %}">{{ item.seller.storename }}</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                        </td>
+                        <td class="product-image"><img src="{{ order_item.product.itemfeaturedimage.url }}" alt=""></td>
+                    </tr>
+                {% endif %}
+            {% endfor %}
 
-</div>
+            <tr>
+                <td><b>Customer's Address:</b> </td>
+                <td>{{ orders.shipping_address }}</td>
+                <td><b>Contact:</b> </td>
+                <td>{{ orders.shipping_phone }}</td>
 
-{% endblock content %}
+                {% if orders.status == 'Processing' %}
+                    <td>
+                        <form action="{% url 'vieworders' seller_id=request.session.seller_id %}" method="post" class="action-buttons">
+                            {% csrf_token %}
+                            <input type="hidden" name="order_id" value="{{ orders.id }}">
+                            <input type="hidden" name="action" value="MARK_SHIPPED">  
+                            <input type="submit" value="MARK SHIPPED" class="btn markshipped button" name="accept">
+                        </form>                
+                    </td>
+                {% elif orders.status == 'Shipped' %}
+                    <td>
+                        <form action="#" class="action-buttons">
+                            <input type="submit" value="SHIPPED" class="btn shipped button" name="accept1">
+                        </form>                
+                    </td>
+                {% elif orders.status == 'Delivered' %}
+                    <td>
+                        <form action="#" class="action-buttons">
+                            <input type="submit" value="DELIVERED" class="btn delivered button" name="accept">
+                        </form>                
+                    </td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
