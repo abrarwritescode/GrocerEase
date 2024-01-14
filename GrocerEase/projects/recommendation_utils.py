@@ -64,7 +64,7 @@ def get_recommendations(item_index, items, similarity_matrix, num_recommendation
         print(f"Item {idx}: {score}")
 
 
-    # the indices of the top similar items
+    # the indices of the top similar items 
     similar_item_indices = [i[0] for i in similarity_scores[:num_recommendations] if i[0] != item_index]
 
 

@@ -94,30 +94,30 @@ class Item(SoftDelete):
         return recommended_items
     
     def get_complementary_items(self):
-        # Get items in the current cart
-        cart_items = self.orderitem_set.filter(confirmed=False).select_related('product')
+    # Assuming you have a variable for the selected item, replace 'selected_item' with the actual variable
+        selected_item = self  # Assuming this method is part of the Item model
+
+    # Get all items excluding the selected item
+        all_items = Item.objects.exclude(id=selected_item.id)
 
         complementary_items_dict = {}
 
-        for cart_item in cart_items:
-            accessories = Item.objects.filter(category__in=cart_item.product.category.all()).exclude(id=cart_item.product.id)
+    # Iterate through all items
+        for accessory in all_items.filter(category__in=selected_item.category.all()):
+            for category in accessory.category.all():
+                if category not in complementary_items_dict:
+                    complementary_items_dict[category] = set()
 
-            # Group complementary items by category
-            for accessory in accessories:
-                for category in accessory.category.all():
-                    if category not in complementary_items_dict:
-                        complementary_items_dict[category] = []
+            # Ensure the complementary item is not the item itself
+                if accessory.id != selected_item.id:
+                    complementary_items_dict[category].add(accessory)
 
-                    # Ensure the complementary item is not already in the cart
-                    if accessory.id not in cart_items.values_list('product_id', flat=True):
-                        complementary_items_dict[category].append(accessory)
+    # Convert sets to lists
+        complementary_items_dict = {category: list(items)[:4] for category, items in complementary_items_dict.items()}
 
-        complementary_items = {category: items[:5] for category, items in complementary_items_dict.items()}
+        return complementary_items_dict
 
-        return complementary_items
     
-    
-
     def __str__(self):
         return self.itemtitle
 
