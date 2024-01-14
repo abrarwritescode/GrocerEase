@@ -73,6 +73,7 @@ class Item(SoftDelete):
             self.discount_percentage = 0
 
         super().save(*args, **kwargs)
+    
         
     def get_recommendations(self, customer):
         orders_with_current_item = OrderItem.objects.filter(
@@ -91,9 +92,35 @@ class Item(SoftDelete):
         recommended_items = recommended_items.exclude(id__in=customer_purchased_items)
 
         return recommended_items
-  
+    
+    def get_complementary_items(self):
+        # Get items in the current cart
+        cart_items = self.orderitem_set.filter(confirmed=False).select_related('product')
+
+        complementary_items_dict = {}
+
+        for cart_item in cart_items:
+            accessories = Item.objects.filter(category__in=cart_item.product.category.all()).exclude(id=cart_item.product.id)
+
+            # Group complementary items by category
+            for accessory in accessories:
+                for category in accessory.category.all():
+                    if category not in complementary_items_dict:
+                        complementary_items_dict[category] = []
+
+                    # Ensure the complementary item is not already in the cart
+                    if accessory.id not in cart_items.values_list('product_id', flat=True):
+                        complementary_items_dict[category].append(accessory)
+
+        complementary_items = {category: items[:5] for category, items in complementary_items_dict.items()}
+
+        return complementary_items
+    
+    
+
     def __str__(self):
         return self.itemtitle
+
 
 class Order(models.Model):
     customer = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True, blank=True)
@@ -145,27 +172,6 @@ class Order(models.Model):
             )
         
         cart_items.delete()
-
-    def get_complementary_items(self):
-        cart_items = self.orderitem_set.filter(confirmed=False).select_related('product')
-
-        complementary_items_dict = {}
-
-        for cart_item in cart_items:
-            accessories = Item.objects.filter(category__in=cart_item.product.category.all()).exclude(id=cart_item.product.id)
-
-            for accessory in accessories:
-                for category in accessory.category.all():
-                    if category not in complementary_items_dict:
-                        complementary_items_dict[category] = []
-
-                    if accessory.id not in cart_items.values_list('product_id', flat=True):
-                        complementary_items_dict[category].append(accessory)
-
-        complementary_items = {category: items[:1] for category, items in complementary_items_dict.items()}
-
-        return complementary_items
-
 
 
 

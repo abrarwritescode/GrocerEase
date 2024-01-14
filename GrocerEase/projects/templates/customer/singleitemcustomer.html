@@ -81,12 +81,7 @@
                   <p>
                       Seller: <a href="{% url 'selleritems' seller_id=item.seller.pk customer_id=request.session.customer_id %}">{{ item.seller.storename }}</a>
                   </p>
-                  <p>Recommended Items</p>
-<ul>
-    {% for recommended_item in recommended_items %}
-        <li>{{ recommended_item.itemtitle }} - Price: {{ recommended_item.itemprice }}</li>
-    {% endfor %}
-</ul>
+               
               </div>
           </div>
       </div>
@@ -125,6 +120,29 @@
     </form>
   </div>
   {% endif %}
+
+  <h2>Complementary Items</h2>
+  {% if complementary_items %}
+      <ul>
+          {% for category, items in complementary_items.items %}
+              <p>Category: {{ category }}</p>
+              <ul>
+                  {% for item in items %}
+                      <li>
+                          <p>Item Title: {{ item.itemtitle }}</p>
+                          <p>Price: ${{ item.itemprice }}</p>
+                          <a href="{% url 'cart' customer_id=request.session.customer_id %}?item_id={{ item.id }}" data-product="{{ item.id }}" data-action="add" class="add-btn update-cart buy-now add-to-cart d-flex justify-content-center align-items-center mx-1 {% if item.itemquantity <= 0 %}out-of-stock{% endif %}">
+                              <span><i class="fas fa-shopping-cart"></i></span>
+                          </a>
+                      </li>
+                  {% endfor %}
+              </ul>
+          {% endfor %}
+      </ul>
+  {% else %}
+      <p>No complementary items found.</p>
+  {% endif %}
+  
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
