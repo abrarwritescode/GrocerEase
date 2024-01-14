@@ -212,7 +212,7 @@ class Category(models.Model):
 class Notification(SoftDelete):
     sender = models.ForeignKey(Customer, on_delete=models.SET_NULL, null=True)
     recipient = models.ForeignKey(Seller, on_delete=models.CASCADE)
-    item = models.ForeignKey(Item, on_delete=models.CASCADE)
+   
     message = models.TextField()
     created_at = models.DateTimeField(default=timezone.now)
     is_read = models.BooleanField(default=False) 
