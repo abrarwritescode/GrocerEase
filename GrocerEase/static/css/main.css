@@ -84,6 +84,23 @@ body, html {
     bottom: 35px;
 }
 
+.navbar .orders .btnn-mylist {
+  margin: 10px;
+  height: 32px;
+  width: 81.2px;
+  border-radius: 10px;
+  border: 1px solid rgb(36, 33, 4);
+  text-decoration: none;
+  text-align: center;
+  font-size: 15px;
+  color: #042405;
+  padding-top: 1px;
+  padding: 5px;
+  margin-left: 170px;
+  position: relative;
+  bottom: 41.5px;
+}
+
 .aboutus{
     text-decoration: none;
     color: #042405;
@@ -190,6 +207,7 @@ body, html {
 
 a.boxed-btn, a.bordered-btn, a.cart-btn {
   border-radius: 50px;
+  text-decoration: none;
 }
 
 a.boxed-btn {
@@ -215,11 +233,13 @@ a.cart-btn {
   -webkit-transition: 0.3s;
   -o-transition: 0.3s;
   transition: 0.3s;
+  text-decoration: none;
 }
 
 a.cart-btn:hover {
   background-color: #042405;
   color: #F28123;
+  text-decoration: none;
 }
 
 .cart-banner {
@@ -295,14 +315,17 @@ a.cart-btn {
   background-color: #F28123;
   color: #fff;
   padding: 10px 20px;
+  text-decoration: none;
 }
 
 a.cart-btn i {
   margin-right: 5px;
+  text-decoration: none;
 }
 
 .single-product-form a.cart-btn {
   margin-bottom: 15px;
+  text-decoration: none;
 }
 
 .single-product-content h4 {
@@ -949,8 +972,8 @@ a.mobile-show.search-bar-icon:hover {
           justify-content: center;
           align-items: center;
           position: relative;
-          right: 250px;
-          top: 22px;
+          right: 230px;
+          bottom: 23px;
         }
 
           .out-of-stock {

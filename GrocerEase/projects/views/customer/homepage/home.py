@@ -2,7 +2,7 @@ from projects.imports import *
 from projects.recommendation_utils import generate_item_features, calculate_similarity, get_recommendations
 
 
-def homecustomer(request, customer_id):
+def homecustomer(request, customer_id): 
     if 'customer_id' in request.session:
         customer_id = request.session['customer_id'] 
         customer = Customer.objects.get(pk=customer_id)
@@ -35,7 +35,7 @@ def homecustomer(request, customer_id):
 
         products = Item.objects.all()
         categories = Category.objects.all()
-        sellers = Seller.objects.all()
+        sellers = Seller.objects.all() 
 
         top_rated_items = (
         Item.objects

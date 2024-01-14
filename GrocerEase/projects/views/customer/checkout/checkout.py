@@ -71,7 +71,6 @@ def checkout(request, customer_id=None):
                     fail_silently=False,
                 )
 
-            messages.success(request, 'Order placed successfully!')
             return redirect('homecustomer', customer_id=customer_id)
 
         except Exception as e:

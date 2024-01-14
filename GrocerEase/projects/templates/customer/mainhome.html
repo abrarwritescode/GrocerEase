@@ -119,7 +119,7 @@
 				<img class="logoimage" src="{% static 'pictures/logo.png' %}" alt="">	
 			</a>
         </div>
-		<div class="icons">
+		<div class="icons"> 
 
 			<a style="color: #042405;" class="shopping-cart icon" href="{% url 'cart' customer_id=request.session.customer_id %}"><i  id="cart-icon" class="fas fa-shopping-cart"></i></a>
 			<a style="color: #042405;" class="icon" href="{% url 'myfavorites' customer_id=request.session.customer_id  %}">
@@ -136,6 +136,9 @@
 
         <div class="navbtn">
 			<a href="{% url 'logoutcustomer' %}" class="btnn-signup">Logout</a>
+		</div>
+		<div class="orders">
+			<a href="{% url 'personalgrocerylist' customer_id=request.session.customer_id %}" class="btnn-mylist"><i class="fas fa-shopping-bag"></i> My Grocery List</a>
 		</div>
 		<p id="cart-total">{{cartItems}}</p>
     </header>
