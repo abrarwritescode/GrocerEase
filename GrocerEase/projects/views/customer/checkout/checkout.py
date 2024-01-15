@@ -97,21 +97,31 @@ def checkout(request, customer_id=None):
         print(vouchercode)
 
         if vouchercode:
-            try:
-                voucher = VoucherCode.objects.get(vouchercode=vouchercode)
-                updated_payment_amount = Decimal(order.get_cart_total * (1 - voucher.voucher_percentage / 100))
-                order.payment = updated_payment_amount
-                order.save()
+                try:
+                    voucher = VoucherCode.objects.get(vouchercode=vouchercode)
 
-                return JsonResponse({
-                    'valid': True,
-                    'voucher_percentage': voucher.voucher_percentage
-                })
+                    if voucher.voucher_count > 0:
+                        # Decrement the voucher count
+                        voucher.voucher_count -= 1
+                        voucher.save()
 
-            except VoucherCode.DoesNotExist:            
-                errors['voucher'] = 'Invalid voucher code.'
-                messages.error(request, errors['voucher'])
-                return JsonResponse({'valid': False, 'error_message': errors['voucher']})
+                        updated_payment_amount = Decimal(order.get_cart_total * (1 - voucher.voucher_percentage / 100))
+                        order.payment = updated_payment_amount
+                        order.save()
+
+                        return JsonResponse({
+                            'valid': True,
+                            'voucher_percentage': voucher.voucher_percentage
+                        })
+                    else:
+                        errors['voucher'] = 'Voucher limit exceeded.'
+                        messages.error(request, errors['voucher'])
+                        return JsonResponse({'valid': False, 'error_message': errors['voucher']})
+
+                except VoucherCode.DoesNotExist:
+                    errors['voucher'] = 'Invalid voucher code.'
+                    messages.error(request, errors['voucher'])
+                    return JsonResponse({'valid': False, 'error_message': errors['voucher']})
 
     return render(request, 'customer/checkout.html', context)
 
@@ -120,28 +130,34 @@ class SaveUpdatedPriceView(View):
     def post(self, request, *args, **kwargs):
         order_id = request.POST.get('order_id')
         updated_price = request.POST.get('updated_price')
+        voucher_code = request.POST.get('voucher_code')
+        errors = {}  
         
+        if voucher_code:
+            try:
+                voucher = VoucherCode.objects.get(vouchercode=voucher_code)
+                    
+                if voucher.voucher_count > 0:
+                    voucher.voucher_count -= 1
+                    voucher.save()
+                else:
+                        errors['voucher'] = 'Voucher limit exceeded.'
+                        messages.error(request, errors['voucher'])
+                        return JsonResponse({'valid': False, 'error_message': errors['voucher']})
+
+            except VoucherCode.DoesNotExist:
+                    errors['voucher'] = 'Invalid voucher code.'
+                    messages.error(request, errors['voucher'])
+                    return JsonResponse({'valid': False, 'error_message': errors['voucher']})
+            
         try:
             order = Order.objects.get(id=order_id)
 
             updated_price_decimal = Decimal(updated_price) if updated_price else Decimal('0.00')
-            print(updated_price_decimal)
 
-            if updated_price_decimal > order.payment:
-                order.payment = updated_price_decimal
-                order.save()
-                print(updated_price_decimal)
-                print(order.payment)
-            elif updated_price_decimal == order.payment:
-                order.payment = updated_price_decimal
-                order.save()
-                print(updated_price_decimal)
-                print(order.payment)
-            else:
-                order.payment = updated_price_decimal
-                order.save()
-                print(order.payment)
-                
+            order.payment = updated_price_decimal
+            order.save()
+
             return JsonResponse({'success': True})
         except Order.DoesNotExist:
             return JsonResponse({'success': False, 'error_message': 'Order not found'})

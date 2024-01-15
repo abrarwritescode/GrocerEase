@@ -32,12 +32,10 @@
                     </thead>
                     <tbody>
                         {% for item in personal_list %}
+                        {% if item.itemquantity != 0 %}
                         <tr class="text-center">
                         
                         <td class="image-prod">
-                                            {% if item.itemquantity == 0 %}
-                                            <span class="exceeds-stock">Out of Stock</span>                                               
-                                            {% endif %}                                            
                             <img style="height: 60px; width: 60px;" class="img" src="{{ item.itemfeaturedimage.url }}" alt="">
                         </td>
                        
@@ -55,6 +53,8 @@
                             </div>
                         </td>
                       </tr>
+                      {% endif %}                                            
+
                       {% endfor %}
 
                       

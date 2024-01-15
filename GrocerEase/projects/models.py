@@ -1,3 +1,4 @@
+from itertools import count
 from django.db import models
 from django.db.models.query import QuerySet
 from django.utils import timezone
@@ -116,6 +117,21 @@ class Item(SoftDelete):
         complementary_items_dict = {category: list(items)[:4] for category, items in complementary_items_dict.items()}
 
         return complementary_items_dict
+    
+    def frequently_bought_products(self, customer):
+        # Get orders with the current item
+        orders_with_current_item = OrderItem.objects.filter(
+            product=self,
+            confirmed=True,
+        ).values_list('order', flat=True)
+
+        # Get other products frequently bought with the current item
+        frequently_bought_items = Item.objects.filter(
+            orderitem__order__in=orders_with_current_item,
+            orderitem__order__status='Delivered',  # Change status as needed
+        ).exclude(id=self.id).annotate(frequency=count('id')).order_by('-frequency')[:5]
+
+        return frequently_bought_items
 
     
     def __str__(self):
@@ -178,6 +194,7 @@ class Order(models.Model):
 class VoucherCode(models.Model):
     vouchercode = models.CharField(max_length=200, unique=True)
     voucher_percentage = models.DecimalField(max_digits=5, decimal_places=2, default=0.0, blank=True)
+    voucher_count = models.PositiveIntegerField(default=1)  
 
     def __str__(self):
         return self.vouchercode
