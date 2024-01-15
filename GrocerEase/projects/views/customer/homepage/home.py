@@ -28,6 +28,16 @@ def homecustomer(request, customer_id):
         .order_by('-avg_rating')[:8]
         )
 
+        most_bought_items = customer.get_most_bought_items(num_items=2)
+        print(1)
+        print(2)
+        print(most_bought_items)
+
+        most_bought_items_by_count = customer.get_most_bought_items_by_count(num_items=2)
+        print(1)
+        print(2)
+        print(most_bought_items_by_count)
+
         recently_viewed_item_ids = request.session.get('recently_viewed', [])
         recently_viewed_items = Item.objects.filter(id__in=recently_viewed_item_ids)
 
@@ -54,6 +64,8 @@ def homecustomer(request, customer_id):
             'similar_items': similar_items,
             'top_rated_items': top_rated_items,
             'combined_items': combined_items,
+            'most_bought_items': most_bought_items,
+            'most_bought_items_by_count': most_bought_items_by_count,
         }
 
         return render(request, 'customer/homecustomer.html', context)

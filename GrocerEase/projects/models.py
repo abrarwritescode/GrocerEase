@@ -31,6 +31,49 @@ class Customer(models.Model):
     is_verified = models.BooleanField(default=False) 
     customerimage = models.ImageField(null=True, blank=True, default="user-default.png")
 
+    def get_most_bought_items(self, num_items=2):
+        
+        customer_orders = Order.objects.filter(customer=self, is_cart=False)
+
+        
+        order_items = OrderItem.objects.filter(order__in=customer_orders).select_related('product')
+
+        item_quantities = {}
+
+        for order_item in order_items:
+            if order_item.product.id not in item_quantities:
+                item_quantities[order_item.product.id] = {'item': order_item.product, 'total_quantity': 0}
+
+            item_quantities[order_item.product.id]['total_quantity'] += order_item.quantity
+
+    
+        sorted_items = sorted(item_quantities.values(), key=lambda x: x['total_quantity'], reverse=True)
+
+        most_bought_items = sorted_items[:num_items]
+
+        return most_bought_items
+    
+    def get_most_bought_items_by_count(self, num_items=2):
+        customer_orders = Order.objects.filter(customer=self, is_cart=False)
+
+        order_items = OrderItem.objects.filter(order__in=customer_orders).select_related('product')
+
+        item_counts = {}
+
+      
+        for order_item in order_items:
+            item_id = order_item.product.id
+            if item_id not in item_counts:
+                item_counts[item_id] = {'item': order_item.product, 'count': 0}
+
+            item_counts[item_id]['count'] += 1  
+
+        sorted_items = sorted(item_counts.values(), key=lambda x: x['count'], reverse=True)
+
+        most_bought_items_by_count = sorted_items[:num_items]
+
+        return most_bought_items_by_count
+    
     def __str__(self):
         return f"{self.id} - {self.customername}"
 
