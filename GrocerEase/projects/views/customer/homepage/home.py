@@ -48,7 +48,6 @@ def homecustomer(request, customer_id):
 
         recently_viewed_categories = Item.objects.filter(id__in=recently_viewed_item_ids).values_list('category', flat=True)
 
-
         similar_items = Item.objects.filter(category__in=recently_viewed_categories).exclude(id__in=recently_viewed_item_ids).distinct()[:4]
 
         combined_items = recently_added_items | top_rated_items

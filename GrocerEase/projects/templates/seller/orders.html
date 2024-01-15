@@ -153,6 +153,12 @@ h1 {
     margin-left: 50px;
 }
 
+.action-buttons input[type="submit"].cancel {
+    background-color: red;
+    color: #fff;
+    margin-left: 25px;
+}
+
 .action-buttons input[type="submit"]:hover {
     opacity: 0.8;
 }
@@ -266,6 +272,10 @@ h1 {
                                     <input type="hidden" name="order_id" value="{{ order_info.order.id }}">
                                     <input type="hidden" name="action" value="MARK_SHIPPED">  
                                     <input type="submit" value="MARK SHIPPED" class="btn markshipped button" name="accept">
+
+                                    <input type="hidden" name="order_id" value="{{ order_info.order.id }}">
+                                    <input type="hidden" name="action1" value="CANCEL">  
+                                    <input type="submit" value="CANCEL" class="btn cancel button" name="accept">
                                 </form>                
                             </td>
                         {% elif order_info.order.status == 'Shipped' %}
@@ -278,6 +288,12 @@ h1 {
                             <td>
                                 <form action="#" class="action-buttons">
                                     <input type="submit" value="DELIVERED" class="btn delivered button" name="accept">
+                                </form>                
+                            </td>
+                        {% elif order_info.order.status == 'Cancelled' %}
+                            <td>
+                                <form action="#" class="action-buttons">
+                                    <input type="submit" value="ORDER CANCELLED" class="btn cancel button" name="accept">
                                 </form>                
                             </td>
                         {% endif %}

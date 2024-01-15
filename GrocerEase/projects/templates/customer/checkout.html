@@ -3,7 +3,6 @@
 {% block content %}
 
 <style>
-    /* Add these styles to your CSS file or template */
 .messages {
     padding: 10px;
     margin: 20px 0;
@@ -14,9 +13,13 @@
 .error-message {
     color: #ff0000;
 }
+
+.voucher-applied{
+  font-size: 15px;
+}
 </style>
 
-<div style="height: 150vh; position: relative; top: 100px;">
+<div style="height: 180vh; position: relative; top: 100px;">
     <div class="section-title">
         <h2>Checkout</h2>
     </div>
@@ -79,7 +82,13 @@
                 <div class="col-lg-4">
                     <div class="order-details-wrap">
                         <table class="order-details">
-							<thead>
+							<thead>{% if messages %}
+                                <div class="messages">
+                                  {% for message in messages %}
+                                    <p {% if message.tags %} class="{{ message.tags }}-message"{% endif %}>{{ message }}</p>
+                                  {% endfor %}
+                                </div>
+                              {% endif %}
                                 <tr>
                                     <th>Order Details</th>
                                     <th>Quantity</th>
@@ -107,10 +116,25 @@
                                     <td id="total-amount">BDT {{order.get_cart_total|floatformat:2}}</td>
                                 </tr>
                                 <tr>
+
+                                    {% if order.payment == 0.00 %}
                                     <td>Enter voucher:</td>
                                     <td><input id="vouchercode" name="vouchercode" type="text" placeholder="Enter voucher code">
                                     </td>
                                     <td><button class="voucherbtn" type="button" id="applyVoucherBtn">Apply Voucher</button></td>
+                                    {% elif order.payment == order.get_cart_total %}
+                                    <td>Enter voucher:</td>
+                                    <td><input id="vouchercode" name="vouchercode" type="text" placeholder="Enter voucher code">
+                                    </td>
+                                    <td><button class="voucherbtn" type="button" id="applyVoucherBtn">Apply Voucher</button></td>
+                                    {% else %}
+                                    <td>Enter voucher:</td>
+                                    <td><input id="vouchercode" name="vouchercode" type="text" placeholder="Enter voucher code">
+                                    </td>
+                                    <td><button class="voucherbtn" type="button" id="applyVoucherBtn">Remove Voucher</button></td>
+                                    {% endif %}
+
+                                    
                                 </tr>
                                 <tr>
                                     <td><b>Total</b></td>
@@ -122,7 +146,7 @@
                                     <td>No Voucher Applied</td>
                                     {% else %}
                                     <td><b>BDT {{ order.payment }}</b></td>
-                                    <td>Voucher Applied</td>
+                                    <td class="voucher-applied"><b><i style="color: rgb(9, 111, 9);" class="fa-solid fa-check"></i> Voucher Applied</b></td>
                                     {% endif %}
                                 </tr>
                             </tbody></form>
@@ -183,6 +207,12 @@
                     $('#total-amount').text('BDT ' + discountedTotal.toFixed(2));
                     $('#updated-payment-amount').val(discountedTotal.toFixed(2));
 
+                    var voucher_count = data.voucher_count;
+
+                    if (voucher_count === 0) {
+                        location.reload();
+                    }
+
                     saveUpdatedPriceToDatabase(discountedTotal.toFixed(2));
                 } else {
                     console.log('Invalid voucher. Payment not saved.');
@@ -195,40 +225,45 @@
         $('#total-amount').text('BDT ' + originalAmount);
         $('#updated-payment-amount').val(originalAmount);
 
+        var errorMessage = 'Voucher limit exceeded.';
+        $('#voucher-error-message').text(errorMessage);
+
         saveUpdatedPriceToDatabase(originalAmount);
         location.reload();
+        
     }
 });
 
-    function saveUpdatedPriceToDatabase(updatedPrice) {
-    var voucherCode = $('#vouchercode').val();
+function saveUpdatedPriceToDatabase(updatedPrice) {
+        var voucherCode = $('#vouchercode').val();
 
-    if (!voucherCode) {
-        updatedPrice = parseFloat('{{ order.get_cart_total }}').toFixed(2);
-    }
-
-    $.ajax({
-        url: '{% url "save_updated_price" %}',
-        method: 'POST',
-        data: {
-            'csrfmiddlewaretoken': '{{ csrf_token }}',
-            'order_id': '{{ order.id }}',
-            'updated_price': updatedPrice
-        },
-        dataType: 'json',
-        success: function (saveData) {
-            if (saveData.success) {
-                console.log('Updated price saved to the database:', saveData);
-                location.reload();
-            } else {
-                console.error('Failed to save updated price to the database:', saveData.error_message);
-            } 
-        },
-        error: function (error) {
-            console.error('Error saving updated price to the database:', error);
+        if (!voucherCode) {
+            updatedPrice = parseFloat('{{ order.get_cart_total }}').toFixed(2);
         }
-    });
-}
+
+        $.ajax({
+            url: '{% url "save_updated_price" %}',
+            method: 'POST',
+            data: {
+                'csrfmiddlewaretoken': '{{ csrf_token }}',
+                'order_id': '{{ order.id }}',
+                'updated_price': updatedPrice,
+                'voucher_code': voucherCode  
+            },
+            dataType: 'json',
+            success: function (saveData) {
+                if (saveData.success) {
+                    console.log('Updated price and voucher saved to the database:', saveData);
+                    location.reload();
+                } else {
+                    console.error('Failed to save updated price and voucher to the database:', saveData.error_message);
+                } 
+            },
+            error: function (error) {
+                console.error('Error saving updated price and voucher to the database:', error);
+            }
+        });
+    }
 
 </script>
    

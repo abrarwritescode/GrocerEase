@@ -5,6 +5,7 @@ def vieworders(request, seller_id):
     if request.method == 'POST':
         order_id = request.POST.get('order_id')
         action = request.POST.get('action')
+        action1 = request.POST.get('action1')
 
         if order_id and action in ['MARK_SHIPPED', 'ANOTHER_ACTION']:  
             order = Order.objects.get(id=order_id)
@@ -13,9 +14,16 @@ def vieworders(request, seller_id):
                 order.status = 'Shipped'
                 order.save()
 
+        if order_id and action1 in ['ANOTHER_ACTION', 'CANCEL']:  
+            order = Order.objects.get(id=order_id)
+
+            if action1 == 'CANCEL':
+                order.status = 'Cancelled'
+                order.save()
+
     seller_orders = OrderItem.objects.filter(
         product__seller_id=seller_id,
-        order__status__in=['Processing', 'Shipped', 'Delivered']
+        order__status__in=['Processing', 'Shipped', 'Delivered', 'Cancelled']
     ).select_related('product', 'order__customer')
 
     order_data = {}
