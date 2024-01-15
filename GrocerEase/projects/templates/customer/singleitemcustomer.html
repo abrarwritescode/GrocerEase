@@ -192,9 +192,10 @@
           <span style="color: #F28123;">&#9733;&#9733;&#9733;&#9733;&#9733;</span> {{rating5}}
         </div>
       </div>
-      {% else %} No reviews yet {% endif %}
+      {% else %} <p style="position: relative; top: 100px; right: 400px;">No reviews yet</p> {% endif %}
     </div>
   
+    {% if average_rating %}
     {% if not customer_has_reviewed %}
     <div class="review-form">
       <h3>Review Here</h3>
@@ -217,6 +218,29 @@
     {% else %}
     <h4 class="already">You have already reviewed this item <i style="color: #F28123;" class="fa-duotone fa-exclamation"></i></h4>
     {% endif %} 
+    {% else %}
+    
+    <div style="position: relative; top: 120px;" class="review-form">
+      <h3>Review Here</h3>
+      <form method="post" action="{% url 'submit_review' item.id %}">
+        {% csrf_token %}
+        <label for="id_rating">Rating:</label>
+        <div class="star-rating">
+          <input type="hidden" name="rating" class="star-input" value="0" />
+          <label for="star5" title="5 stars" data-value="1">&#9733;</label>
+          <label for="star4" title="4 stars" data-value="2">&#9733;</label>
+          <label for="star3" title="3 stars" data-value="3">&#9733;</label>
+          <label for="star2" title="2 stars" data-value="4">&#9733;</label>
+          <label for="star1" title="1 star" data-value="5">&#9733;</label>
+        </div>
+        <!-- Comment input -->
+        {{ review_form.comment.label_tag }} {{ review_form.comment }}
+        <button class="reviewbtn" type="submit">Submit Review</button>
+      </form>
+    </div>
+
+    {% endif %} 
+
   
 </div>
   
