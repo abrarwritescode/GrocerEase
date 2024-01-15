@@ -17,7 +17,7 @@ def vieworders(request, seller_id):
         if order_id and action1 in ['ANOTHER_ACTION', 'CANCEL']:  
             order = Order.objects.get(id=order_id)
 
-            if action == 'CANCEL':
+            if action1 == 'CANCEL':
                 order.status = 'Cancelled'
                 order.save()
 
