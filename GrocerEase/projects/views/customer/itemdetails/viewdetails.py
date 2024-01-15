@@ -3,7 +3,9 @@ from django.db.models import Avg
 
 from django.shortcuts import render, redirect
 from projects.forms import ReviewForm
+from django.views.decorators.cache import cache_control
 
+@cache_control(no_cache=True, must_revalidate=True,no_store=True)
 def submit_review(request, item_id):
     if request.method == 'POST':
         form = ReviewForm(request.POST)
@@ -21,8 +23,10 @@ def submit_review(request, item_id):
             comment = form.cleaned_data['comment']
             Review.objects.create(item=item, customer=customer, rating=rating, comment=comment)
     return redirect('singleitemcustomer', pk=item_id,  customer_id=request.session['customer_id'])
-
+@cache_control(no_cache=True, must_revalidate=True,no_store=True)
 def item_details_with_reviews(request, pk, customer_id):
+    if 'sessionid' not in request.COOKIES:
+        return redirect('home')   
     if 'customer_id' in request.session:
         customer_id = request.session['customer_id']
         customer = Customer.objects.get(pk=customer_id)
@@ -45,6 +49,23 @@ def item_details_with_reviews(request, pk, customer_id):
     average_rating = reviews.aggregate(Avg('rating'))['rating__avg'] or 0
     
     average_rating = round(average_rating, 2)
+
+    rating1=0
+    rating2=0
+    rating3=0
+    rating4=0
+    rating5=0
+    for review in reviews:
+        if (review.rating==1):
+            rating1+=1
+        if (review.rating==2):
+            rating2+=1
+        if (review.rating==3):
+            rating3+=1
+        if (review.rating==4):
+            rating4+=1
+        if (review.rating==5):
+            rating5+=1
 
     recently_viewed = request.session.get('recently_viewed', [])
     if pk not in recently_viewed:
@@ -75,5 +96,10 @@ def item_details_with_reviews(request, pk, customer_id):
         'average_rating': average_rating,
         'customer_has_reviewed': customer_has_reviewed, 
         'complementary_items': complementary_items,
+        'rating1':rating1,
+        'rating2':rating2,
+        'rating3':rating3,
+        'rating4':rating4,
+        'rating5':rating5,
         
     })

@@ -1,8 +1,12 @@
 from projects.imports import *
 from decimal import Decimal
 from django.http import JsonResponse
- 
+from django.views.decorators.cache import cache_control
+
+@cache_control(no_cache=True, must_revalidate=True,no_store=True)
 def checkout(request, customer_id=None):
+    if 'sessionid' not in request.COOKIES:
+        return redirect('home')
     if customer_id is None:
         customer_id = request.session.get('customer_id')
 
