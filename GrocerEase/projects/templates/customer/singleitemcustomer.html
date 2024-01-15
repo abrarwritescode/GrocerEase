@@ -1,5 +1,4 @@
 {% extends 'customer/navbarcustomer.html' %}
-<!-- -->
 {% load static %} {% block content%}
 
 <div style="height: 75vh">
@@ -8,37 +7,84 @@
   </div>
 
   <style>
-    .single-product .review-form {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin-top: 50px;
-      padding: 20px;
-      border: 1px solid #ccc;
+    
+    .rateandreview{
+      position: relative;
+      top: 100px;
+      height: 90vh;
+      margin-bottom: 100px;
     }
-
-    .single-product .reviews {
-      margin-top: 50px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
+    .average-rating{
+      position: relative;
+      left: 1000px;
+      top: 50px;
     }
-
-    .single-product .reviews h3 {
-      font-size: 24px;
-      margin-bottom: 20px;
+    .review-form{
+      position: relative;
+      left: 80px;
+      width: 420px;
+      bottom: 120px;  
+      border: 3px solid #f2802353;
+      padding: 10px;
+      border-radius: 10px;
     }
-
-    .single-product .reviews .review-box {
-      padding: 20px;
-      border: 1px solid #eaeaea;
+    .star-rating-input{
+      position: relative;
+      left: 100px;
+    }
+    .commentform{
+      height: 40px;
       border-radius: 5px;
-      background-color: #f9f9f9;
-      max-width: 80%;
-      text-align: center;
-      margin-bottom: 20px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      width:380px ;
+    }
+    .reviewbtn{
+  font-family: 'Poppins', sans-serif;
+  display: inline-block;
+  background-color: #F28123;
+  color: #fff;
+  padding: 7px 14px;
+  text-decoration: none;
+  border: 0;
+  border-radius: 10px;
+    }
+
+    .allcomment{
+        display: flex;
+        align-items: center;
+        border-radius: 5px;
+        width: 30%;
+        margin-top: 10px;
+        background-color: rgb(240, 240, 240);
+        position: relative;
+      top: 165px;
+      left: 550px;
+      border: 3px solid #f2802356;
+    }
+    .userimage img{
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        margin-right: 20px;
+    }
+    .comment-details .name, .comment-details .comment{
+        margin: 5px;
+        position: relative;
+        bottom: 20px;
+    }
+
+    .comment-details .date{
+        position: relative;
+        left: 115px;
+        font-size: 12px;
+        top: 70px;
+    }
+
+    .already{
+      font-size: 22px;
+      color: rgb(42, 40, 40);
+      margin-left: 70px;
+      position: relative;
+      bottom: 70px;
     }
   </style>
 
@@ -88,31 +134,10 @@
             </p>
             {% endif %}
             <div class="single-product-form">
-              <a
-                href="{% url 'cart' customer_id=request.session.customer_id %}"
-                data-product="{{ item.id }}"
-                data-action="add"
-                class="cart-btn update-cart add-to-cart"
-                ><i class="fas fa-shopping-cart"></i> Add to Cart</a
-              >
+              
               {% for category in categorys %}
               <p><strong>Categories: </strong>{{ category }}</p>
               {% endfor %}
-              <div class="average-rating">
-                {% if average_rating %} Average Rating: {{ average_rating }}/5
-                <div>
-                  <div><span>&#9733;</span> {{ rating1 }}</div>
-                  <div><span>&#9733;&#9733;</span> {{ rating2 }}</div>
-                  <div><span>&#9733;&#9733;&#9733;</span> {{ rating3 }}</div>
-                  <div>
-                    <span>&#9733;&#9733;&#9733;&#9733;</span> {{ rating4 }}
-                  </div>
-                  <div>
-                    <span>&#9733;&#9733;&#9733;&#9733;&#9733;</span> {{rating5}}
-                  </div>
-                </div>
-                {% else %} No reviews yet {% endif %}
-              </div>
             </div>
             <p>
               Seller:
@@ -121,6 +146,13 @@
                 >{{ item.seller.storename }}</a
               >
             </p>
+            <a style="position: relative; top: 30px;"
+                href="{% url 'cart' customer_id=request.session.customer_id %}"
+                data-product="{{ item.id }}"
+                data-action="add"
+                class="cart-btn update-cart add-to-cart"
+                ><i class="fas fa-shopping-cart"></i> Add to Cart</a
+              >
           </div>
         </div>
       </div>
@@ -128,44 +160,73 @@
   </div>
 </div>
 
-<div class="single-product mt-150 mb-150">
-  <div class="reviews">
-    <h3>Reviews</h3>
-    {% for review in reviews %}
-    <p>{{ review.customer.customername }} rated it {{ review.rating }}/5</p>
-    <p>{{ review.comment }}</p>
-    <p>{{ review.created_at }}</p>
-    {% endfor %}
-  </div>
+<div class="rateandreview">
 
-  <!-- Review form -->
-  {% if not customer_has_reviewed %}
-  <div class="review-form">
-    <h3>Add a Review</h3>
-    <form method="post" action="{% url 'submit_review' item.id %}">
-      {% csrf_token %}
-      <label for="id_rating">Rating:</label>
-      <div class="star-rating">
-        <input type="hidden" name="rating" class="star-input" value="0" />
-        <label for="star5" title="5 stars" data-value="1">&#9733;</label>
-        <label for="star4" title="4 stars" data-value="2">&#9733;</label>
-        <label for="star3" title="3 stars" data-value="3">&#9733;</label>
-        <label for="star2" title="2 stars" data-value="4">&#9733;</label>
-        <label for="star1" title="1 star" data-value="5">&#9733;</label>
-      </div>
-      <!-- Comment input -->
-      {{ review_form.comment.label_tag }} {{ review_form.comment }}
-      <button type="submit" style="margin-top: 10px">Submit Review</button>
-    </form>
+  <div style="position: relative; top: 120px;" class="section-title"> 
+    <h2 class="mb-4">Rating & Reviews:</h2>
   </div>
-  {% endif %} {% if complementary_items %}
+  
+  {% for review in reviews %}
+  <div class="allcomment">
+    <div class="userimage">
+        <img src="{{ review.customer.customerimage.url }}" alt="">
+    </div>
+    <div class="comment-details">
+        <p class="date">{{ review.created_at }}</p>
+        <p class="name">User {{ review.customer.customername }} rated it {{ review.rating }}/5 </p>
+        <p class="comment"><b>Comment:</b> {{ review.comment }}</p>
+    </div>
+  </div>
+  {% endfor %}
+  
+    <div class="average-rating">
+      {% if average_rating %} <h5>Average Rating:</h5> <b>{{ average_rating }}/5</b>
+      <div>
+        <div><span style="color: #F28123;">&#9733;</span> {{ rating1 }}</div>
+        <div><span style="color: #F28123;">&#9733;&#9733;</span> {{ rating2 }}</div>
+        <div><span style="color: #F28123;">&#9733;&#9733;&#9733;</span> {{ rating3 }}</div>
+        <div>
+          <span style="color: #F28123;">&#9733;&#9733;&#9733;&#9733;</span> {{ rating4 }}
+        </div>
+        <div>
+          <span style="color: #F28123;">&#9733;&#9733;&#9733;&#9733;&#9733;</span> {{rating5}}
+        </div>
+      </div>
+      {% else %} No reviews yet {% endif %}
+    </div>
+  
+    {% if not customer_has_reviewed %}
+    <div class="review-form">
+      <h3>Review Here</h3>
+      <form method="post" action="{% url 'submit_review' item.id %}">
+        {% csrf_token %}
+        <label for="id_rating">Rating:</label>
+        <div class="star-rating">
+          <input type="hidden" name="rating" class="star-input" value="0" />
+          <label for="star5" title="5 stars" data-value="1">&#9733;</label>
+          <label for="star4" title="4 stars" data-value="2">&#9733;</label>
+          <label for="star3" title="3 stars" data-value="3">&#9733;</label>
+          <label for="star2" title="2 stars" data-value="4">&#9733;</label>
+          <label for="star1" title="1 star" data-value="5">&#9733;</label>
+        </div>
+        <!-- Comment input -->
+        {{ review_form.comment.label_tag }} {{ review_form.comment }}
+        <button class="reviewbtn" type="submit">Submit Review</button>
+      </form>
+    </div>
+    {% else %}
+    <h4 class="already">You have already reviewed this item <i style="color: #F28123;" class="fa-duotone fa-exclamation"></i></h4>
+    {% endif %} 
+  
+</div>
+  
+{% if complementary_items %}
   <div style="position: relative" class="section-title">
     <h2 class="mb-4">Similar Items</h2>
   </div>
 
   <div style="justify-content: center; align-items: center" class="row main">
     {% for category, items in complementary_items.items %}
-    <!--   -->
     {% for item in items %}
     <div class="col-md-6 col-lg-3 ftco-animate">
       <div class="product">

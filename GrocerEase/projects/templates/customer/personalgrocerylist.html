@@ -26,7 +26,7 @@
                         <th>Product Image</th>
                         <th>Product Name</th>
                         <th>Price</th>
-                        <th>Description</th>
+                        <th>Seller</th>
                         <th>Add to cart</th>
                       </tr>
                     </thead>
@@ -36,16 +36,18 @@
                         <tr class="text-center">
                         
                         <td class="image-prod">
-                            <img style="height: 60px; width: 60px;" class="img" src="{{ item.itemfeaturedimage.url }}" alt="">
+                            <a href="{% url 'singleitemcustomer' pk=item.id customer_id=request.session.customer_id %}"><img style="height: 60px; width: 60px;" class="img" src="{{ item.itemfeaturedimage.url }}" alt="">
+                            </a>
                         </td>
                        
                         <td class="product-name">
-                            <h6>{{item.itemtitle}}</h>
+                            <h6>{{item.itemtitle}}</h6>
+                                <p>{{item.itemdescription}}</p>
                         </td>
                         
                         <td class="price">BDT {{item.itemprice}}</td>
 
-                        <td class="price">{{item.itemdescription}}</td>
+                        <td class="price">{{item.seller}}</td>
                                                 
                         <td class="total">
                             <div class="single-product-form">
