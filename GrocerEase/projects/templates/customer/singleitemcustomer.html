@@ -3,9 +3,9 @@
 {% load static %} {% block content%}
 
 <div style="height: 75vh">
-  <div style="position: relative; top: 90px;" class="section-title">
+  <div style="position: relative; top: 90px" class="section-title">
     <h2>Item: {{ item.itemtitle }}</h2>
-</div>
+  </div>
 
   <style>
     .single-product .review-form {
@@ -42,55 +42,97 @@
     }
   </style>
 
-<div style="position: relative; top: 140px;" class="single-product mt-150 mb-150">
-  <div class="container">
+  <div
+    style="position: relative; top: 140px"
+    class="single-product mt-150 mb-150"
+  >
+    <div class="container">
       <div class="row">
-          <div class="col-md-5">
-              <div class="single-product-img">
-                  <div class="product-image-container">
-                      <a href="#" class="img-prod">
-                          <img class="img-fluid" src="{{ item.itemfeaturedimage.url }}" alt="">
+        <div class="col-md-5">
+          <div class="single-product-img">
+            <div class="product-image-container">
+              <a href="#" class="img-prod">
+                <img
+                  class="img-fluid"
+                  src="{{ item.itemfeaturedimage.url }}"
+                  alt=""
+                />
                 {% if item.discount_percentage > 0 %}
-                  <span class="discount-label">BDT {{item.discounted_price}} on {{item.discount_percentage}}% sale</span>
+                <span class="discount-label"
+                  >BDT {{item.discounted_price}} on
+                  {{item.discount_percentage}}% sale</span
+                >
+                {% endif %} {% if item.itemquantity <= 0 %}
+                <span class="out-of-stock-label">Out of Stock</span>
                 {% endif %}
-      
-        {% if item.itemquantity <= 0 %}
-        <span class="out-of-stock-label">Out of Stock</span>
-        {% endif %}
-                      </a>
-                  </div>
-              </div>
+              </a>
+            </div>
           </div>
-          <div class="col-md-7">
-              <div style="position: relative; top: 25px;" class="single-product-content">
-                        <h3>Description: {{ item.itemdescription }}</h3> 
-                  {% if item.discount_percentage > 0 %} 
-      <p class="single-product-pricing"><span style="text-decoration: line-through;">BDT {{item.original_price}}</span>  BDT {{item.discounted_price}}</p>
-      {% else %}
-      <p class="single-product-pricing"><span>BDT {{item.itemprice}}</span></p>
-      {% endif %}					
-                  <div class="single-product-form">
-                      <a href="{% url 'cart' customer_id=request.session.customer_id %}" data-product="{{ item.id }}" data-action="add" class="cart-btn update-cart add-to-cart"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
-                      {% for category in categorys %}
-                      <p><strong>Categories: </strong>{{ category }}</p>
-                      {% endfor %}
+        </div>
+        <div class="col-md-7">
+          <div
+            style="position: relative; top: 25px"
+            class="single-product-content"
+          >
+            <h3>Description: {{ item.itemdescription }}</h3>
+            {% if item.discount_percentage > 0 %}
+            <p class="single-product-pricing">
+              <span style="text-decoration: line-through"
+                >BDT {{item.original_price}}</span
+              >
+              BDT {{item.discounted_price}}
+            </p>
+            {% else %}
+            <p class="single-product-pricing">
+              <span>BDT {{item.itemprice}}</span>
+            </p>
+            {% endif %}
+            <div class="single-product-form">
+              <a
+                href="{% url 'cart' customer_id=request.session.customer_id %}"
+                data-product="{{ item.id }}"
+                data-action="add"
+                class="cart-btn update-cart add-to-cart"
+                ><i class="fas fa-shopping-cart"></i> Add to Cart</a
+              >
+              {% for category in categorys %}
+              <p><strong>Categories: </strong>{{ category }}</p>
+              {% endfor %}
+              <div class="average-rating">
+                {% if average_rating %} Average Rating: {{ average_rating }}/5
+                <div>
+                  <div><span>&#9733;</span> {{ rating1 }}</div>
+                  <div><span>&#9733;&#9733;</span> {{ rating2 }}</div>
+                  <div><span>&#9733;&#9733;&#9733;</span> {{ rating3 }}</div>
+                  <div>
+                    <span>&#9733;&#9733;&#9733;&#9733;</span> {{ rating4 }}
                   </div>
-                  <p>
-                      Seller: <a href="{% url 'selleritems' seller_id=item.seller.pk customer_id=request.session.customer_id %}">{{ item.seller.storename }}</a>
-                  </p>
-               
+                  <div>
+                    <span>&#9733;&#9733;&#9733;&#9733;&#9733;</span> {{rating5}}
+                  </div>
+                </div>
+                {% else %} No reviews yet {% endif %}
               </div>
+            </div>
+            <p>
+              Seller:
+              <a
+                href="{% url 'selleritems' seller_id=item.seller.pk customer_id=request.session.customer_id %}"
+                >{{ item.seller.storename }}</a
+              >
+            </p>
           </div>
+        </div>
       </div>
+    </div>
   </div>
-</div>
 </div>
 
 <div class="single-product mt-150 mb-150">
   <div class="reviews">
     <h3>Reviews</h3>
     {% for review in reviews %}
-    <p>{{ review.customer }} rated it {{ review.rating }}/5</p>
+    <p>{{ review.customer.customername }} rated it {{ review.rating }}/5</p>
     <p>{{ review.comment }}</p>
     <p>{{ review.created_at }}</p>
     {% endfor %}
@@ -116,63 +158,80 @@
       <button type="submit" style="margin-top: 10px">Submit Review</button>
     </form>
   </div>
+  {% endif %} {% if complementary_items %}
+  <div style="position: relative" class="section-title">
+    <h2 class="mb-4">Similar Items</h2>
+  </div>
+
+  <div style="justify-content: center; align-items: center" class="row main">
+    {% for category, items in complementary_items.items %}
+    <!--   -->
+    {% for item in items %}
+    <div class="col-md-6 col-lg-3 ftco-animate">
+      <div class="product">
+        <a href="#" class="img-prod"
+          ><img class="img-fluid" src="{{ item.itemfeaturedimage.url }}" alt=""
+        /></a>
+        <div class="overlay"></div>
+        {% if item.itemquantity <= 0 %}
+        <span class="out-of-stock-label">Out of Stock</span>
+        {% endif %} {% if item.discount_percentage > 0 %}
+        <span class="discount-label"
+          >BDT {{item.discounted_price}} on {{item.discount_percentage}}%
+          sale</span
+        >
+        {% endif %}
+        <div class="text py-3 pb-4 px-3 text-center">
+          <h3><strong>{{item.itemtitle}}</strong></h3>
+
+          <div class="d-flex">
+            <div class="pricing">
+              {% if item.discount_percentage > 0 %}
+              <p class="price">
+                <span class="price-sale" style="text-decoration: line-through"
+                  >BDT {{item.original_price}}</span
+                >
+              </p>
+              {% else %}
+              <p class="price">
+                <span class="price-sale">BDT {{item.itemprice}}</span>
+              </p>
+              {% endif %}
+            </div>
+          </div>
+          <div class="bottom-area d-flex px-3">
+            <div class="m-auto d-flex">
+              <a
+                href="{% url 'singleitemcustomer' pk=item.id customer_id=request.session.customer_id %}"
+                class="add-to-cart d-flex justify-content-center align-items-center text-center"
+              >
+                <span><i class="fas fa-bars"></i> </span>
+              </a>
+              <a
+                href="{% url 'cart' customer_id=request.session.customer_id %}"
+                data-product="{{item.id}}"
+                data-action="add"
+                class="add-btn update-cart buy-now add-to-cart d-flex justify-content-center align-items-center mx-1 {% if item.itemquantity <= 0 %}out-of-stock{% endif %}"
+              >
+                <span><i class="fas fa-shopping-cart"></i> </span>
+              </a>
+              <a
+                href="{% url 'togglefavorite' pk=item.id customer_id=request.session.customer_id %}"
+                class="toggle-favorite d-flex justify-content-center align-items-center text-center"
+                data-item-id="{{ item.id }}"
+                data-user-id="{{ request.session.customer_id }}"
+              >
+                <span><i class="far fa-heart"></i> </span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% endfor %} {% endfor %}
+  </div>
   {% endif %}
 
-{% if complementary_items %}
-<div style="position: relative;" class="section-title"> 
-    <h2 class="mb-4">Similar Items</h2>
-</div>
-
-<div style="justify-content: center; align-items: center;" class="row main">
-  {% for category, items in complementary_items.items %}
-  {% for item in items %}
-  <div class="col-md-6 col-lg-3 ftco-animate">
-        <div class="product">
-            <a href="#" class="img-prod"><img class="img-fluid" src="{{ item.itemfeaturedimage.url }}" alt=""></a>
-                        <div class="overlay"></div>
-                        {% if item.itemquantity <= 0 %}
-                        <span class="out-of-stock-label">Out of Stock</span>
-                        {% endif %}
-                        {% if item.discount_percentage > 0 %}
-                        <span class="discount-label">BDT {{item.discounted_price}} on {{item.discount_percentage}}% sale</span>
-                        {% endif %}	
-                        <div class="text py-3 pb-4 px-3 text-center">
-                <h3><strong>{{item.itemtitle}}</strong></h3>
-                
-                <div class="d-flex">
-                    <div class="pricing">
-                        {% if item.discount_percentage > 0 %} 
-                                <p class="price"><span class="price-sale" style="text-decoration: line-through;">BDT {{item.original_price}}</span></p>
-                                {% else %}
-                                <p class="price"><span class="price-sale">BDT {{item.itemprice}}</span></p>
-                                {% endif %}                            
-                    </div>
-                </div> 
-                <div class="bottom-area d-flex px-3">
-                    <div class="m-auto d-flex">
-                        <a href="{% url 'singleitemcustomer' pk=item.id customer_id=request.session.customer_id %}" class="add-to-cart d-flex justify-content-center align-items-center text-center">
-                            <span><i class="fas fa-bars"></i>
-                            </span>
-                        </a>
-                        <a href="{% url 'cart' customer_id=request.session.customer_id %}" data-product="{{item.id}}" data-action="add" class="add-btn update-cart buy-now add-to-cart d-flex justify-content-center align-items-center mx-1 {% if item.itemquantity <= 0 %}out-of-stock{% endif %}">
-                            <span><i class="fas fa-shopping-cart"></i>
-                            </span>
-                        </a>
-                        <a href="{% url 'togglefavorite' pk=item.id customer_id=request.session.customer_id %}" class="toggle-favorite d-flex justify-content-center align-items-center text-center" data-item-id="{{ item.id }}" data-user-id="{{ request.session.customer_id }}">
-                            <span><i class="far fa-heart"></i>
-                            </span>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>    
-    {% endfor %}
-    {% endfor %}
-</div>                       
-{% endif %}
-
- 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
       const starRating = document.querySelector('.star-rating');
@@ -195,4 +254,5 @@
       });
     });
   </script>
-{% endblock content %}
+  {% endblock content %}
+</div>

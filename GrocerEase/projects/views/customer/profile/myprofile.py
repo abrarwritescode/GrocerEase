@@ -1,7 +1,9 @@
 from projects.imports import *
 
-
+@cache_control(no_cache=True, must_revalidate=True,no_store=True)
 def customerprofile(request, customer_id):
+    if 'sessionid' not in request.COOKIES:
+        return redirect('home')
     customer = Customer.objects.get(pk=customer_id)
     
     cart_total = Order.objects.filter(customer=customer, is_cart=True).first().get_cart_items

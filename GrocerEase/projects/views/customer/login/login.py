@@ -1,6 +1,12 @@
 from projects.imports import *
+from django.views.decorators.cache import cache_control
 
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def logincustomer(request):
+    if 'sessionid' in request.COOKIES:
+        customer_id = request.session.get('customer_id', None)
+        if customer_id is not None:
+            return redirect('homecustomer', customer_id=customer_id)
     if request.method == 'POST':
         form = LoginCustomerForm(request.POST)
         if form.is_valid():
