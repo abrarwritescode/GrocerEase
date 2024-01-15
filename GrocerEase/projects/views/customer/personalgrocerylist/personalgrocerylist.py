@@ -1,7 +1,10 @@
 from projects.imports import *
 from projects.recommendation_utils import generate_item_features, calculate_similarity, get_recommendations
 
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def personalgrocerylist(request, customer_id):
+    if 'sessionid' not in request.COOKIES:
+        return redirect('home')   
 
     if 'customer_id' in request.session:
         customer_id = request.session['customer_id']

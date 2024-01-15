@@ -4,3 +4,18 @@
         <li>{{ item.itemtitle }}</li>
     {% endfor %}
 </ul>
+
+
+<h2>Most Bought Items</h2>
+<ul>
+    {% for item_info in most_bought_items %}
+        <li>{{ item_info.item.itemtitle }} - Quantity: {{ item_info.total_quantity }}</li>
+    {% endfor %}
+</ul>
+
+
+<ul>
+    {% for item_info in most_bought_items_by_count %}
+        <li>{{ item_info.item.itemtitle }} - Count: {{ item_info.count }}</li>
+    {% endfor %}
+</ul>
