@@ -6,6 +6,10 @@ from .views.seller.imports.sellerviewsimport import *
 
 from .views.guestuser.imports.guestuserimports import *
 
+from .views.errors import custom_error_page
+
+
+
 urlpatterns = [
     path('', non_logged_in_home, name='home'),
     path('guestselleritems/<int:seller_id>/', guestselleritems, name='guestselleritems'),
@@ -61,5 +65,9 @@ urlpatterns = [
     path('clearsinglenotif/<int:notification_id>/<int:seller_id>/', clearsinglenotif, name='clearsinglenotif'),
     path('orders/<int:seller_id>/', vieworders, name='vieworders'),
     path('submit_review/<uuid:item_id>/',submit_review, name='submit_review'),
-
+    path('<path:not_found>/', custom_error_page, name='404'),
 ] 
+
+
+
+

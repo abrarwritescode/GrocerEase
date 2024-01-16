@@ -1,4 +1,5 @@
 from projects.imports import *
+from collections import defaultdict
 from projects.recommendation_utils import generate_item_features, calculate_similarity, get_recommendations
 
 @cache_control(no_cache=True, must_revalidate=True, no_store=True)
@@ -19,6 +20,39 @@ def personalgrocerylist(request, customer_id):
             'id': customer_id,
             'name': customer.customername,
         }
+
+        most_bought_items = customer.get_most_bought_items(num_items=5)
+        print('a')
+        print('b')
+        print(most_bought_items)
+
+        most_bought_items_by_count = customer.get_most_bought_items_by_count(num_items=5)
+        print('c')
+        print(2)
+        print(most_bought_items_by_count)
+        combined_list = most_bought_items + most_bought_items_by_count
+        print(combined_list)
+
+
+
+        combined_dict = defaultdict(lambda: {'item': None, 'total_quantity': 0, 'count': 0})
+
+
+        for item in most_bought_items:
+            item_key = item.get('item')
+            combined_dict[item_key]['item'] = item_key
+            combined_dict[item_key]['total_quantity'] += item.get('total_quantity', 0)
+
+        for item in most_bought_items_by_count:
+            item_key = item.get('item')
+            combined_dict[item_key]['item'] = item_key
+            combined_dict[item_key]['count'] += item.get('count', 0)
+
+   
+        combined_list = list(combined_dict.values())
+
+        print(combined_list)
+
 
         all_items = list(Item.objects.all())
         customer_favorites = list(Favorite.objects.filter(customer=customer))
@@ -72,7 +106,7 @@ def personalgrocerylist(request, customer_id):
         print(1)
         print(fav_recommendations_queryset)
 
-        personal_list = fav_recommendations_queryset | similar_items
+        personal_list = fav_recommendations_queryset | similar_items 
 
         for item in recently_viewed_items:
             print(item.itemtitle)
@@ -85,7 +119,8 @@ def personalgrocerylist(request, customer_id):
             'sellers': sellers,
             'similar_items': similar_items,
             'fav_recommendations_queryset': fav_recommendations_queryset,
-            'personal_list':personal_list
+            'personal_list':personal_list,
+            'combined_list':combined_list
         }
 
         return render(request, 'customer/personalgrocerylist.html', context)

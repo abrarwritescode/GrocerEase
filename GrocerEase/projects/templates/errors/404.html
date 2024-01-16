@@ -1,0 +1,80 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error</title>
+</head>
+<body>
+    <h1>Oops! Page Not Found</h1>
+    <p>The requested page does not exist.</p>
+</body>
+</html> {% endcomment %}
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head> 
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
+    <link rel="shortcut icon" type="image/png" href="{% static 'pictures/faviconcart.png' %}">
+    <title>Error - GrocerEase</title>
+
+    <style>
+       
+
+        body {
+            background-color: #f8f9fa; /* Change to your preferred background color */
+            font-family: 'Arial', sans-serif; /* Change to your preferred font-family */
+        }
+
+        .error-container {
+            text-align: center;
+            margin-top: 200px;
+            
+            top: -80px;
+            position: relative;
+        }
+
+        .error-message {
+            font-size: 24px;
+            color: #D36E17; 
+            font-weight: bold;
+        }
+        
+        .errorimage{
+            left: 450px;
+            top: 100px;
+            position: relative;
+        }
+    </style>
+</head>
+<body> 
+    <header style="position: fixed; top: 0px; z-index: 1000;" class="navbar">
+        <div class="logo">
+			
+				<img class="logoimage" src="{% static 'pictures/logo.png' %}" alt="">	
+			</a>
+        </div>
+	
+    </header>
+    <div class ="errorimage" >
+       
+            <img  src="{% static 'pictures/error1.png' %}" width="380" height="350" alt="">	
+        
+    </div>
+
+    <div class="error-container">
+        <h1 class="error-message">Oops! Something went wrong.</h1>
+        <p>We couldn't find the page you were looking for.</p>
+       
+    </div>
+</body>
+</html>
