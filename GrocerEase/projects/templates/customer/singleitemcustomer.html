@@ -1,85 +1,85 @@
-{% extends 'customer/navbarcustomer.html' %}
-{% load static %} {% block content%}
-
+{% extends 'customer/navbarcustomer.html' %} {% load static %}
+<!-- -->
+{% block content %}
 <div style="height: 75vh">
   <div style="position: relative; top: 90px" class="section-title">
     <h2>Item: {{ item.itemtitle }}</h2>
   </div>
 
   <style>
-    
-    .rateandreview{
+    .rateandreview {
       position: relative;
       top: 100px;
       height: 90vh;
       margin-bottom: 100px;
     }
-    .average-rating{
+    .average-rating {
       position: absolute;
       left: 1000px;
       top: 220px;
     }
-    .review-form{
+    .review-form {
       position: absolute;
       left: 80px;
       width: 420px;
-      bottom: 20px;  
+      bottom: 20px;
       border: 3px solid #f2802353;
       padding: 10px;
       border-radius: 10px;
     }
-    .star-rating-input{
+    .star-rating-input {
       position: relative;
       left: 100px;
     }
-    .commentform{
+    .commentform {
       height: 40px;
       border-radius: 5px;
-      width:380px ;
+      width: 380px;
     }
-    .reviewbtn{
-  font-family: 'Poppins', sans-serif;
-  display: inline-block;
-  background-color: #F28123;
-  color: #fff;
-  padding: 7px 14px;
-  text-decoration: none;
-  border: 0;
-  border-radius: 10px;
+    .reviewbtn {
+      font-family: 'Poppins', sans-serif;
+      display: inline-block;
+      background-color: #f28123;
+      color: #fff;
+      padding: 7px 14px;
+      text-decoration: none;
+      border: 0;
+      border-radius: 10px;
     }
 
-    .allcomment{
-        display: flex;
-        align-items: center;
-        border-radius: 5px;
-        width: 30%;
-        margin-top: 10px;
-        background-color: rgb(240, 240, 240);
-        position: relative;
+    .allcomment {
+      display: flex;
+      align-items: center;
+      border-radius: 5px;
+      width: 30%;
+      margin-top: 10px;
+      background-color: rgb(240, 240, 240);
+      position: relative;
       top: 165px;
       left: 550px;
       border: 3px solid #f2802356;
     }
-    .userimage img{
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        margin-right: 20px;
+    .userimage img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      margin-right: 20px;
     }
-    .comment-details .name, .comment-details .comment{
-        margin: 5px;
-        position: relative;
-        bottom: 20px;
-    }
-
-    .comment-details .date{
-        position: relative;
-        left: 115px;
-        font-size: 12px;
-        top: 70px;
+    .comment-details .name,
+    .comment-details .comment {
+      margin: 5px;
+      position: relative;
+      bottom: 20px;
     }
 
-    .already{
+    .comment-details .date {
+      position: relative;
+      left: 115px;
+      font-size: 12px;
+      top: 70px;
+    }
+
+    .already {
       font-size: 22px;
       color: rgb(42, 40, 40);
       margin-left: 70px;
@@ -104,10 +104,10 @@
                   alt=""
                 />
                 {% if item.discount_percentage > 0 %}
-                <span class="discount-label"
-                  >BDT {{item.discounted_price}} on
-                  {{item.discount_percentage}}% sale</span
-                >
+                <span class="discount-label">
+                  BDT {{ item.discounted_price }} on {{ item.discount_percentage
+                  }}% sale
+                </span>
                 {% endif %} {% if item.itemquantity <= 0 %}
                 <span class="out-of-stock-label">Out of Stock</span>
                 {% endif %}
@@ -123,18 +123,17 @@
             <h3>Description: {{ item.itemdescription }}</h3>
             {% if item.discount_percentage > 0 %}
             <p class="single-product-pricing">
-              <span style="text-decoration: line-through"
-                >BDT {{item.original_price}}</span
-              >
-              BDT {{item.discounted_price}}
+              <span style="text-decoration: line-through">
+                BDT {{ item.original_price }}
+              </span>
+              BDT {{ item.discounted_price }}
             </p>
             {% else %}
             <p class="single-product-pricing">
-              <span>BDT {{item.itemprice}}</span>
+              <span>BDT {{ item.itemprice }}</span>
             </p>
             {% endif %}
             <div class="single-product-form">
-              
               {% for category in categorys %}
               <p><strong>Categories: </strong>{{ category }}</p>
               {% endfor %}
@@ -146,13 +145,14 @@
                 >{{ item.seller.storename }}</a
               >
             </p>
-            <a style="position: relative; top: 30px;"
-                href="{% url 'cart' customer_id=request.session.customer_id %}"
-                data-product="{{ item.id }}"
-                data-action="add"
-                class="cart-btn update-cart add-to-cart"
-                ><i class="fas fa-shopping-cart"></i> Add to Cart</a
-              >
+            <a
+              style="position: relative; top: 30px"
+              href="{% url 'cart' customer_id=request.session.customer_id %}"
+              data-product="{{ item.id }}"
+              data-action="add"
+              class="cart-btn update-cart add-to-cart"
+              ><i class="fas fa-shopping-cart"></i> Add to Cart</a
+            >
           </div>
         </div>
       </div>
@@ -161,184 +161,193 @@
 </div>
 
 <div class="rateandreview">
-
-  <div style="position: relative; top: 120px;" class="section-title"> 
+  <div style="position: relative; top: 120px" class="section-title">
     <h2 class="mb-4">Rating & Reviews:</h2>
   </div>
-  
+
   {% for review in reviews %}
   <div class="allcomment">
     <div class="userimage">
-        <img src="{{ review.customer.customerimage.url }}" alt="">
+      <img src="{{ review.customer.customerimage.url }}" alt="" />
     </div>
     <div class="comment-details">
-        <p class="date">{{ review.created_at }}</p>
-        <p class="name">User {{ review.customer.customername }} rated it {{ review.rating }}/5 </p>
-        <p class="comment"><b>Comment:</b> {{ review.comment }}</p>
+      <p class="date">{{ review.created_at }}</p>
+      <p class="name">
+        User {{ review.customer.customername }} rated it {{ review.rating }}/5
+      </p>
+      <p class="comment"><b>Comment:</b> {{ review.comment }}</p>
     </div>
   </div>
   {% endfor %}
-  
-    <div class="average-rating">
-      {% if average_rating %} <h5>Average Rating:</h5> <b>{{ average_rating }}/5</b>
+
+  <div class="average-rating">
+    {% if average_rating %}
+    <h5>Average Rating:</h5>
+    <b>{{ average_rating }}/5</b>
+    <div>
+      <div><span style="color: #f28123">&#9733;</span> {{ rating1 }}</div>
       <div>
-        <div><span style="color: #F28123;">&#9733;</span> {{ rating1 }}</div>
-        <div><span style="color: #F28123;">&#9733;&#9733;</span> {{ rating2 }}</div>
-        <div><span style="color: #F28123;">&#9733;&#9733;&#9733;</span> {{ rating3 }}</div>
-        <div>
-          <span style="color: #F28123;">&#9733;&#9733;&#9733;&#9733;</span> {{ rating4 }}
-        </div>
-        <div>
-          <span style="color: #F28123;">&#9733;&#9733;&#9733;&#9733;&#9733;</span> {{rating5}}
-        </div>
+        <span style="color: #f28123">&#9733;&#9733;</span> {{ rating2 }}
       </div>
-       {% endif %}
-    </div>
-  
-{% if average_rating %}
-    {% if not customer_has_reviewed %}
-    <div class="review-form">
-      <h3>Review Here</h3>
-      <form method="post" action="{% url 'submit_review' item.id %}">
-        {% csrf_token %}
-        <label for="id_rating">Rating:</label>
-        <div class="star-rating">
-          <input type="hidden" name="rating" class="star-input" value="0" />
-          <label for="star5" title="5 stars" data-value="1">&#9733;</label>
-          <label for="star4" title="4 stars" data-value="2">&#9733;</label>
-          <label for="star3" title="3 stars" data-value="3">&#9733;</label>
-          <label for="star2" title="2 stars" data-value="4">&#9733;</label>
-          <label for="star1" title="1 star" data-value="5">&#9733;</label>
-        </div>
-        <!-- Comment input -->
-        {{ review_form.comment.label_tag }} {{ review_form.comment }}
-        <button class="reviewbtn" type="submit">Submit Review</button>
-      </form>
-    </div>
-    {% else %}
-    <h4 class="already">You have already reviewed this item <i style="color: #F28123;" class="fa-duotone fa-exclamation"></i></h4>
-    {% endif %} 
-
-{% else %}
-    
-    <div style="position: relative; top: 120px;" class="review-form">
-      <h3>Review Here</h3>
-      <form method="post" action="{% url 'submit_review' item.id %}">
-        {% csrf_token %}
-        <label for="id_rating">Rating:</label>
-        <div class="star-rating">
-          <input type="hidden" name="rating" class="star-input" value="0" />
-          <label for="star5" title="5 stars" data-value="1">&#9733;</label>
-          <label for="star4" title="4 stars" data-value="2">&#9733;</label>
-          <label for="star3" title="3 stars" data-value="3">&#9733;</label>
-          <label for="star2" title="2 stars" data-value="4">&#9733;</label>
-          <label for="star1" title="1 star" data-value="5">&#9733;</label>
-        </div>
-        <!-- Comment input -->
-        {{ review_form.comment.label_tag }} {{ review_form.comment }}
-        <button class="reviewbtn" type="submit">Submit Review</button>
-      </form>
-    </div>
-
-{% endif %} 
-
-  
-</div>
-  
-{% if complementary_items %}
-  <div style="position: relative" class="section-title">
-    <h2 class="mb-4">Similar Items</h2>
-  </div>
-
-  <div style="justify-content: center; align-items: center" class="row main">
-    {% for category, items in complementary_items.items %}
-    {% for item in items %}
-    <div class="col-md-6 col-lg-3 ftco-animate">
-      <div class="product">
-        <a href="#" class="img-prod"
-          ><img class="img-fluid" src="{{ item.itemfeaturedimage.url }}" alt=""
-        /></a>
-        <div class="overlay"></div>
-        {% if item.itemquantity <= 0 %}
-        <span class="out-of-stock-label">Out of Stock</span>
-        {% endif %} {% if item.discount_percentage > 0 %}
-        <span class="discount-label"
-          >BDT {{item.discounted_price}} on {{item.discount_percentage}}%
-          sale</span
-        >
-        {% endif %}
-        <div class="text py-3 pb-4 px-3 text-center">
-          <h3><strong>{{item.itemtitle}}</strong></h3>
-
-          <div class="d-flex">
-            <div class="pricing">
-              {% if item.discount_percentage > 0 %}
-              <p class="price">
-                <span class="price-sale" style="text-decoration: line-through"
-                  >BDT {{item.original_price}}</span
-                >
-              </p>
-              {% else %}
-              <p class="price">
-                <span class="price-sale">BDT {{item.itemprice}}</span>
-              </p>
-              {% endif %}
-            </div>
-          </div>
-          <div class="bottom-area d-flex px-3">
-            <div class="m-auto d-flex">
-              <a
-                href="{% url 'singleitemcustomer' pk=item.id customer_id=request.session.customer_id %}"
-                class="add-to-cart d-flex justify-content-center align-items-center text-center"
-              >
-                <span><i class="fas fa-bars"></i> </span>
-              </a>
-              <a
-                href="{% url 'cart' customer_id=request.session.customer_id %}"
-                data-product="{{item.id}}"
-                data-action="add"
-                class="add-btn update-cart buy-now add-to-cart d-flex justify-content-center align-items-center mx-1 {% if item.itemquantity <= 0 %}out-of-stock{% endif %}"
-              >
-                <span><i class="fas fa-shopping-cart"></i> </span>
-              </a>
-              <a
-                href="{% url 'togglefavorite' pk=item.id customer_id=request.session.customer_id %}"
-                class="toggle-favorite d-flex justify-content-center align-items-center text-center"
-                data-item-id="{{ item.id }}"
-                data-user-id="{{ request.session.customer_id }}"
-              >
-                <span><i class="far fa-heart"></i> </span>
-              </a>
-            </div>
-          </div>
-        </div>
+      <div>
+        <span style="color: #f28123">&#9733;&#9733;&#9733;</span> {{ rating3 }}
+      </div>
+      <div>
+        <span style="color: #f28123">&#9733;&#9733;&#9733;&#9733;</span>
+        {{rating4 }}
+      </div>
+      <div>
+        <span style="color: #f28123">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        {{ rating5 }}
       </div>
     </div>
-    {% endfor %} {% endfor %}
+    {% endif %}
   </div>
+
+  {% if customercanreview %} {% if average_rating %}
+  <!--ok-->
+  {% if not customer_has_reviewed %}
+  <div class="review-form">
+    <h3>Review Here</h3>
+    <form method="post" action="{% url 'submit_review' item.id %}">
+      {% csrf_token %}
+      <label for="id_rating">Rating:</label>
+      <div class="star-rating">
+        <input type="hidden" name="rating" class="star-input" value="0" />
+        <label for="star5" title="5 stars" data-value="1">&#9733;</label>
+        <label for="star4" title="4 stars" data-value="2">&#9733;</label>
+        <label for="star3" title="3 stars" data-value="3">&#9733;</label>
+        <label for="star2" title="2 stars" data-value="4">&#9733;</label>
+        <label for="star1" title="1 star" data-value="5">&#9733;</label>
+      </div>
+      <!-- Comment input -->
+      {{ review_form.comment.label_tag }} {{ review_form.comment }}
+      <button class="reviewbtn" type="submit">Submit Review</button>
+    </form>
+  </div>
+  {% else %}
+  <h4 class="already">
+    You have already reviewed this item
+    <i style="color: #f28123" class="fa-duotone fa-exclamation"></i>
+  </h4>
+  {% endif %} {% else %}
+  <div style="position: relative; top: 120px" class="review-form">
+    <h3>Review Here</h3>
+    <form method="post" action="{% url 'submit_review' item.id %}">
+      {% csrf_token %}
+      <label for="id_rating">Rating:</label>
+      <div class="star-rating">
+        <input type="hidden" name="rating" class="star-input" value="0" />
+        <label for="star5" title="5 stars" data-value="1">&#9733;</label>
+        <label for="star4" title="4 stars" data-value="2">&#9733;</label>
+        <label for="star3" title="3 stars" data-value="3">&#9733;</label>
+        <label for="star2" title="2 stars" data-value="4">&#9733;</label>
+        <label for="star1" title="1 star" data-value="5">&#9733;</label>
+      </div>
+      <!-- Comment input -->
+      {{ review_form.comment.label_tag }} {{ review_form.comment }}
+      <button class="reviewbtn" type="submit">Submit Review</button>
+    </form>
+  </div>
+  {% endif %} {% else %}
+  <h4 class="already">
+    You have to buy first!
+    <i style="color: #f28123" class="fa-duotone fa-exclamation"></i>
+  </h4>
   {% endif %}
-
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const starRating = document.querySelector('.star-rating');
-      const ratingInput = document.querySelector('.star-input');
-
-      starRating.addEventListener('click', function (event) {
-        if (event.target.tagName === 'LABEL') {
-          const ratingValue = event.target.dataset.value;
-          ratingInput.value = ratingValue;
-
-          starRating.querySelectorAll('label').forEach(function (label) {
-            label.style.color = '#ccc';
-          });
-
-          for (let i = 1; i <= ratingValue; i++) {
-            starRating.querySelector(`label[data-value="${i}"]`).style.color =
-              '#f8d64e';
-          }
-        }
-      });
-    });
-  </script>
-  {% endblock content %}
 </div>
+
+{% if complementary_items %}
+<div style="position: relative" class="section-title">
+  <h2 class="mb-4">Similar Items</h2>
+</div>
+
+<div style="justify-content: center; align-items: center" class="row main">
+  {% for category, items in complementary_items.items %} {% for item in items %}
+  <div class="col-md-6 col-lg-3 ftco-animate">
+    <div class="product">
+      <a href="#" class="img-prod">
+        <img class="img-fluid" src="{{ item.itemfeaturedimage.url }}" alt="" />
+      </a>
+      <div class="overlay"></div>
+      {% if item.itemquantity <= 0 %}
+      <span class="out-of-stock-label">Out of Stock</span>
+      {% endif %} {% if item.discount_percentage > 0 %}
+      <span class="discount-label">
+        BDT {{item.discounted_price}} on {{item.discount_percentage}}% sale
+      </span>
+      {% endif %}
+      <div class="text py-3 pb-4 px-3 text-center">
+        <h3><strong>{{item.itemtitle}}</strong></h3>
+
+        <div class="d-flex">
+          <div class="pricing">
+            {% if item.discount_percentage > 0 %}
+            <p class="price">
+              <span class="price-sale" style="text-decoration: line-through">
+                BDT {{item.original_price}}
+              </span>
+            </p>
+            {% else %}
+            <p class="price">
+              <span class="price-sale">BDT {{item.itemprice}}</span>
+            </p>
+            {% endif %}
+          </div>
+        </div>
+        <div class="bottom-area d-flex px-3">
+          <div class="m-auto d-flex">
+            <a
+              href="{% url 'singleitemcustomer' pk=item.id customer_id=request.session.customer_id %}"
+              class="add-to-cart d-flex justify-content-center align-items-center text-center"
+            >
+              <span><i class="fas fa-bars"></i> </span>
+            </a>
+            <a
+              href="{% url 'cart' customer_id=request.session.customer_id %}"
+              data-product="{{item.id}}"
+              data-action="add"
+              class="add-btn update-cart buy-now add-to-cart d-flex justify-content-center align-items-center mx-1 {% if item.itemquantity <= 0 %}out-of-stock{% endif %}"
+            >
+              <span><i class="fas fa-shopping-cart"></i> </span>
+            </a>
+            <a
+              href="{% url 'togglefavorite' pk=item.id customer_id=request.session.customer_id %}"
+              class="toggle-favorite d-flex justify-content-center align-items-center text-center"
+              data-item-id="{{ item.id }}"
+              data-user-id="{{ request.session.customer_id }}"
+            >
+              <span><i class="far fa-heart"></i> </span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %} {% endfor %}
+</div>
+{% endif %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const starRating = document.querySelector('.star-rating');
+    const ratingInput = document.querySelector('.star-input');
+
+    starRating.addEventListener('click', function (event) {
+      if (event.target.tagName === 'LABEL') {
+        const ratingValue = event.target.dataset.value;
+        ratingInput.value = ratingValue;
+
+        starRating.querySelectorAll('label').forEach(function (label) {
+          label.style.color = '#ccc';
+        });
+
+        for (let i = 1; i <= ratingValue; i++) {
+          starRating.querySelector(`label[data-value="${i}"]`).style.color =
+            '#f8d64e';
+        }
+      }
+    });
+  });
+</script>
+{% endblock content %}
