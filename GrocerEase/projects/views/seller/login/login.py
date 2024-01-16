@@ -1,6 +1,11 @@
 from projects.imports import *
 
+@cache_control(no_cache=True, must_revalidate=True,no_store=True)
 def loginseller(request):
+    if 'sessionid' in request.COOKIES:
+        seller_id = request.session.get('seller_id', None)
+        if seller_id is not None:
+            return redirect('homeseller', seller_id=seller_id) 
     if request.method == 'POST':
         form = LoginSellerForm(request.POST)
         if form.is_valid():

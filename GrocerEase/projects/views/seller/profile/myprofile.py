@@ -1,6 +1,9 @@
 from projects.imports import *
 
+@cache_control(no_cache=True, must_revalidate=True,no_store=True)
 def sellerprofile(request, seller_id):
+    if 'sessionid' not in request.COOKIES:
+        return redirect('home')  
     seller_id = request.session.get('seller_id')
     seller = Seller.objects.get(pk=seller_id)
 

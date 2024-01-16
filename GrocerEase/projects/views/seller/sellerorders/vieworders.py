@@ -1,7 +1,9 @@
 from projects.imports import *
 from django.shortcuts import render, redirect
-
+@cache_control(no_cache=True, must_revalidate=True,no_store=True)
 def vieworders(request, seller_id):
+    if 'sessionid' not in request.COOKIES:
+        return redirect('home')
     if request.method == 'POST':
         order_id = request.POST.get('order_id')
         action = request.POST.get('action')
