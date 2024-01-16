@@ -5,24 +5,40 @@ from django.shortcuts import render, redirect
 from projects.forms import ReviewForm
 from django.views.decorators.cache import cache_control
 
-@cache_control(no_cache=True, must_revalidate=True,no_store=True)
+from django.shortcuts import get_object_or_404
+
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def submit_review(request, item_id):
     if request.method == 'POST':
         form = ReviewForm(request.POST)
         if form.is_valid():
             customer = Customer.objects.get(pk=request.session['customer_id'])
-            item = Item.objects.get(pk=item_id)
-          
+            item = get_object_or_404(Item, pk=item_id)
+
             
+            orders = Order.objects.filter(customer=customer)
+            customercanreview = 0
+
+            for order in orders:
+                if order.status == 'Delivered':
+                    ordered_item = OrderItem.objects.filter(order=order, product=item).first()
+                    if ordered_item:
+                        customercanreview = 1
+                        break
+
+            
+            if not customercanreview:
+                return redirect('singleitemcustomer', pk=item_id, customer_id=request.session['customer_id'])
+
             existing_review = Review.objects.filter(customer=customer, item=item)
             if existing_review.exists():
-
                 return redirect('singleitemcustomer', pk=item_id, customer_id=request.session['customer_id'])
 
             rating = form.cleaned_data['rating']
             comment = form.cleaned_data['comment']
             Review.objects.create(item=item, customer=customer, rating=rating, comment=comment)
-    return redirect('singleitemcustomer', pk=item_id,  customer_id=request.session['customer_id'])
+
+    return redirect('singleitemcustomer', pk=item_id, customer_id=request.session['customer_id'])
 @cache_control(no_cache=True, must_revalidate=True,no_store=True)
 def item_details_with_reviews(request, pk, customer_id):
     if 'sessionid' not in request.COOKIES:
@@ -73,6 +89,11 @@ def item_details_with_reviews(request, pk, customer_id):
         request.session['recently_viewed'] = recently_viewed[:5] 
 
     complementary_items = itemObj.get_complementary_items()
+    orders = Order.objects.filter(customer=customer)
+    customercanreview = any(
+        order.status == 'Delivered' and OrderItem.objects.filter(order=order, product=itemObj).exists()
+        for order in orders
+    )
     if request.method == 'POST':
         form = ReviewForm(request.POST)
         if form.is_valid():
@@ -101,5 +122,6 @@ def item_details_with_reviews(request, pk, customer_id):
         'rating3':rating3,
         'rating4':rating4,
         'rating5':rating5,
+        'customercanreview': customercanreview,
         
     })
