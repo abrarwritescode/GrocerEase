@@ -8,7 +8,7 @@ def vieworders(request, seller_id):
         action1 = request.POST.get('action1')
 
         if order_id and action in ['MARK_SHIPPED', 'ANOTHER_ACTION']:  
-            order = Order.objects.get(id=order_id)
+            order = Order.objects.get(id=order_id) 
 
             if action == 'MARK_SHIPPED':
                 order.status = 'Shipped'
