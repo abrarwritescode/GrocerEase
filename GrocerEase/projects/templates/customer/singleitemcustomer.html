@@ -195,7 +195,7 @@
        {% endif %}
     </div>
   
-    {% if average_rating %}
+{% if average_rating %}
     {% if not customer_has_reviewed %}
     <div class="review-form">
       <h3>Review Here</h3>
@@ -218,7 +218,8 @@
     {% else %}
     <h4 class="already">You have already reviewed this item <i style="color: #F28123;" class="fa-duotone fa-exclamation"></i></h4>
     {% endif %} 
-    {% else %}
+
+{% else %}
     
     <div style="position: relative; top: 120px;" class="review-form">
       <h3>Review Here</h3>
@@ -239,7 +240,7 @@
       </form>
     </div>
 
-    {% endif %} 
+{% endif %} 
 
   
 </div>
