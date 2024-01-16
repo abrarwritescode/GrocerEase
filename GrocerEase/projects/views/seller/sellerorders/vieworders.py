@@ -9,19 +9,15 @@ def vieworders(request, seller_id):
         action = request.POST.get('action')
         action1 = request.POST.get('action1')
 
-        if order_id and action in ['MARK_SHIPPED', 'ANOTHER_ACTION']:  
-            order = Order.objects.get(id=order_id) 
-
-            if action == 'MARK_SHIPPED':
-                order.status = 'Shipped'
-                order.save()
-
-        if order_id and action1 in ['ANOTHER_ACTION', 'CANCEL']:  
+        if order_id and action == 'MARK_SHIPPED':
             order = Order.objects.get(id=order_id)
+            order.status = 'Shipped'
+            order.save()
 
-            if action1 == 'CANCEL':
-                order.status = 'Cancelled'
-                order.save()
+        elif order_id and action1 == 'CANCEL':
+            order = Order.objects.get(id=order_id)
+            order.status = 'Cancelled'
+            order.save()
 
     seller_orders = OrderItem.objects.filter(
         product__seller_id=seller_id,

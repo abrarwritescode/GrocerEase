@@ -138,7 +138,8 @@ h1 {
 .action-buttons input[type="submit"].markshipped {
     background-color: rgb(252, 108, 56);
     color: #fff;
-    margin-left: 50px;
+    position: relative;
+    top: 26px;
 }
 
 .action-buttons input[type="submit"].shipped {
@@ -151,6 +152,14 @@ h1 {
     background-color: #0ba6ff;
     color: #fff;
     margin-left: 50px;
+}
+
+.action-buttons input[type="submit"].cancell {
+    background-color: red;
+    color: #fff;
+    margin-left: 130px;
+    position: relative;
+    bottom: 10px;
 }
 
 .action-buttons input[type="submit"].cancel {
@@ -272,28 +281,33 @@ h1 {
                                     <input type="hidden" name="order_id" value="{{ order_info.order.id }}">
                                     <input type="hidden" name="action" value="MARK_SHIPPED">  
                                     <input type="submit" value="MARK SHIPPED" class="btn markshipped button" name="accept">
-
+ 
+                                    
+                                </form>  
+                                <form action="{% url 'vieworders' seller_id=request.session.seller_id %}" method="post" class="action-buttons">
+                                    {% csrf_token %}
+                                    
                                     <input type="hidden" name="order_id" value="{{ order_info.order.id }}">
                                     <input type="hidden" name="action1" value="CANCEL">  
-                                    <input type="submit" value="CANCEL" class="btn cancel button" name="accept">
-                                </form>                
+                                    <input type="submit" value="CANCEL" class="btn cancell button" name="accept1">
+                                </form>              
                             </td>
                         {% elif order_info.order.status == 'Shipped' %}
                             <td>
                                 <form action="#" class="action-buttons">
-                                    <input type="submit" value="SHIPPED" class="btn shipped button" name="accept1">
+                                    <input type="submit" value="SHIPPED" class="btn shipped button" name="accept">
                                 </form>                
                             </td>
                         {% elif order_info.order.status == 'Delivered' %}
                             <td>
                                 <form action="#" class="action-buttons">
-                                    <input type="submit" value="DELIVERED" class="btn delivered button" name="accept">
+                                    <input type="submit" value="DELIVERED" class="btn delivered button" name="accept3">
                                 </form>                
                             </td>
                         {% elif order_info.order.status == 'Cancelled' %}
                             <td>
                                 <form action="#" class="action-buttons">
-                                    <input type="submit" value="ORDER CANCELLED" class="btn cancel button" name="accept">
+                                    <input type="submit" value="ORDER CANCELLED" class="btn cancel button" name="accept1">
                                 </form>                
                             </td>
                         {% endif %}
