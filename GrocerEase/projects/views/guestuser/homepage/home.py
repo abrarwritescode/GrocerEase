@@ -6,6 +6,10 @@ def non_logged_in_home(request):
         customer_id = request.session.get('customer_id', None)
         if customer_id is not None:
             return redirect('homecustomer', customer_id=customer_id)
+    if 'sessionid' in request.COOKIES:
+        seller_id = request.session.get('seller_id', None)
+        if seller_id is not None:
+            return redirect('homeseller', seller_id=seller_id)   
     products = Item.objects.all()
     categories = Category.objects.all()
     sellers = Seller.objects.all()

@@ -4,7 +4,7 @@ from collections import defaultdict
 @cache_control(no_cache=True, must_revalidate=True,no_store=True)
 def homecustomer(request, customer_id):
     if 'sessionid' not in request.COOKIES:
-        return redirect('logincustomer')
+        return redirect('home')
 
     if 'customer_id' in request.session:
         customer_id = request.session['customer_id'] 

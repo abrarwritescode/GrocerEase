@@ -1,8 +1,12 @@
 from projects.imports import *
 from django.urls import reverse
 from django.http import HttpResponseRedirect
-
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def registerseller(request):
+    if 'sessionid' in request.COOKIES:
+        seller_id = request.session.get('seller_id', None)
+        if seller_id is not None:
+            return redirect('homeseller', seller_id=seller_id)   
     if request.method == 'POST':
         form = RegistrationSellerForm(request.POST, request.FILES)
 

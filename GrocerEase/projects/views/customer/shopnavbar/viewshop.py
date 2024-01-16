@@ -1,5 +1,6 @@
 from projects.imports import *
 
+@cache_control(no_cache=True, must_revalidate=True, no_store=True)
 def viewshop(request, customer_id):
     if 'customer_id' in request.session:
         customer_id = request.session['customer_id']
