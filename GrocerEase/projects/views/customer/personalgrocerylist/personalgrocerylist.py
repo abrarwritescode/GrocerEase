@@ -33,10 +33,7 @@ def personalgrocerylist(request, customer_id):
         combined_list = most_bought_items + most_bought_items_by_count
         print(combined_list)
 
-
-
         combined_dict = defaultdict(lambda: {'item': None, 'total_quantity': 0, 'count': 0})
-
 
         for item in most_bought_items:
             item_key = item.get('item')
@@ -63,7 +60,6 @@ def personalgrocerylist(request, customer_id):
         fav_recommendations_list = []
 
         for favorite_item in customer_favorites:
-            # index of the favorite item within the list of items
             item_index = all_items.index(favorite_item.item)
 
             recommendations = get_recommendations(item_index, all_items, customer_similarity_matrix)
@@ -81,10 +77,8 @@ def personalgrocerylist(request, customer_id):
         customer_similarity_matrix = calculate_similarity(customer_item_features)
 
         fav_recommendations_list = []
-        similar_items1 = []
 
         for favorite_item in customer_favorites:
-            # index of the favorite item within the list of items
             item_index = all_items.index(favorite_item.item)
 
             recommendations = get_recommendations(item_index, all_items, customer_similarity_matrix)
@@ -95,23 +89,9 @@ def personalgrocerylist(request, customer_id):
         fav_recommendations_ids = [item.id for item in fav_recommendations_list]
         fav_recommendations_queryset = Item.objects.filter(id__in=fav_recommendations_ids)
 
-        # combined_list_ids = [item.id for Item in combined_list]
-        # combined_list_queryset = Item.objects.filter(id__in=combined_list_ids)
-    #     for item_data in combined_list:
-    #         item_object = item_data['item']
-    
-    # # Assuming 'id' is the attribute in the 'Item' class representing the ID
-    #         item_id = getattr(item_object, 'id', None)
-    
-    #         print(f"Item ID: {item_id}")
-
-
-    #     print(555)
-        # print(combined_list_queryset)
-
+       
         item_ids_list = [getattr(item_data['item'], 'id', None) for item_data in combined_list]
 
-# Filter items based on the IDs
         combined_queryset = Item.objects.filter(id__in=item_ids_list)
 
 
@@ -140,7 +120,6 @@ def personalgrocerylist(request, customer_id):
             'fav_recommendations_queryset': fav_recommendations_queryset,
             'personal_list':personal_list,
             'combined_list':combined_list,
-            # 'combined_queryset':combined_queryset
         }
 
         return render(request, 'customer/personalgrocerylist.html', context)
