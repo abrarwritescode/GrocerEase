@@ -95,6 +95,25 @@ def personalgrocerylist(request, customer_id):
         fav_recommendations_ids = [item.id for item in fav_recommendations_list]
         fav_recommendations_queryset = Item.objects.filter(id__in=fav_recommendations_ids)
 
+        # combined_list_ids = [item.id for Item in combined_list]
+        # combined_list_queryset = Item.objects.filter(id__in=combined_list_ids)
+    #     for item_data in combined_list:
+    #         item_object = item_data['item']
+    
+    # # Assuming 'id' is the attribute in the 'Item' class representing the ID
+    #         item_id = getattr(item_object, 'id', None)
+    
+    #         print(f"Item ID: {item_id}")
+
+
+    #     print(555)
+        # print(combined_list_queryset)
+
+        item_ids_list = [getattr(item_data['item'], 'id', None) for item_data in combined_list]
+
+# Filter items based on the IDs
+        combined_queryset = Item.objects.filter(id__in=item_ids_list)
+
 
         recently_viewed_item_ids = request.session.get('recently_viewed', [])
         recently_viewed_items = Item.objects.filter(id__in=recently_viewed_item_ids)
@@ -106,7 +125,7 @@ def personalgrocerylist(request, customer_id):
         print(1)
         print(fav_recommendations_queryset)
 
-        personal_list = fav_recommendations_queryset | similar_items 
+        personal_list = fav_recommendations_queryset | similar_items | combined_queryset
 
         for item in recently_viewed_items:
             print(item.itemtitle)
@@ -120,7 +139,8 @@ def personalgrocerylist(request, customer_id):
             'similar_items': similar_items,
             'fav_recommendations_queryset': fav_recommendations_queryset,
             'personal_list':personal_list,
-            'combined_list':combined_list
+            'combined_list':combined_list,
+            # 'combined_queryset':combined_queryset
         }
 
         return render(request, 'customer/personalgrocerylist.html', context)

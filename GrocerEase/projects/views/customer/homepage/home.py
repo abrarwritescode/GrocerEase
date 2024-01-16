@@ -1,9 +1,10 @@
 from projects.imports import *
+from collections import defaultdict
 
 @cache_control(no_cache=True, must_revalidate=True,no_store=True)
 def homecustomer(request, customer_id):
     if 'sessionid' not in request.COOKIES:
-        return redirect('home')
+        return redirect('logincustomer')
 
     if 'customer_id' in request.session:
         customer_id = request.session['customer_id'] 
@@ -41,6 +42,29 @@ def homecustomer(request, customer_id):
         print(2)
         print(most_bought_items_by_count)
 
+        combined_list = most_bought_items + most_bought_items_by_count
+        print(combined_list)
+
+
+
+        combined_dict = defaultdict(lambda: {'item': None, 'total_quantity': 0, 'count': 0})
+
+
+        for item in most_bought_items:
+            item_key = item.get('item')
+            combined_dict[item_key]['item'] = item_key
+            combined_dict[item_key]['total_quantity'] += item.get('total_quantity', 0)
+
+        for item in most_bought_items_by_count:
+            item_key = item.get('item')
+            combined_dict[item_key]['item'] = item_key
+            combined_dict[item_key]['count'] += item.get('count', 0)
+
+   
+        combined_list = list(combined_dict.values())
+
+        print(combined_list)
+
         recently_viewed_item_ids = request.session.get('recently_viewed', [])
         recently_viewed_items = Item.objects.filter(id__in=recently_viewed_item_ids)
 
@@ -68,6 +92,7 @@ def homecustomer(request, customer_id):
             'combined_items': combined_items,
             'most_bought_items': most_bought_items,
             'most_bought_items_by_count': most_bought_items_by_count,
+            'combined_list':combined_list
         }
 
         return render(request, 'customer/homecustomer.html', context)

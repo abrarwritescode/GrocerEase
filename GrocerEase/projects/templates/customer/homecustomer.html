@@ -209,6 +209,63 @@
     </div>
 </section>
 
+<div style="position: relative; top: 20px;" class="section-title"> 
+    <h2 class="mb-4">Want to order these again?</h2>
+</div>
+
+<div style="justify-content: center; align-items: center; position: relative; top: 70px;" class="row">
+    {% for item in combined_list %} 
+    <div class="col-md-6 col-lg-3 ftco-animate">
+        <div class="product">
+            <a href="#" class="img-prod"><img class="img-fluid" src="{{ item.item.itemfeaturedimage.url }}" alt=""></a>
+                        <div class="overlay"></div>
+                        {% if item.item.itemquantity <= 0 %}
+                        <span class="out-of-stock-label">Out of Stock</span>
+                        {% endif %}
+                        {% if item.item.discount_percentage > 0 %}
+                        <span class="discount-label">BDT {{item.item.discounted_price}} on {{item.item.discount_percentage}}% sale</span>
+                        {% endif %}	
+                        <div class="text py-3 pb-4 px-3 text-center">
+                <h3><strong>{{item.item.itemtitle}}</strong></h3>
+                
+                <div class="d-flex">
+                    <div class="pricing">
+                        {% if item.item.discount_percentage > 0 %} 
+                                <p class="price"><span class="price-sale" style="text-decoration: line-through;">BDT {{item.item.original_price}}</span></p>
+                                {% else %}
+                                <p class="price"><span class="price-sale">BDT {{item.item.itemprice}}</span></p>
+                                {% endif %}                            
+                    </div>
+                </div> 
+                <div class="bottom-area d-flex px-3">
+                    <div class="m-auto d-flex">
+                        <a href="{% url 'singleitemcustomer' pk=item.item.id customer_id=request.session.customer_id %}" class="add-to-cart d-flex justify-content-center align-items-center text-center">
+                            <span><i class="fas fa-bars"></i>
+                            </span>
+                        </a>
+                        <a href="{% url 'cart' customer_id=request.session.customer_id %}" data-product="{{item.item.id}}" data-action="add" class="add-btn update-cart buy-now add-to-cart d-flex justify-content-center align-items-center mx-1 {% if item.item.itemquantity <= 0 %}out-of-stock{% endif %}">
+                            <span><i class="fas fa-shopping-cart"></i>
+                            </span>
+                        </a>
+                        <a href="{% url 'togglefavorite' pk=item.item.id customer_id=request.session.customer_id %}" class="toggle-favorite d-flex justify-content-center align-items-center text-center" data-item-id="{{ item.item.id }}" data-user-id="{{ request.session.customer_id }}">
+                            <span><i class="far fa-heart"></i>
+                            </span>
+                        </a>
+
+                       
+                        
+                        
+                        
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    {% endfor %}
+</div>
+
 
     <div class="cookimage">
         <div class="preparetext">

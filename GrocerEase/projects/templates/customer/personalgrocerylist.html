@@ -68,29 +68,4 @@
     </div>
 </section>
 
-<section class="latest-product spad">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-4 col-md-6">
-                <div class="latest-product__text">
-                    <h4>Latest Products</h4>
-                    <div class="latest-product__slider owl-carousel">
-                        {% for item in combined_list %}
-                        <div class="latest-prdouct__slider__item">
-                            <a href="{% url 'singleitemcustomer' pk=item.item.id customer_id=request.session.customer_id %}" class="latest-product__item">
-                                <div class="latest-product__item__pic">
-                                    <img src="{{ item.item.itemfeaturedimage.url }}" alt="">
-                                </div>
-                                <div class="latest-product__item__text">
-                                    <h6>{{ item.item.itemtitle }}</h6>
-                                    <span>BDT {{ item.item.itemprice }}</span>
-                                </div>
-                            </a>
-                        </div>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        </section>
-
 {% endblock content %}
