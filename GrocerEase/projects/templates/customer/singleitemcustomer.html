@@ -238,11 +238,11 @@
       <label for="id_rating">Rating:</label>
       <div class="star-rating">
         <input type="hidden" name="rating" class="star-input" value="0" />
-        <label for="star5" title="5 stars" data-value="1">&#9733;</label>
-        <label for="star4" title="4 stars" data-value="2">&#9733;</label>
+        <label for="star5" title="1 stars" data-value="1">&#9733;</label>
+        <label for="star4" title="2 stars" data-value="2">&#9733;</label>
         <label for="star3" title="3 stars" data-value="3">&#9733;</label>
-        <label for="star2" title="2 stars" data-value="4">&#9733;</label>
-        <label for="star1" title="1 star" data-value="5">&#9733;</label>
+        <label for="star2" title="4 stars" data-value="4">&#9733;</label>
+        <label for="star1" title="5 star" data-value="5">&#9733;</label>
       </div>
       <!-- Comment input -->
       {{ review_form.comment.label_tag }} {{ review_form.comment }}
@@ -251,7 +251,7 @@
   </div>
   {% endif %} {% else %}
   <h4 class="already">
-    You have to buy first!
+    You must have one purchase first!
     <i style="color: #f28123" class="fa-duotone fa-exclamation"></i>
   </h4>
   {% endif %}

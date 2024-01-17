@@ -39,6 +39,8 @@ def submit_review(request, item_id):
             Review.objects.create(item=item, customer=customer, rating=rating, comment=comment)
 
     return redirect('singleitemcustomer', pk=item_id, customer_id=request.session['customer_id'])
+
+
 @cache_control(no_cache=True, must_revalidate=True,no_store=True)
 def item_details_with_reviews(request, pk, customer_id):
     if 'sessionid' not in request.COOKIES:
@@ -93,15 +95,20 @@ def item_details_with_reviews(request, pk, customer_id):
     customercanreview = any(
         order.status == 'Delivered' and OrderItem.objects.filter(order=order, product=itemObj).exists()
         for order in orders
-    )
+    )        
+    print(11)
+
     if request.method == 'POST':
+        print(1)
         form = ReviewForm(request.POST)
         if form.is_valid():
             rating = form.cleaned_data['rating']
             comment = form.cleaned_data['comment']
             Review.objects.create(item=itemObj, customer=customer, rating=rating, comment=comment)
             
+            print(11)
             return redirect('item_details_with_reviews', pk=pk, customer_id=customer_id)
+            print(66)
     else:
         form = ReviewForm()
 

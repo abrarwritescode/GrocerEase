@@ -65,6 +65,8 @@ urlpatterns = [
     path('clearsinglenotif/<int:notification_id>/<int:seller_id>/', clearsinglenotif, name='clearsinglenotif'),
     path('orders/<int:seller_id>/', vieworders, name='vieworders'),
     path('submit_review/<uuid:item_id>/',submit_review, name='submit_review'),
+    path('mark_as_shipped/<int:seller_id>/', mark_as_shipped, name='mark_as_shipped'),
+    path('cancel_order/<int:seller_id>/', cancel_order, name='cancel_order'),
     
     path('<path:not_found>/', custom_error_page, name='404'),
 ] 

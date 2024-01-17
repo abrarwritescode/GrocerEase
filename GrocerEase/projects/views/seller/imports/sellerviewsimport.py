@@ -18,3 +18,5 @@ from projects.views.seller.notifications.viewnotifscount import getnotificationc
 from projects.views.seller.notifications.marknotifsread import marknotificationsasread
 from projects.views.seller.notifications.clearsinglenotif import clearsinglenotif
 from projects.views.seller.sellerorders.vieworders import vieworders
+from projects.views.seller.sellerorders.markashipped import mark_as_shipped
+from projects.views.seller.sellerorders.cancel import cancel_order

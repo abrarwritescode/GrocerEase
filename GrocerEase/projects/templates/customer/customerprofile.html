@@ -201,6 +201,7 @@
                                 <th>Price</th>
                                 <th>Discount Percent</th>
                                 <th>After Discount</th>
+                                <th>Item Status</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -219,6 +220,8 @@
                                     <td>{{ order_item.product.original_price }}</td>
                                   
                                     {% endif %}
+                                    <td>{{ order_item.status }}</td>
+
                                 </tr>
                             {% endfor %}
                         </tbody>

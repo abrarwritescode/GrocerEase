@@ -274,43 +274,44 @@ h1 {
                         <td><b>Contact:</b> </td>
                         <td>{{ order_info.order.shipping_phone }}</td>
 
-                        {% if order_info.order.status == 'Processing' %}
+                    {% for order_item in order_info.items %}
+                        {% if order_item.status == 'Processing' %}
                             <td>
                                 <form action="{% url 'vieworders' seller_id=request.session.seller_id %}" method="post" class="action-buttons">
                                     {% csrf_token %}
-                                    <input type="hidden" name="order_id" value="{{ order_info.order.id }}">
-                                    <input type="hidden" name="action" value="MARK_SHIPPED">  
+                                    <input type="hidden" name="action" value="MARK_SHIPPED">
+                                        <input type="hidden" name="order_item_id" value="{{ order_item.id }}">
                                     <input type="submit" value="MARK SHIPPED" class="btn markshipped button" name="accept">
- 
-                                    
-                                </form>  
+                                </form>
+                                
                                 <form action="{% url 'vieworders' seller_id=request.session.seller_id %}" method="post" class="action-buttons">
                                     {% csrf_token %}
-                                    
-                                    <input type="hidden" name="order_id" value="{{ order_info.order.id }}">
-                                    <input type="hidden" name="action1" value="CANCEL">  
+                                    <input type="hidden" name="action1" value="CANCEL">
+                                        <input type="hidden" name="order_item_id" value="{{ order_item.id }}">
                                     <input type="submit" value="CANCEL" class="btn cancell button" name="accept1">
-                                </form>              
+                                </form>
+                                              
                             </td>
-                        {% elif order_info.order.status == 'Shipped' %}
+                        {% elif order_item.status == 'Shipped' %}
                             <td>
                                 <form action="#" class="action-buttons">
                                     <input type="submit" value="SHIPPED" class="btn shipped button" name="accept">
                                 </form>                
                             </td>
-                        {% elif order_info.order.status == 'Delivered' %}
+                        {% elif order_item.status == 'Delivered' %}
                             <td>
                                 <form action="#" class="action-buttons">
                                     <input type="submit" value="DELIVERED" class="btn delivered button" name="accept3">
                                 </form>                
                             </td>
-                        {% elif order_info.order.status == 'Cancelled' %}
+                        {% elif order_item.status == 'Cancelled' %}
                             <td>
                                 <form action="#" class="action-buttons">
                                     <input type="submit" value="ORDER CANCELLED" class="btn cancel button" name="accept1">
                                 </form>                
                             </td>
                         {% endif %}
+                    {% endfor %}
                     </tr>
                 </tbody>
             </table>

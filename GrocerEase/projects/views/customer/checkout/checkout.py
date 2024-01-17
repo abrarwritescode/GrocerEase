@@ -53,6 +53,10 @@ def checkout(request, customer_id=None):
         order.shipping_phone = shipping_phone
         order.status = 'Processing'  
 
+        for order_item in order.orderitem_set.all():
+            order_item.status = 'Processing'
+            order_item.save()
+
         try:
             token = request.POST['stripeToken']
 

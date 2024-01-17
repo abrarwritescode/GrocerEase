@@ -249,6 +249,16 @@ class OrderItem(models.Model):
     quantity = models.IntegerField(default=0, null=True, blank=True)
     date_added = models.DateTimeField(auto_now_add=True)
     confirmed = models.BooleanField(default=False)  # To indicate whether it's a cart item or a confirmed order item
+    STATUS_CHOICES = [
+        ('Pending', 'Pending'),
+        ('Processing', 'Processing'),
+        ('Shipped', 'Shipped'),
+        ('Delivered', 'Delivered'),
+        ('Cancelled', 'Cancelled'),
+    ]
+
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending')
+
 
     
     def __str__(self):
