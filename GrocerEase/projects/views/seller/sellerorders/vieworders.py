@@ -1,5 +1,7 @@
 from projects.imports import *
 from django.shortcuts import render, redirect
+from django.db.models import Q
+
 @cache_control(no_cache=True, must_revalidate=True,no_store=True)
 def vieworders(request, seller_id):
     if 'sessionid' not in request.COOKIES:
@@ -7,41 +9,23 @@ def vieworders(request, seller_id):
     
     if request.method == 'POST':
         order_item_id = request.POST.get('order_item_id')
+        order_item_id1 = request.POST.get('order_item_id1')
         action = request.POST.get('action')
         action1 = request.POST.get('action1')
 
         if order_item_id and action == 'MARK_SHIPPED':
             order_item = OrderItem.objects.get(id=order_item_id)
-            print(order_item)
-            print(order_item.product)
             order_item.status = 'Shipped'
             order_item.save()
+            print(order_item.product)
 
             order = order_item.order
 
-
-            send_mail(
-                    'GrocerEase Order Updates', 
-                     f'Dear valued customer,\n\n'
-                     f'Welcome to GrocerEase! '
-                     'Your ordered item {order_item.product} is shipped to our warehouse successfully.\n\n'
-                     f'Thank you for trusting GrocerEase.\n\n'
-                     f'Best regards,\n'
-                     f'The GrocerEase Team',
-                    'grocereasedp1@gmail.com',
-                    [order.shipping_email],
-                    fail_silently=False,
-                )
-
-
-            order_items_to_update = OrderItem.objects.filter(order=order, product__seller_id=seller_id)
-            order_items_to_update.update(status='Shipped')
-
-
-        elif order_item_id and action1 == 'CANCEL':
-            order_item = OrderItem.objects.get(id=order_item_id)
+        elif order_item_id1 and action1 == 'CANCEL':
+            order_item = OrderItem.objects.get(id=order_item_id1)
             order_item.status = 'Cancelled'
             order_item.save()
+            print(order_item.product)
 
             order = order_item.order
 
@@ -56,9 +40,6 @@ def vieworders(request, seller_id):
                     [order.shipping_email],
                     fail_silently=False,
 )
-
-            order_items_to_update = OrderItem.objects.filter(order=order, product__seller_id=seller_id)
-            order_items_to_update.update(status='Cancelled')
 
 
     seller_orders = OrderItem.objects.filter(

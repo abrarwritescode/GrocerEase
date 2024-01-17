@@ -101,12 +101,10 @@
                 <img
                   class="img-fluid"
                   src="{{ item.itemfeaturedimage.url }}"
-                  alt=""
-                />
+                  alt=""/>
                 {% if item.discount_percentage > 0 %}
                 <span class="discount-label">
-                  BDT {{ item.discounted_price }} on {{ item.discount_percentage
-                  }}% sale
+                  BDT {{ item.discounted_price }} on {{ item.discount_percentage }}% sale
                 </span>
                 {% endif %} {% if item.itemquantity <= 0 %}
                 <span class="out-of-stock-label">Out of Stock</span>
@@ -251,7 +249,7 @@
   </div>
   {% endif %} {% else %}
   <h4 class="already">
-    You must have one purchase first!
+    You must have one purchase first
     <i style="color: #f28123" class="fa-duotone fa-exclamation"></i>
   </h4>
   {% endif %}

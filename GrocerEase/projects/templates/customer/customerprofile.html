@@ -197,17 +197,19 @@
                         <thead>
                             <tr>
                                 <th>Product</th>
+                                <th>Seller</th>
                                 <th>Quantity</th>
                                 <th>Price</th>
                                 <th>Discount Percent</th>
                                 <th>After Discount</th>
                                 <th>Item Status</th>
                             </tr>
-                        </thead>
+                        </thead> 
                         <tbody>
                             {% for order_item in order.orderitem_set.all %}
                                 <tr>
                                     <td>{{ order_item.product.itemtitle }}</td>
+                                    <td>{{ order_item.product.seller }}</td>
                                     <td>{{ order_item.quantity }}</td>
                                     {% if order_item.product.discount_percentage > 0 %}
                                     <td>{{ order_item.product.original_price }}</td>

@@ -68,13 +68,16 @@ def homecustomer(request, customer_id):
         recently_viewed_item_ids = request.session.get('recently_viewed', [])
         recently_viewed_items = Item.objects.filter(id__in=recently_viewed_item_ids)
 
-        recently_added_items = Item.objects.order_by('-uploadedon')[:8]  
+        recently_added_items = Item.objects.order_by('-uploadedon')[:6]  
 
         recently_viewed_categories = Item.objects.filter(id__in=recently_viewed_item_ids).values_list('category', flat=True)
 
         similar_items = Item.objects.filter(category__in=recently_viewed_categories).exclude(id__in=recently_viewed_item_ids).distinct()[:4]
 
-        combined_items = recently_added_items | top_rated_items
+        discounted_products = Item.objects.filter(discount_percentage__gt=0)
+        print(discounted_products)
+
+        combined_items = recently_added_items | top_rated_items | discounted_products
 
         for item in recently_viewed_items:
             print(item.itemtitle)

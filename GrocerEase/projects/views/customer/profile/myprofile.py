@@ -18,7 +18,7 @@ def customerprofile(request, customer_id):
         image_form = ChangeCustomerImageForm(instance=customer)
 
     context = {
-        'customer': customer,
+        'customer': customer, 
         'image_form': image_form,
         'cart_total': cart_total
     }

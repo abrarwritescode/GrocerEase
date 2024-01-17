@@ -233,12 +233,13 @@ h1 {
 
     <div class="container">
         <h1 style="position: relative; top: 20px;">My Orders</h1>
-        {% for order_info in orders_info reversed %}
+        {% for order_info in orders_info %}
             <table>
                 <thead>
                     <tr>
                         <th>Order Number: {{ order_info.order.id }}</th>
-                        <th>Order Status: {{ order_info.order.status }}</th>
+                        <th></th>
+                        <th></th>
                         <th></th>
                         <th></th>
                         <th>{{ order_info.order.date_ordered }}</th>
@@ -249,6 +250,7 @@ h1 {
                         <th>Quantity</th>
                         <th>Category</th>
                         <th>Image</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -265,16 +267,6 @@ h1 {
                             <td class="product-image">
                                 <img src="{{ order_item.product.itemfeaturedimage.url }}" alt="">
                             </td>
-                        </tr> 
-                    {% endfor %}
-
-                    <tr>
-                        <td><b>Customer's Address:</b> </td>
-                        <td>{{ order_info.order.shipping_address }}</td>
-                        <td><b>Contact:</b> </td>
-                        <td>{{ order_info.order.shipping_phone }}</td>
-
-                    {% for order_item in order_info.items %}
                         {% if order_item.status == 'Processing' %}
                             <td>
                                 <form action="{% url 'vieworders' seller_id=request.session.seller_id %}" method="post" class="action-buttons">
@@ -287,7 +279,7 @@ h1 {
                                 <form action="{% url 'vieworders' seller_id=request.session.seller_id %}" method="post" class="action-buttons">
                                     {% csrf_token %}
                                     <input type="hidden" name="action1" value="CANCEL">
-                                        <input type="hidden" name="order_item_id" value="{{ order_item.id }}">
+                                        <input type="hidden" name="order_item_id1" value="{{ order_item.id }}">
                                     <input type="submit" value="CANCEL" class="btn cancell button" name="accept1">
                                 </form>
                                               
@@ -311,7 +303,17 @@ h1 {
                                 </form>                
                             </td>
                         {% endif %}
+                        </tr> 
                     {% endfor %}
+
+                    <tr>
+                        <td><b>Customer's Address:</b> </td>
+                        <td>{{ order_info.order.shipping_address }}</td>
+                        <td><b>Contact:</b> </td>
+                        <td>{{ order_info.order.shipping_phone }}</td>
+
+                    <td><b>Email:</b></td>
+                    <td>{{ order_info.order.shipping_email }}</td>
                     </tr>
                 </tbody>
             </table>
