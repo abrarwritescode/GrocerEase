@@ -25,8 +25,10 @@ def searchitems(request, customer_id):
 
         relevant_items = [
             item for item in products
-            if fuzz.partial_ratio(search_query.lower(), item.itemtitle.lower()) > 60
-            or any(fuzz.partial_ratio(search_query.lower(), category.categoryname.lower()) > 60
+            if fuzz.partial_ratio(search_query.lower(), item.itemtitle.lower()) > 75
+            or search_query.lower() in item.seller.storename.lower()
+
+            or any(fuzz.partial_ratio(search_query.lower(), category.categoryname.lower()) > 75
                    for category in item.category.all())
         ]
 

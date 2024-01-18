@@ -12,8 +12,8 @@ def sellersearch(request, seller_id):
 
         relevant_items = [
             item for item in all_items
-            if fuzz.partial_ratio(search_query.lower(), item.itemtitle.lower()) > 70
-            or any(fuzz.partial_ratio(search_query.lower(), category.categoryname.lower()) > 70
+            if fuzz.partial_ratio(search_query.lower(), item.itemtitle.lower()) > 75
+            or any(fuzz.partial_ratio(search_query.lower(), category.categoryname.lower()) > 75
                    for category in item.category.all())
         ]
 
