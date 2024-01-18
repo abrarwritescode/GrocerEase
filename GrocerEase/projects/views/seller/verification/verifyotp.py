@@ -14,7 +14,7 @@ def verifyotpseller(request):
 
         if user_email:
             if entered_otp == session_otp:
-                user = Seller.objects.create(  # using Django's Object-Relational Mapping (ORM) instead of raw query
+                user = Seller.objects.create( 
                     storename=seller_name,  
                     selleremail=user_email,
                     sellerpassword=seller_password,

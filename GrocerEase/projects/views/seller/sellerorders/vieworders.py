@@ -32,7 +32,7 @@ def vieworders(request, seller_id):
             send_mail(
                     'GrocerEase Order Cancellation',
                     f'Dear valued customer,\n\n'
-                    f'We regret to inform you that your ordered item {order_item.product} has been canceled.\n\n'
+                    f'We regret to inform you that your ordered item {order_item.product} from { order_item.product.seller } has been canceled.\n\n'
                     f'Thank you for considering GrocerEase.\n\n'
                     f'Best regards,\n'
                     f'The GrocerEase Team',

@@ -296,12 +296,14 @@ h1 {
                                     <input type="submit" value="DELIVERED" class="btn delivered button" name="accept3">
                                 </form>                
                             </td>
-                        {% elif order_item.status == 'Cancelled' %}
+                        
+                        {% elif order_item.status == 'Cancelled' or order_item.status == 'Refunded' or order_item.status == 'Refunding In Progress' %}
                             <td>
                                 <form action="#" class="action-buttons">
                                     <input type="submit" value="ORDER CANCELLED" class="btn cancel button" name="accept1">
                                 </form>                
                             </td>
+                    
                         {% endif %}
                         </tr> 
                     {% endfor %}

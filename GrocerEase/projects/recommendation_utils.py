@@ -6,14 +6,11 @@ from sklearn.metrics.pairwise import linear_kernel
 
 def generate_item_features(all_items):
    
-    # tile, category combined into one text for each item
     item_texts = [
         f"{item.itemtitle} {', '.join(category.categoryname for category in item.category.all())}"
         for item in all_items
     ]
 
-
-    # TF-IDF vectorizer to convert text to features
     vectorizer = TfidfVectorizer(stop_words='english')
     features = vectorizer.fit_transform(item_texts)
 
@@ -38,7 +35,6 @@ def get_recommendations(item_index, items, similarity_matrix, num_recommendation
     print(f"similarity_matrix.shape: {similarity_matrix.shape}")
 
 
-    # to check if the item_index is within the bounds of the similarity matrix
     if item_index >= similarity_matrix.shape[0]:
         raise IndexError(f"Index {item_index} is out of bounds for axis 0 with size {similarity_matrix.shape[0]}")
 
@@ -69,7 +65,7 @@ def get_recommendations(item_index, items, similarity_matrix, num_recommendation
 
 
     # the actual items based on indices
-    recommended_items = [items[i] for i in similar_item_indices]  # Access the associated Item object
+    recommended_items = [items[i] for i in similar_item_indices] 
 
 
     print("\nRecommended Items:")

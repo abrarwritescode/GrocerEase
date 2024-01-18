@@ -198,6 +198,7 @@ class Order(models.Model):
         ('Shipped', 'Shipped'),
         ('Delivered', 'Delivered'),
         ('Cancelled', 'Cancelled'),
+        ('Completed', 'Completed'),
     ]
 
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending')
@@ -255,9 +256,11 @@ class OrderItem(models.Model):
         ('Shipped', 'Shipped'),
         ('Delivered', 'Delivered'),
         ('Cancelled', 'Cancelled'),
+        ('Refunding In Progress', 'Refunding In Progress'),
+        ('Refunded', 'Refunded'),
     ]
 
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending')
+    status = models.CharField(max_length=29, choices=STATUS_CHOICES, default='Pending')
 
 
     
@@ -312,4 +315,14 @@ class Review(models.Model):
 
     def __str__(self):
         return f"Review by {self.customer} for {self.item}"
+    
 
+class Refund(models.Model):
+    order_item = models.ForeignKey(OrderItem, on_delete=models.CASCADE)
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)  # Assuming you have a Customer model
+    refund_amount = models.DecimalField(max_digits=10, decimal_places=2)
+
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Refund #{self.id} - {self.customer}"

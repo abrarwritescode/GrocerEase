@@ -163,6 +163,9 @@
 <ul style="list-style: none; padding: 0; text-align: center">
     {% for order in customer.order_set.all reversed %}
         {% if order.status != 'Pending' %}
+        {% comment %} {% with order_items_cancelled=order.orderitem_set.filter(status='Cancelled') %}
+        {% with order_items_refunded=order.orderitem_set.filter(status='Refunded') %}
+             {% endcomment %}
             <li
                 style=" 
                     background-color: #fff;
@@ -189,7 +192,9 @@
                     </div>
                     <div style="color: #042405">
                         <strong>Date:</strong> {{ order.date_ordered|date:"F j, Y H:i" }} <br>
-                        <strong>Status:</strong> {{ order.status }}
+                        <strong>Status:</strong> 
+                        {{ order.status }}
+                        
                     </div>
                 </div>
                 <div class="order-items">
@@ -222,14 +227,27 @@
                                     <td>{{ order_item.product.original_price }}</td>
                                   
                                     {% endif %}
-                                    <td>{{ order_item.status }}</td>
+                                  
+                                <td>{{ order_item.status }}
+                                {% if order_item.status == 'Cancelled' %}
+                                     
+                                <a href="{% url 'refund' order_item.id %}">
+                                  <button type="button" style="background-color: #042405; color: white; border: none; left: 10px; position: relative;" >Request Refund</button>
+                              </a>
 
+                                {% endif %}
+                                    
+                                </td>
                                 </tr>
                             {% endfor %}
                         </tbody>
                     </table>
                 </div>
+               
+
             </li>
+            {% comment %} {% endwith %}
+            {% endwith %} {% endcomment %}
         {% endif %}
     {% endfor %}
 </ul>

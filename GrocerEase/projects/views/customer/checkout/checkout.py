@@ -85,13 +85,15 @@ def checkout(request, customer_id=None):
                     [order.shipping_email],
                     fail_silently=False,
                 )
+                unique_sellers = set(order_item.product.seller for order_item in order.orderitem_set.all())
 
-                seller = order.orderitem_set.first().product.seller
-                order_id = order.id
-                added_datetime = timezone.now()  # Get the current date and time
-                current_datetime = added_datetime + timedelta(hours=6)
-                notification_message = f'New order no: {order_id} placed by {customer.customername} at {current_datetime}'
-                Notification.objects.create(sender=customer, recipient=seller, message=notification_message)
+                for seller in unique_sellers:
+                    
+                    order_id = order.id
+                    added_datetime = timezone.now()  # Get the current date and time
+                    current_datetime = added_datetime + timedelta(hours=6)
+                    notification_message = f'New order no: {order_id} placed by {customer.customername} at {current_datetime}'
+                    Notification.objects.create(sender=customer, recipient=seller, message=notification_message)
 
 
             return redirect('homecustomer', customer_id=customer_id)
