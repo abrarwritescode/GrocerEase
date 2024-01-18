@@ -284,18 +284,20 @@ h1 {
                                 </form>
                                               
                             </td>
-                        {% elif order_item.status == 'Shipped' %}
-                            <td>
-                                <form action="#" class="action-buttons">
-                                    <input type="submit" value="SHIPPED" class="btn shipped button" name="accept">
-                                </form>                
-                            </td>
-                        {% elif order_item.status == 'Delivered' %}
-                            <td>
-                                <form action="#" class="action-buttons">
-                                    <input type="submit" value="DELIVERED" class="btn delivered button" name="accept3">
-                                </form>                
-                            </td>
+                            {% elif order_item.status == 'Shipped' %}
+                            {% if order_item.order.status == 'Processing' %}
+                                <td>
+                                    <form action="#" class="action-buttons">
+                                        <input type="submit" value="SHIPPED" class="btn shipped button" name="accept">
+                                    </form>
+                                </td>
+                            {% elif order_item.order.status == 'Delivered' %}
+                                <td>
+                                    <form action="#" class="action-buttons">
+                                        <input type="submit" value="COMPLETED" class="btn delivered button" name="accept3">
+                                    </form>
+                                </td>
+                            {% endif %}
                         
                         {% elif order_item.status == 'Cancelled' or order_item.status == 'Refunded' or order_item.status == 'Refunding In Progress' %}
                             <td>

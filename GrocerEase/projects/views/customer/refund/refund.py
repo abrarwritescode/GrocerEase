@@ -1,4 +1,7 @@
 from projects.imports import *
+from django.views.decorators.cache import cache_control
+
+@cache_control(no_cache=True, must_revalidate=True,no_store=True)
 
 def refund(request, order_item_id):
     order_item = get_object_or_404(OrderItem, id=order_item_id)
