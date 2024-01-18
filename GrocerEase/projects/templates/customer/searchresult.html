@@ -33,6 +33,56 @@
 
 	</style>
 
+	<script type="text/javascript">
+
+		var user = '{{customer|safe}}'
+		var customer = '{{ customer_json|safe }}'
+
+		function getToken(name) {
+		    var cookieValue = null;
+		    if (document.cookie && document.cookie !== '') {
+		        var cookies = document.cookie.split(';');
+		        for (var i = 0; i < cookies.length; i++) {
+		            var cookie = cookies[i].trim();
+		           
+		            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+		                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+		                break;
+		            }
+		        }
+		    }
+		    return cookieValue;
+		}
+		var csrftoken = getToken('csrftoken')
+
+
+		function getCookie(name) {
+		   
+		    var cookieArr = document.cookie.split(";");
+
+		    for(var i = 0; i < cookieArr.length; i++) {
+		        var cookiePair = cookieArr[i].split("=");
+
+		      
+		        if(name == cookiePair[0].trim()) {
+		            return decodeURIComponent(cookiePair[1]);
+		        }
+		    }
+
+		    
+		    return null;
+		}
+		var cart = JSON.parse(getCookie('cart')) 
+
+		if (cart == undefined){
+			cart = {}
+			console.log('Cart Created!', cart)
+			document.cookie ='cart=' + JSON.stringify(cart) + ";domain=;path=/"
+		}
+		console.log('Cart:', cart)
+	
+	</script>
+
    <body>
     <div class="search-body-area-result footer-area1">
             
@@ -86,7 +136,12 @@
 							
     </div>
    
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<script src="{% static 'js/main.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
+
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 	  <script>
 	  
 		  $(document).ready(function () {
@@ -99,11 +154,11 @@
 				  const itemId = link.attr('data-item-id');
 				  const userId = link.attr('data-user-id'); 
 				  
-				  // Construct a unique key for this specific item and user
+				
 				  const storageKey = 'favorite_' + userId + '_' + itemId;
 				  const isFavorite = localStorage.getItem(storageKey) === 'true';
 				  
-				  // Initialize the icon based on the favorite state
+				  
 				  updateIcon(link, isFavorite);
 		  
 				  link.on('click', function(event) {
@@ -114,7 +169,7 @@
 					  .done(function(data) {
 						  const isFavorite = data.is_favorite;
 						  
-						  // Update the icon and local storage for this specific item and user
+						  
 						  updateIcon(link, isFavorite);
 						  localStorage.setItem(storageKey, isFavorite.toString());
 						  
@@ -126,7 +181,7 @@
 				  });
 			  });
 			  
-			  // Function to update the icon based on the item's state (favorite or not)
+			 
 			  function updateIcon(link, isFavorite) {
 				  const icon = link.find('i');
 				  if (isFavorite) {
@@ -136,7 +191,7 @@
 				  }
 			  }
 			  
-			  // Function to update the favorite count
+			
 			  function updateFavoriteCount() {
 				  $.get("{% url 'getfavoritescount' customer_id=request.session.customer_id %}")
 				  .done(function(data) {
@@ -154,7 +209,7 @@
 				  });
 			  }
 			  
-			  // Fetch and update the initial favorite count
+			
 			  updateFavoriteCount();
 		  });
 		  

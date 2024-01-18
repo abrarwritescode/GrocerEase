@@ -200,7 +200,7 @@
                     </form>
                     
                     <div id="filteredResultsContainer">
-                        <!-- Filtered results will be displayed here -->
+                       
                     </div>
 
                 </div>
@@ -268,11 +268,11 @@
                     url: "{% url 'search' customer_id=request.session.customer_id %}",
                     data: { search_query: searchQuery },
                     success: function (data) {
-                        // Check if there are search results and the searchQuery is not empty
+                       
                         if (data.trim() !== '' && searchQuery.trim() !== '') {
                             $('#searchResultsContainer').html(data).show();
                         } else {
-                            // Hide the container if there are no search results or if the searchQuery is empty
+                           
                             $('#searchResultsContainer').hide();
                         }
                     }
@@ -294,7 +294,7 @@
             });
             
             $("#filterForm").on("submit", function(event) {
-                event.preventDefault(); // Prevent the default form submission
+                event.preventDefault(); 
                 var minPrice = $("#min_price").val();
                 var maxPrice = $("#max_price").val();
         
@@ -322,11 +322,11 @@
 				  const itemId = link.attr('data-item-id');
 				  const userId = link.attr('data-user-id'); 
 				  
-				  // Construct a unique key for this specific item and user
+				  
 				  const storageKey = 'favorite_' + userId + '_' + itemId;
 				  const isFavorite = localStorage.getItem(storageKey) === 'true';
 				  
-				  // Initialize the icon based on the favorite state
+				 
 				  updateIcon(link, isFavorite);
 		  
 				  link.on('click', function(event) {
@@ -337,7 +337,7 @@
 					  .done(function(data) {
 						  const isFavorite = data.is_favorite;
 						  
-						  // Update the icon and local storage for this specific item and user
+						  
 						  updateIcon(link, isFavorite);
 						  localStorage.setItem(storageKey, isFavorite.toString());
 						  
@@ -349,7 +349,7 @@
 				  });
 			  });
 			  
-			  // Function to update the icon based on the item's state (favorite or not)
+			 
 			  function updateIcon(link, isFavorite) {
 				  const icon = link.find('i');
 				  if (isFavorite) {
@@ -359,7 +359,7 @@
 				  }
 			  }
 			  
-			  // Function to update the favorite count
+
 			  function updateFavoriteCount() {
 				  $.get("{% url 'getfavoritescount' customer_id=request.session.customer_id %}")
 				  .done(function(data) {
@@ -377,7 +377,6 @@
 				  });
 			  }
 			  
-			  // Fetch and update the initial favorite count
 			  updateFavoriteCount();
 		  });
 		  
