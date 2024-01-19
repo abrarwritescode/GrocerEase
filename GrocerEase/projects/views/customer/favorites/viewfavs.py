@@ -12,4 +12,4 @@ def viewfavorites(request, customer_id):
          favorites = Favorite.objects.filter(customer=customer)
          cart_total = Order.objects.filter(customer=customer, is_cart=True).first().get_cart_items
 
-         return render(request, 'customer/favorites.html', {'favorites': favorites, 'cart_total': cart_total})
+         return render(request, 'customer/favorites.html', {'items': favorites, 'cart_total': cart_total, 'customer': customer})

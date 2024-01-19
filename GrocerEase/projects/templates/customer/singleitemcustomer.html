@@ -16,7 +16,7 @@
     .average-rating {
       position: absolute;
       left: 1000px;
-      top: 220px;
+      top: 240px;
     }
     .review-form {
       position: absolute;
@@ -133,7 +133,7 @@
             {% endif %}
             <p><strong>Description:</strong> {{ item.itemdescription }}</p>
             <p class="single-product-form">
-              <span><strong>Quantity:</strong> {{ item.itemquantity }}/kg</span>
+              <span><strong>Quantity:</strong> {{ item.itemquantity }}/Kg</span>
             </p>
             <div class="single-product-form">
               {% for category in categorys %}
@@ -168,7 +168,7 @@
     <h2 class="mb-4">Rating & Reviews:</h2>
   </div>
 
-  {% for review in reviews %}
+  {% for review in reviews|dictsortreversed:"created_at" %}
   <div class="allcomment">
     <div class="userimage">
       <img src="{{ review.customer.customerimage.url }}" alt="" />
@@ -183,10 +183,16 @@
   </div>
   {% endfor %}
 
+  
+
   <div class="average-rating">
+    {% if total_reviews %}
+    <h5>Total Reviews: <b>{{ total_reviews }}</b> </h5>
+    
+    {% endif %}
     {% if average_rating %}
-    <h5>Average Rating:</h5>
-    <b>{{ average_rating }}/5</b>
+    <h5>Average Rating: <b>{{ average_rating }}/5</b></h5>
+    
     <div>
       <div><span style="color: #f28123">&#9733;</span> {{ rating1 }}</div>
       <div>

@@ -17,6 +17,47 @@
           animation: fade-in 0.5s ease-in-out forwards; 
         }
 
+	.rateandreview {
+			position: relative;
+			bottom: 240px;
+			height: 90vh;
+			margin-bottom: 10px;
+		  }
+
+	.userimage img {
+			width: 100px;
+			height: 100px;
+			border-radius: 50%;
+			margin-right: 20px;
+		  }
+
+	.comment-details .name,
+    .comment-details .comment {
+      margin: 5px;
+      position: relative;
+      bottom: 20px;
+    }
+
+    .comment-details .date {
+      position: relative;
+      left: 115px;
+      font-size: 12px;
+      top: 70px;
+    }
+
+	.allcomment {
+		display: flex;
+		align-items: center;
+		border-radius: 5px;
+		width: 30%;
+		margin-top: 10px;
+		background-color: rgb(240, 240, 240);
+		position: relative;
+		top: 300px;
+		left: 450px;
+		border: 3px solid #f2802356;
+	  }
+
 </style>
 
 <div style="height: 110vh;">
@@ -42,25 +83,60 @@
 				</div>
 				<div class="col-md-7">
 					<div class="single-product-content">
-                        <h3>{{item.itemtitle}}</h3> <span class="heart-icon" style="color: red; font-size: 24px;">&hearts;</span> {{ item.favorite_count }}
-						<p>Description: {{item.itemdescription}}</p>
-						<p>Quantity: {{item.itemquantity}} Kg</p>
-						{% for category in categorys %}
-    					<p>{{category}}</p>
-    					{% endfor %}   
 
+						<span class="heart-icon" style="color: red; font-size: 24px;">&hearts;</span> {{ item.favorite_count }}
+						{% comment %} <p>: {{ average_rating }}/5</p> {% endcomment %}
+						<p>
+							{% if average_rating >= 1 %}
+   							 <span style="color: #f28123;">&#9733;</span>
+  							{% else %}
+    						<span>&#9733;</span>
+  							{% endif %}
+  							{{ average_rating }}/5 <strong>({{ total_reviews }}) </strong>
+						  </p>
 						{% if item.discount_percentage > 0 %} 
 						<p class="single-product-pricing"><span style="text-decoration: line-through;">BDT {{item.original_price}}</span>  BDT {{item.discounted_price}}</p>
 						{% else %}
 						<p class="single-product-pricing"><span>BDT {{item.itemprice}}</span></p>
 						{% endif %}
-						<a style="text-decoration: none; color: #042405;" href="{% url 'homeseller' seller_id=request.session.seller_id %}">Go Back</a>
+                     
+						<p><strong>Description: </strong> {{item.itemdescription}}</p>
+						<p><strong>Quantity: </strong>{{item.itemquantity}}/Kg</p>
+						{% for category in categorys %}
+    					<p><strong>Categories: </strong>{{category}}</p>
+    					{% endfor %}   
+
+						
+						
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
+	</div> 
 	
+	
+
+
+<div class="rateandreview">
+	<div style="position: relative; top: 300px" class="section-title">
+	  <h2 class="mb-4">Rating & Reviews:</h2>
+	</div>
+  
+	{% for review in reviews|dictsortreversed:"created_at" %}
+	<div class="allcomment">
+	  <div class="userimage">
+		<img src="{{ review.customer.customerimage.url }}" alt="" />
+	  </div>
+	  <div class="comment-details">
+		<p class="date">{{ review.created_at }}</p>
+		<p class="name">
+		  User {{ review.customer.customername }} rated it {{ review.rating }}/5
+		</p>
+		<p class="comment"><b>Comment:</b> {{ review.comment }}</p>
+	  </div>
+	</div>
+	{% endfor %}
+  
 </div>
 
 {% endblock content %}

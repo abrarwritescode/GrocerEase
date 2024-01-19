@@ -9,7 +9,7 @@ def filteritemsbycategory(request, category_name, customer_id):
         customer = Customer.objects.get(pk=customer_id)
         data = cartData(request, customer_id)
 
-        cartItems = data['cartItems']
+        cartItems = data['cartItems'] 
         order = data['order']
         items = data['items']
 
