@@ -5,7 +5,7 @@
 2. Lamia Alam, ID: 200042162
 3. Abrar Mahmud, ID: 200042168
 ## Overview:
-A Django-based e-commerce platform connecting sellers and customers, combining product listings, recommended grocery list, and inventory updates for easier and convenient grocery shopping.  
+A Django-based e-commerce website connecting sellers and customers, combining product listings, recommended grocery list, and inventory updates for easier and convenient grocery shopping.  
 
 ## Key Features:
 1. User Registration:
