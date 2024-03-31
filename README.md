@@ -1,5 +1,5 @@
 ## Course Title: Design Project I (DP-1)
-## Course Code: SWE4504
+## Course Code: SWE4506
 ## Project Title: GrocerEase 
 
 ## Team Members:
