@@ -26,7 +26,7 @@ class SoftDelete(models.Model):
 
 class Customer(models.Model):
     customername = models.CharField(max_length=150)
-    customeremail = models.EmailField(unique=True)
+    customeremail = models.EmailField(unique=True) 
     customerpassword = models.CharField(max_length=128)
     otp = models.CharField(max_length=6, blank=True, null=True)  
     is_verified = models.BooleanField(default=False) 
@@ -138,40 +138,35 @@ class Item(SoftDelete):
         return recommended_items
     
     def get_complementary_items(self):
-    # Assuming you have a variable for the selected item, replace 'selected_item' with the actual variable
-        selected_item = self  # Assuming this method is part of the Item model
 
-    # Get all items excluding the selected item
+        selected_item = self  
+
         all_items = Item.objects.exclude(id=selected_item.id)
 
         complementary_items_dict = {}
 
-    # Iterate through all items
         for accessory in all_items.filter(category__in=selected_item.category.all()):
             for category in accessory.category.all():
                 if category not in complementary_items_dict:
                     complementary_items_dict[category] = set()
 
-            # Ensure the complementary item is not the item itself
                 if accessory.id != selected_item.id:
                     complementary_items_dict[category].add(accessory)
 
-    # Convert sets to lists
         complementary_items_dict = {category: list(items)[:4] for category, items in complementary_items_dict.items()}
 
         return complementary_items_dict
     
     def frequently_bought_products(self, customer):
-        # Get orders with the current item
+       
         orders_with_current_item = OrderItem.objects.filter(
             product=self,
             confirmed=True,
         ).values_list('order', flat=True)
 
-        # Get other products frequently bought with the current item
         frequently_bought_items = Item.objects.filter(
             orderitem__order__in=orders_with_current_item,
-            orderitem__order__status='Delivered',  # Change status as needed
+            orderitem__order__status='Delivered', 
         ).exclude(id=self.id).annotate(frequency=count('id')).order_by('-frequency')[:5]
 
         return frequently_bought_items

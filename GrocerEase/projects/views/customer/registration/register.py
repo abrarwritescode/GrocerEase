@@ -11,7 +11,7 @@ def registercustomer(request):
             password = form.cleaned_data['customerpassword']
 
             digit_error = None
-            special_char_error = None
+            special_char_error = None 
             capital_error = None
             small_letter_error = None
             length_error = None

@@ -1,3 +1,7 @@
+# credentials
+# grocereasedp1@gmail.com
+# lbsl yumc supk caqb
+
 from projects.imports import *
 
 def vieworders(request, seller_id):
@@ -13,3 +17,4 @@ def vieworders(request, seller_id):
     }
 
     return render(request, 'orders.html', context)
+

@@ -108,7 +108,7 @@ def item_details_with_reviews(request, pk, customer_id):
             
             print(11)
             return redirect('item_details_with_reviews', pk=pk, customer_id=customer_id)
-            print(66)
+            print(66) 
     else:
         form = ReviewForm()
 
