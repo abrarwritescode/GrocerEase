@@ -1,3 +1,5 @@
+## Course Title: Design Project I (DP-1)
+## Course Code: SWE4504
 ## Project Title: GrocerEase 
 
 ## Team Members:
@@ -32,8 +34,14 @@ Customers can give a rate out of five stars. They can also write reviews of thei
 11. Vouchers and Discounts:
 Sellers can offer vouchers for a certain period of time, and discounts to attract and retain customers.
 12. Recommended Grocery List:
-Customers will get an automated grocery list with recommendations based on frequently bought items, favourite items, items similar to what they boughts and top rated items.
+Customers will get an automated grocery list with recommendations based on frequently bought items, favourite items, items similar to what they bought previously and top rated items.
 
+ ## Industry Practices Followed:
+1. Role-based user authentication
+
+2. Soft delete
+
+3. Cache control
 
 
 ## Platforms & Technologies:
@@ -43,3 +51,7 @@ Customers will get an automated grocery list with recommendations based on frequ
  <a href="https://www.w3schools.com/css/" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/css3/css3-original-wordmark.svg" alt="css3" width="40" height="40"/> </a>
  <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noreferrer"> <img src="https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg" alt="javascript" width="40" height="40"/>
  <a href="https://git-scm.com/" target="_blank" rel="noreferrer"> <img src="https://www.vectorlogo.zone/logos/git-scm/git-scm-icon.svg" alt="git" width="40" height="40"/> </a>
+
+
+
+ 
