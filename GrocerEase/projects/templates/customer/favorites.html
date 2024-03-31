@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 
-{% load static %}
+{% load static %} 
 
+<html lang="en">
 <head> 
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,7 +16,7 @@
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="shortcut icon" type="image/png" href="{% static 'pictures/faviconcart.png' %}">
     <title>GrocerEase | Home</title>
- 
+    
     <script type="text/javascript">
 
 		var user = '{{customer|safe}}'
@@ -69,9 +70,9 @@
 	
 	</script>
 
-  </head>
+</head>
 
-  <style>
+<style>
 	.discount-label {
           display: block;
           background-color: red;
@@ -87,9 +88,8 @@
           animation: fade-in 0.5s ease-in-out forwards; 
         }
 
-  </style>
-  
-  <body>
+</style>
+<body> 
 
 	<header style="position: fixed; top: 0px; z-index: 1000;" class="navbar">
         <div class="logo">
@@ -97,7 +97,7 @@
 				<img class="logoimage" src="{% static 'pictures/logo.png' %}" alt="">	
 			</a>
         </div>
-		<div class="icons"> 
+		<div class="icons">
 
 			<a style="color: #042405;" class="shopping-cart icon" href="{% url 'cart' customer_id=request.session.customer_id %}"><i  id="cart-icon" class="fas fa-shopping-cart"></i></a>
 			<a style="color: #042405;" class="icon" href="{% url 'myfavorites' customer_id=request.session.customer_id  %}">
@@ -122,108 +122,66 @@
 		<p id="cart-total">{{cart_total}}</p>
     </header>
 
-   <div class="search-body-area-result ">
-        <div style="position: relative; top: 160px; height: 45vh;" class="section-title">
-            <h2> Your Favourites: </h2>
-        </div>
+    <div class="search-body-area-result ">
+
+    <div style="position: relative; top: 160px; height: 45vh;" class="section-title">
+        <h2> My Favourites: </h2>
         
-        <div style="justify-content: center; align-items: center;" class="row">
-        {% if favorites %}
+    </div>
+	
             
-            {% for favorite in favorites %}
+        <di style="justify-content: center; align-items: center;" class="row">
+            {% for item in items %} 
                 <div class="col-md-6 col-lg-3 ftco-animate">
                     <div class="product">
-                        <a href="#" class="img-prod"><img class="img-fluid" src="{{ favorite.item.itemfeaturedimage.url }}" alt="">
+                        <a href="#" class="img-prod"><img class="img-fluid" src="{{ item.item.itemfeaturedimage.url }}" alt="">
                             <div class="overlay"></div>
-
-                        {% if favorite.item.discount_percentage > 0 %}
-                    	<span class="discount-label">BDT {{favorite.item.discounted_price}} on {{favorite.item.discount_percentage}}% sale</span>
-                		{% endif %}
-						<div class="overlay"></div>
-						{% if favorite.item.itemquantity <= 0 %}
-						<span class="out-of-stock-label">Out of Stock</span>
-						{% endif %}
-						
+						    {% if item.item.itemquantity <= 0 %}
+						    <span class="out-of-stock-label">Out of Stock</span>
+						    {% endif %}
+                            {% if item.item.discount_percentage > 0 %}
+                    	    <span class="discount-label">BDT {{item.item.discounted_price}} on {{item.item.discount_percentage}}% sale</span>
+                		    {% endif %}						
                         </a>
                         <div class="text py-3 pb-4 px-3 text-center">
-                            <h3><strong>{{favorite.item.itemtitle}}</strong></h3>
+                            <h3><strong>{{item.item.itemtitle}}</strong></h3>
                             <div class="d-flex">
                                 <div class="pricing">
-									{% if favorite.item.discount_percentage > 0 %} 
-									<p class="price"><span class="price-sale" style="text-decoration: line-through;">BDT {{favorite.item.original_price}}</span></p>
+                                    {% if item.item.discount_percentage > 0 %} 
+									<p class="price"><span class="price-sale" style="text-decoration: line-through;">BDT {{item.item.original_price}}</span></p>
 									{% else %}
-									<p class="price"><span class="price-sale">BDT {{favorite.item.itemprice}}</span></p>
-									{% endif %}                                    
+									<p class="price"><span class="price-sale">BDT {{item.item.itemprice}}</span></p>
+									{% endif %}
                                 </div>
-                                
-                                    
-                               
                             </div>
                             <div class="bottom-area d-flex px-3">
                                 <div class="m-auto d-flex">
-                                   
-                                    <a href="{% url 'singleitemcustomer' pk=favorite.item.id customer_id=request.session.customer_id %}" class="add-to-cart d-flex justify-content-center align-items-center text-center">
-                                        <span><i class="fas fa-bars"></i>
-										</i></span>
-                                    </a>   
-                                    <a href="{% url 'cart' customer_id=request.session.customer_id %}" data-product="{{favorite.item.id}}" data-action="add" class="add-btn update-cart add-to-cart buy-now d-flex justify-content-center align-items-center mx-1 {% if item.itemquantity <= 0 %}out-of-stock{% endif %}">
-                                        <span><i class="fas fa-shopping-cart"></i>
-										</span>
-                                    </a> 
-                                
-                                </div> 
+                                    <a href="{% url 'singleitemcustomer' pk=item.item.id customer_id=request.session.customer_id %}" class="add-to-cart d-flex justify-content-center align-items-center text-center">
+                                        <span><i class="fas fa-bars"></i></span>
+                                    </a>
+                                    
+                                    <a href="{% url 'cart' customer_id=request.session.customer_id %}" data-product="{{item.item.id}}" data-action="add" class="add-btn update-cart add-to-cart buy-now d-flex justify-content-center align-items-center mx-1 {% if item.item.itemquantity <= 0 %}out-of-stock{% endif %}">
+                                        <span><i class="fas fa-shopping-cart"></i></span>
+                                    </a>    
+                                    <a href="{% url 'togglefavorite' pk=item.item.id customer_id=request.session.customer_id %}" class="toggle-favorite d-flex justify-content-center align-items-center text-center" data-item-id="{{ item.item.id }}" data-user-id="{{ request.session.customer_id }}">
+                                        <span><i class="far fa-heart"></i></span>
+                                    </a>                       
+        
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> 
             {% endfor %}
-            
-        {% endif %}
-        </div>
-    </div>
-
- <div class="footer-area">
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-3 col-md-6">
-				<div class="footer-box about-widget">
-					<h2 class="widget-title">About us</h2>
-					<p>Your one-stop online destination for all your grocery shopping needs. We understand the importance of convenience in today's fast-paced world, and that's why we're here to simplify your shopping experience and make it as effortless as possible.</p>
-				</div>
-			</div>
-			<div class="col-lg-3 col-md-6">
-				<div class="footer-box get-in-touch">
-					<h2 class="widget-title">Get in Touch</h2>
-					<ul>
-						<li>Dhaka, Bangladesh</li>
-						<li>grocereasedp1@gmail.com</li>
-					</ul>
-				</div>
-			</div>
-			<div class="col-lg-3 col-md-6">
-				<div class="footer-box pages">
-					<h2 class="widget-title">Pages</h2>
-					<ul>
-						<li><a style="color: white; text-decoration: none;" href="{% url 'homecustomer' customer_id=request.session.customer_id %}">Home</a></li>
-						<li><a style="color: white; text-decoration: none;" href="{% url 'shop' customer_id=request.session.customer_id %}">Shop</a></li> 
-					</ul>
-				</div>
-			</div>
-			<div class="col-lg-3 col-md-6">
-				<div class="footer-box subscribe">
-					<h2 class="widget-title">Follow us</h2>
-					<p>To get the latest updates.</p>
-					
-				</div>
-			</div>
-		</div>
-	</div>
+          </div>
+        
 </div>
 
-<script src="{% static 'js/main.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<script src="{% static 'js/main.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
+
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     
 <script>
@@ -293,7 +251,6 @@
 			});
 		}
 		
-		// Fetch and update the initial favorite count
 		updateFavoriteCount();
 	});
 	
@@ -301,3 +258,10 @@
 </script>
     
 </body>
+</html>   
+   
+
+    
+    
+
+

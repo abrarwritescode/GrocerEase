@@ -56,9 +56,12 @@ def vieworders(request, seller_id):
         order_data[order_id]['items'].append(order_item)
 
     orders_info = list(order_data.values())
+    reversed_orders_info = reversed(orders_info)
+    sorted_orders_info = sorted(orders_info, key=lambda x: x['order'].date_ordered, reverse=True)
+
 
     context = {
-        'orders_info': orders_info,
+        'orders_info': sorted_orders_info,
     }
 
     return render(request, 'seller/orders.html', context)

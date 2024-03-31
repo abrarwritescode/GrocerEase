@@ -14,10 +14,15 @@ def togglefavorite(request, pk, customer_id):
         except Favorite.DoesNotExist:
             Favorite.objects.create(customer=customer, item=item)
             is_favorite = True
+            seller = item.seller
+            notification_message = f"Your item { item.itemtitle } has been liked by { customer.customername }."
+            Notification.objects.create(sender=customer, recipient=seller, message=notification_message)
 
         # Update the favorite count for the item
         item.favorite_count = Favorite.objects.filter(item=item).count()
         item.save()
+
+       
 
         response_data = {
             'is_favorite': is_favorite,

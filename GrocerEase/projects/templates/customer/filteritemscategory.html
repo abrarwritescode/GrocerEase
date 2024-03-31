@@ -3,6 +3,8 @@
 {% load static %} 
 
 </head>
+
+
 <body>
 
 {% block content %}
@@ -56,124 +58,16 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> 
             {% endfor %}
           </div>
         
 </div>
 
-    <!-- footer -->
-	<div class="footer-area">
-		<div class="container">
-			<div class="row">
-				<div class="col-lg-3 col-md-6">
-					<div class="footer-box about-widget">
-						<h2 class="widget-title">About us</h2>
-                        <p>Your one-stop online destination for all your grocery shopping needs. We understand the importance of convenience in today's fast-paced world, and that's why we're here to simplify your shopping experience and make it as effortless as possible.</p>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-6">
-					<div class="footer-box get-in-touch">
-						<h2 class="widget-title">Get in Touch</h2>
-						<ul>
-							<li>Dhaka, Bangladesh</li>
-							<li>grocereasedp1@gmail.com</li>
-						</ul>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-6">
-					<div class="footer-box pages">
-						<h2 class="widget-title">Pages</h2>
-						<ul>
-							<li><a style="color: white; text-decoration: none;" href="{% url 'homecustomer' customer_id=request.session.customer_id %}">Home</a></li>
-							<li><a style="color: white; text-decoration: none;" href="{% url 'shop' customer_id=request.session.customer_id %}">Shop</a></li> 
-						</ul>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-6">
-					<div class="footer-box subscribe">
-						<h2 class="widget-title">Follow us</h2>
-						<p>To get the latest updates.</p>
-						
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+    
+   
 
-    <script>
-	  
-        $(document).ready(function () {
-            const toggleFavorite = $('.toggle-favorite');
-            const favoriteCount = $('#favorite-count');
-            
-            toggleFavorite.each(function () {
-                const link = $(this);
-                const icon = link.find('i');
-                const itemId = link.attr('data-item-id');
-                const userId = link.attr('data-user-id'); 
-                
-                // Construct a unique key for this specific item and user
-                const storageKey = 'favorite_' + userId + '_' + itemId;
-                const isFavorite = localStorage.getItem(storageKey) === 'true';
-                
-                // Initialize the icon based on the favorite state
-                updateIcon(link, isFavorite);
-        
-                link.on('click', function(event) {
-                    event.preventDefault();
-                    const url = link.attr('href');
-                    
-                    $.get(url)
-                    .done(function(data) {
-                        const isFavorite = data.is_favorite;
-                        
-                        // Update the icon and local storage for this specific item and user
-                        updateIcon(link, isFavorite);
-                        localStorage.setItem(storageKey, isFavorite.toString());
-                        
-                        updateFavoriteCount();
-                    })
-                    .fail(function(jqXHR, textStatus, errorThrown) {
-                        console.error("Failed to toggle favorite:", textStatus, errorThrown);
-                    });
-                });
-            });
-            
-            // Function to update the icon based on the item's state (favorite or not)
-            function updateIcon(link, isFavorite) {
-                const icon = link.find('i');
-                if (isFavorite) {
-                    icon.removeClass('far fa-heart').addClass('fas fa-heart');
-                } else {
-                    icon.removeClass('fas fa-heart').addClass('far fa-heart');
-                }
-            }
-            
-            // Function to update the favorite count
-            function updateFavoriteCount() {
-                $.get("{% url 'getfavoritescount' customer_id=request.session.customer_id %}")
-                .done(function(data) {
-                    const count = data.favorite_count;
-                    favoriteCount.text(count);
-                    
-                    if (count === 0 && favoriteCount.is(':visible')) {
-                        favoriteCount.hide();
-                    } else if (count > 0) {
-                        favoriteCount.show();
-                    }
-                })
-                .fail(function(jqXHR, textStatus, errorThrown) {
-                    console.error("AJAX request failed:", textStatus, errorThrown);
-                });
-            }
-            
-            // Fetch and update the initial favorite count
-            updateFavoriteCount();
-        });
-        
-        
-    </script>
+    
     
 
 {% endblock content %}

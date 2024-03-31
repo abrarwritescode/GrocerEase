@@ -1,26 +1,22 @@
-<style>
-    /* Add styles for out-of-stock items */
-    .out-of-stock {
-        filter: blur(1px); /* Apply a blur effect to the item */
-        opacity: 0.5; /* Reduce opacity to indicate it's out of stock */
-        pointer-events: none; /* Disable pointer events so it can't be clicked */
-    }
-    .out-of-stock-label {
-        display: block;
-        background-color: red;
-        color: white;
-        font-size: 14px;
-        padding: 4px 8px;
-        border-radius: 4px;
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        z-index: 1;
-        opacity: 0; 
-        animation: fade-in 0.5s ease-in-out forwards; 
-    }
-    
-    .discount-label {
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head> 
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="shortcut icon" type="image/png" href="{% static 'pictures/faviconcart.png' %}">
+    <title>GrocerEase | Home</title>
+
+	<style>
+		.discount-label {
           display: block;
           background-color: red;
           color: white;
@@ -34,142 +30,192 @@
           opacity: 0; 
           animation: fade-in 0.5s ease-in-out forwards; 
         }
+
+	</style>
+
+	<script type="text/javascript">
+
+		var user = '{{customer|safe}}'
+		var customer = '{{ customer_json|safe }}'
+
+		function getToken(name) {
+		    var cookieValue = null;
+		    if (document.cookie && document.cookie !== '') {
+		        var cookies = document.cookie.split(';');
+		        for (var i = 0; i < cookies.length; i++) {
+		            var cookie = cookies[i].trim();
+		           
+		            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+		                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+		                break;
+		            }
+		        }
+		    }
+		    return cookieValue;
+		}
+		var csrftoken = getToken('csrftoken')
+
+
+		function getCookie(name) {
+		   
+		    var cookieArr = document.cookie.split(";");
+
+		    for(var i = 0; i < cookieArr.length; i++) {
+		        var cookiePair = cookieArr[i].split("=");
+
+		      
+		        if(name == cookiePair[0].trim()) {
+		            return decodeURIComponent(cookiePair[1]);
+		        }
+		    }
+
+		    
+		    return null;
+		}
+		var cart = JSON.parse(getCookie('cart')) 
+
+		if (cart == undefined){
+			cart = {}
+			console.log('Cart Created!', cart)
+			document.cookie ='cart=' + JSON.stringify(cart) + ";domain=;path=/"
+		}
+		console.log('Cart:', cart)
 	
-    @keyframes fade-in {
-        from {
-            opacity: 0; /* Start with zero opacity */
-        }
-        to {
-            opacity: 1; /* Fade in to full opacity */
-        }
-    }
-     
-    </style>
+	</script>
+
+   <body>
     <div class="search-body-area-result">
-    <p style="color: white;">{{ items|length }} results found</p>
-    <div class="row">
-        {% for item in items %}
-            {% if forloop.counter0|divisibleby:4 %}
-                </div>  {# Close the previous row if it contains 4 cards #}
-                <div class="row">
-            {% endif %}
-            <div class="col-md-6 col-lg-3">
-                <div class="product">
-                    <a href="#" class="img-prod"><img class="img-fluid" src="{{ item.itemfeaturedimage.url }}" alt="">
-                            <div class="overlay"></div>
+            
+        <div class="row">
+								{% for item in items %} 
+									<div class="col-md-6 col-lg-3 ftco-animate">
+										<div class="product">
+											<a href="#" class="img-prod"><img class="img-fluid" src="{{ item.itemfeaturedimage.url }}" alt="">
+												<div class="overlay"></div>
 						    {% if item.itemquantity <= 0 %}
 						    <span class="out-of-stock-label">Out of Stock</span>
 						    {% endif %}
                             {% if item.discount_percentage > 0 %}
                     	    <span class="discount-label">BDT {{item.discounted_price}} on {{item.discount_percentage}}% sale</span>
                 		    {% endif %}	
-                    </a>
-                    <div class="text py-3 pb-4 px-3 text-center">
-                        <h3><strong>{{item.itemtitle}}</strong></h3>
-                        <div class="d-flex">
-                            <div class="pricing">
-                                    {% if item.discount_percentage > 0 %} 
+                            
+
+											</a>
+											<div class="text py-3 pb-4 px-3 text-center">
+												<h3><strong>{{item.itemtitle}}</strong></h3>
+												<div class="d-flex">
+													<div class="pricing">
+														{% if item.discount_percentage > 0 %} 
 									<p class="price"><span class="price-sale" style="text-decoration: line-through;">BDT {{item.original_price}}</span></p>
 									{% else %}
 									<p class="price"><span class="price-sale">BDT {{item.itemprice}}</span></p>
-									{% endif %}
-                            </div>
-                        </div>
-                        <div class="bottom-area d-flex px-3">
-                            <div class="m-auto d-flex">
-                                <a href="{% url 'singleitemcustomer' pk=item.id customer_id=customer.id %}" class="add-to-cart d-flex justify-content-center align-items-center text-center">
-                                    <span><i class="fas fa-bars"></i></span>
-                                </a> 
-                                 
-                                <a href="" data-product="{{item.id}}" data-action="add" class="add-btn update-cart add-to-cart buy-now d-flex justify-content-center align-items-center mx-1 {% if item.itemquantity <= 0 %}out-of-stock{% endif %}">
-                                    <span><i class="fas fa-shopping-cart"></i></span>
-                                </a>  
-                                
-                                 <a href="{% url 'togglefavorite' pk=item.id customer_id=customer.id %}" class="toggle-favorite d-flex justify-content-center align-items-center text-center" data-item-id="{{ item.id }}" data-user-id="{{ request.session.customer_id }}">
-                                    <span><i class="far fa-heart"></i></span>
-                                </a>                      
-    
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        {% endfor %}
+									{% endif %} 
+													</div>
+												</div>
+												<div class="bottom-area d-flex px-3">
+													<div class="m-auto d-flex">
+			 											<a href="{% url 'singleitemcustomer' pk=item.id customer_id=request.session.customer_id %}" class="add-to-cart d-flex justify-content-center align-items-center text-center">
+															<span><i class="fas fa-bars"></i>
+															</span>
+														</a>
+                        <a href="{% url 'cart' customer_id=request.session.customer_id %}" data-product="{{item.id}}" data-action="add" class="add-btn update-cart add-to-cart buy-now d-flex justify-content-center align-items-center mx-1 {% if item.itemquantity <= 0 %}out-of-stock{% endif %}">
+                            <span><i class="fas fa-shopping-cart"></i></span>
+                        </a>  
+                        
+                        <a href="{% url 'togglefavorite' pk=item.id customer_id=request.session.customer_id %}" class="toggle-favorite d-flex justify-content-center align-items-center text-center" data-item-id="{{ item.id }}" data-user-id="{{ request.session.customer_id }}">
+                          <span><i class="far fa-heart"></i></span>
+                      </a>
+							
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								{% endfor %}
+							  </div>
+							
     </div>
-</div>
+   
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
+<script src="{% static 'js/main.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/cart.js' %}"></script>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-  
-    (document).ready(function () {
-        const toggleFavorite = $('.toggle-favorite');
-        const favoriteCount = $('#favorite-count');
-        
-        toggleFavorite.each(function () {
-            const link = $(this);
-            const icon = link.find('i');
-            const itemId = link.attr('data-item-id');
-            const userId = link.attr('data-user-id'); 
-            
-            // Construct a unique key for this specific item and user
-            const storageKey = 'favorite_' + userId + '_' + itemId;
-            const isFavorite = localStorage.getItem(storageKey) === 'true';
-            
-            // Initialize the icon based on the favorite state
-            updateIcon(link, isFavorite);
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	  <script>
+	  
+		  $(document).ready(function () {
+			  const toggleFavorite = $('.toggle-favorite');
+			  const favoriteCount = $('#favorite-count');
+			  
+			  toggleFavorite.each(function () {
+				  const link = $(this);
+				  const icon = link.find('i');
+				  const itemId = link.attr('data-item-id');
+				  const userId = link.attr('data-user-id'); 
+				  
+				
+				  const storageKey = 'favorite_' + userId + '_' + itemId;
+				  const isFavorite = localStorage.getItem(storageKey) === 'true';
+				  
+				  
+				  updateIcon(link, isFavorite);
+		  
+				  link.on('click', function(event) {
+					  event.preventDefault();
+					  const url = link.attr('href');
+					  
+					  $.get(url)
+					  .done(function(data) {
+						  const isFavorite = data.is_favorite;
+						  
+						  
+						  updateIcon(link, isFavorite);
+						  localStorage.setItem(storageKey, isFavorite.toString());
+						  
+						  updateFavoriteCount();
+					  })
+					  .fail(function(jqXHR, textStatus, errorThrown) {
+						  console.error("Failed to toggle favorite:", textStatus, errorThrown);
+					  });
+				  });
+			  });
+			  
+			 
+			  function updateIcon(link, isFavorite) {
+				  const icon = link.find('i');
+				  if (isFavorite) {
+					  icon.removeClass('far fa-heart').addClass('fas fa-heart');
+				  } else {
+					  icon.removeClass('fas fa-heart').addClass('far fa-heart');
+				  }
+			  }
+			  
+			
+			  function updateFavoriteCount() {
+				  $.get("{% url 'getfavoritescount' customer_id=request.session.customer_id %}")
+				  .done(function(data) {
+					  const count = data.favorite_count;
+					  favoriteCount.text(count);
+					  
+					  if (count === 0 && favoriteCount.is(':visible')) {
+						  favoriteCount.hide();
+					  } else if (count > 0) {
+						  favoriteCount.show();
+					  }
+				  })
+				  .fail(function(jqXHR, textStatus, errorThrown) {
+					  console.error("AJAX request failed:", textStatus, errorThrown);
+				  });
+			  }
+			  
+			
+			  updateFavoriteCount();
+		  });
+		  
+		  
+	  </script>
     
-            link.on('click', function(event) {
-                event.preventDefault();
-                const url = link.attr('href');
-                
-                $.get(url)
-                .done(function(data) {
-                    const isFavorite = data.is_favorite;
-                    
-                    // Update the icon and local storage for this specific item and user
-                    updateIcon(link, isFavorite);
-                    localStorage.setItem(storageKey, isFavorite.toString());
-                    
-                    updateFavoriteCount();
-                })
-                .fail(function(jqXHR, textStatus, errorThrown) {
-                    console.error("Failed to toggle favorite:", textStatus, errorThrown);
-                });
-            });
-        });
-        
-        // Function to update the icon based on the item's state (favorite or not)
-        function updateIcon(link, isFavorite) {
-            const icon = link.find('i');
-            if (isFavorite) {
-                icon.removeClass('far fa-heart').addClass('fas fa-heart');
-            } else {
-                icon.removeClass('far fa-heart').addClass('far fa-heart');
-            }
-        }
-        
-        // Function to update the favorite count
-        function updateFavoriteCount() {
-            $.get("{% url 'getfavoritescount' customer_id=customer.id %}")
-            .done(function(data) {
-                const count = data.favorite_count;
-                favoriteCount.text(count);
-                
-                if (count === 0 && favoriteCount.is(':visible')) {
-                    favoriteCount.hide();
-                } else if (count > 0) {
-                    favoriteCount.show();
-                }
-            })
-            .fail(function(jqXHR, textStatus, errorThrown) {
-                console.error("AJAX request failed:", textStatus, errorThrown);
-            });
-        }
-        
-        // Fetch and update the initial favorite count
-        updateFavoriteCount();
-    }); 
-    
-    
-</script>
 
+   </body>
+</html>

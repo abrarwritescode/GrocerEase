@@ -38,6 +38,10 @@ def submit_review(request, item_id):
             comment = form.cleaned_data['comment']
             Review.objects.create(item=item, customer=customer, rating=rating, comment=comment)
 
+            seller = item.seller
+            notification_message = f"Your item {item.itemtitle} has been rated { rating } stars by {customer.customername}."
+            Notification.objects.create(sender=customer, recipient=seller, message=notification_message)
+
     return redirect('singleitemcustomer', pk=item_id, customer_id=request.session['customer_id'])
 
 
@@ -61,6 +65,7 @@ def item_details_with_reviews(request, pk, customer_id):
     categorys = itemObj.category.all()
     
     reviews = Review.objects.filter(item=itemObj)
+    total_reviews = reviews.count()
 
     customer_has_reviewed = Review.objects.filter(item=itemObj, customer=customer).exists()
     
@@ -105,6 +110,10 @@ def item_details_with_reviews(request, pk, customer_id):
             rating = form.cleaned_data['rating']
             comment = form.cleaned_data['comment']
             Review.objects.create(item=itemObj, customer=customer, rating=rating, comment=comment)
+            # item = Item.objects.all()
+            # seller = item.seller
+            # notification_message = f"Your item {item.itemtitle}' has been reviewed by {customer.customername}."
+            # Notification.objects.create(sender=customer, recipient=seller, message=notification_message)
             
             print(11)
             return redirect('item_details_with_reviews', pk=pk, customer_id=customer_id)
@@ -130,5 +139,6 @@ def item_details_with_reviews(request, pk, customer_id):
         'rating4':rating4,
         'rating5':rating5,
         'customercanreview': customercanreview,
+        'total_reviews': total_reviews, 
         
     })

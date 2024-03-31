@@ -68,7 +68,7 @@ def homecustomer(request, customer_id):
         recently_viewed_item_ids = request.session.get('recently_viewed', [])
         recently_viewed_items = Item.objects.filter(id__in=recently_viewed_item_ids)
 
-        recently_added_items = Item.objects.order_by('-uploadedon')[:6]  
+        recently_added_items = Item.objects.order_by('-uploadedon')[:7]  
 
         recently_viewed_categories = Item.objects.filter(id__in=recently_viewed_item_ids).values_list('category', flat=True)
 

@@ -90,13 +90,12 @@
 
     <div style="justify-content: center; align-items: center;" class="row">
         {% for item in combined_items %} 
+        {% if item.itemquantity > 0 %}
         <div class="col-md-6 col-lg-3 ftco-animate">
             <div class="product">
                 <a href="#" class="img-prod"><img class="img-fluid" src="{{ item.itemfeaturedimage.url }}" alt=""></a>
                             <div class="overlay"></div>
-						    {% if item.itemquantity <= 0 %}
-						    <span class="out-of-stock-label">Out of Stock</span>
-						    {% endif %}
+						   
                             {% if item.discount_percentage > 0 %}
                     	    <span class="discount-label">BDT {{item.discounted_price}} on {{item.discount_percentage}}% sale</span>
                 		    {% endif %}	
@@ -137,6 +136,7 @@
                 </div>
             </div>
         </div>
+        {% endif %}
         
         {% endfor %}
     </div>

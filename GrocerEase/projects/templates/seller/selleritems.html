@@ -63,6 +63,10 @@
                                     <a href="{% url 'cart' customer_id=request.session.customer_id %}" data-product="{{item.id}}" data-action="add" class="add-btn update-cart add-to-cart buy-now d-flex justify-content-center align-items-center mx-1 {% if item.itemquantity <= 0 %}out-of-stock{% endif %}">
                                         <span><i class="fas fa-shopping-cart"></i></span>
                                     </a>  
+
+                                    <a href="{% url 'togglefavorite' pk=item.id customer_id=customer.id %}" class="toggle-favorite d-flex justify-content-center align-items-center text-center" data-item-id="{{ item.id }}" data-user-id="{{ request.session.customer_id }}">
+                                        <span><i class="far fa-heart"></i></span>
+                                    </a> 
                                 </div>
                             </div>
                         </div>
